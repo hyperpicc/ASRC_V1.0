@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/charlie/work/ASRC_V1.0/XST/src_interpolator_tb_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="fixed_float_types" />
+            <top_module name="fixed_pkg" />
+            <top_module name="float_pkg" />
+            <top_module name="math_real" />
+            <top_module name="numeric_std" />
+            <top_module name="src_interpolator_tb" />
+            <top_module name="src_pkg" />
+            <top_module name="src_rom_pkg" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_textio" />
+            <top_module name="textio" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="12" />
+   <wvobject fp_name="/src_interpolator_tb/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/src_interpolator_tb/rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/src_interpolator_tb/i_ratio" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">i_ratio[16:0]</obj_property>
+      <obj_property name="ObjectShortName">i_ratio[16:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/src_interpolator_tb/i_ratio_init" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">i_ratio_init[16:0]</obj_property>
+      <obj_property name="ObjectShortName">i_ratio_init[16:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/src_interpolator_tb/i_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">i_en</obj_property>
+      <obj_property name="ObjectShortName">i_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/src_interpolator_tb/uut/addr_gen_fin" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">addr_gen_fin</obj_property>
+      <obj_property name="ObjectShortName">addr_gen_fin</obj_property>
+   </wvobject>
+   <wvobject fp_name="group19" type="group">
+      <obj_property name="label">ADDR_GEN</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_interpolator_tb/uut/latch_pipeline[0]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">latch_pipeline[0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/addr_gen_block/addr_gen" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">addr_gen[21:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_gen[21:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/addr_gen_block/addr_offset" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">addr_offset[1:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_offset[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/addr_gen_block/addr_adder" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">addr_adder[12:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_adder[12:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/addr_gen_block/addr_next" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">addr_next[22:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_next[22:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/addr_gen_block/addr_fold" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">addr_fold[12:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_fold[12:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group25" type="group">
+      <obj_property name="label">ADDR_FOLD</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_interpolator_tb/uut/latch_pipeline[1]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">latch_pipeline[1]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/fold_centre" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">fold_centre</obj_property>
+         <obj_property name="ObjectShortName">fold_centre</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/fold_int" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">fold_int[11:0]</obj_property>
+         <obj_property name="ObjectShortName">fold_int[11:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/fold_frc" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">fold_frc[8:0]</obj_property>
+         <obj_property name="ObjectShortName">fold_frc[8:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group143" type="group">
+      <obj_property name="label">DX</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_interpolator_tb/uut/dx_block/dx0" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">dx0[12:0]</obj_property>
+         <obj_property name="ObjectShortName">dx0[12:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/dx_block/dx1" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">dx1[12:0]</obj_property>
+         <obj_property name="ObjectShortName">dx1[12:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/dx_block/dx2" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">dx2[12:0]</obj_property>
+         <obj_property name="ObjectShortName">dx2[12:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/latch_pipeline[1]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">latch_pipeline[1]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/latch_pipeline[2]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">latch_pipeline[2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/latch_pipeline[3]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">latch_pipeline[3]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/dx_block/mul_i0" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">mul_i0[12:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_i0[12:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/dx_block/mul_i1" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">mul_i1[12:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_i1[12:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/latch_pipeline[3]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">latch_pipeline[3]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/dx_block/mul_o" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">mul_o[25:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_o[25:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group155" type="group">
+      <obj_property name="label">COE</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_interpolator_tb/uut/latch_pipeline[2]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">latch_pipeline[2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/rom_coe" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">rom_coe[25:0]</obj_property>
+         <obj_property name="ObjectShortName">rom_coe[25:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/dx" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">dx[17:0]</obj_property>
+         <obj_property name="ObjectShortName">dx[17:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/coe_block/mul[0]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">mul[0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/coe_block/mul[1]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">mul[1]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/latch_pipeline[8]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[8]</obj_property>
+         <obj_property name="ObjectShortName">latch_pipeline[8]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/coe_block/mul_acc_en" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">mul_acc_en</obj_property>
+         <obj_property name="ObjectShortName">mul_acc_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/coe_block/mul_acc" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">mul_acc[43:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_acc[43:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/latch_pipeline[11]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[11]</obj_property>
+         <obj_property name="ObjectShortName">latch_pipeline[11]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/o_coe" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">o_coe[25:0]</obj_property>
+         <obj_property name="ObjectShortName">o_coe[25:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group244" type="group">
+      <obj_property name="label">MAC</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_interpolator_tb/uut/o_fin" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">o_fin</obj_property>
+         <obj_property name="ObjectShortName">o_fin</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/o_coe" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">o_coe[25:0]</obj_property>
+         <obj_property name="ObjectShortName">o_coe[25:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/o_en" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">o_en</obj_property>
+         <obj_property name="ObjectShortName">o_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/o_norm" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">o_norm</obj_property>
+         <obj_property name="ObjectShortName">o_norm</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/o_acc" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">o_acc</obj_property>
+         <obj_property name="ObjectShortName">o_acc</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_tb/uut/o_lr" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">o_lr</obj_property>
+         <obj_property name="ObjectShortName">o_lr</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/src_interpolator_tb/uut/coe_block/coe_acc_round" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">coe_acc_round</obj_property>
+      <obj_property name="ObjectShortName">coe_acc_round</obj_property>
+   </wvobject>
+</wave_config>
