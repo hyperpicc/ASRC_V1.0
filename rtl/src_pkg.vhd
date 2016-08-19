@@ -31,7 +31,7 @@ package src_pkg is
 			i_wr_en			: in  std_logic;
 			i_wr_lr			: in  std_logic;
 			
-			o_data			: out   signed( 23 downto 0 ) := ( others => '0' );
+			o_data			: out signed( 23 downto 0 ) := ( others => '0' );
 			o_data_en		: out std_logic := '0';
 			o_data_lr		: out std_logic := '0'
 		);
@@ -74,8 +74,8 @@ package src_pkg is
 			clk				: in  std_logic;
 			rst				: in  std_logic;
 			
-			i_ratio			: in  unsigned( 16 downto 0 );
-			i_ratio_init	: in  unsigned( 16 downto 0 );
+			i_ratio			: in  unsigned( 17 downto 0 );
+			i_ratio_init	: in  unsigned( 17 downto 0 );
 			i_en				: in  std_logic;
 			
 			o_coe				: out signed( COE_WIDTH-1 downto 0 );

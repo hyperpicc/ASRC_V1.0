@@ -19,7 +19,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="12" />
+   <WVObjectSize size="11" />
    <wvobject fp_name="/src_interpolator_tb/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -168,15 +168,13 @@
          <obj_property name="ObjectShortName">dx[17:0]</obj_property>
          <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject fp_name="/src_interpolator_tb/uut/coe_block/mul[0]" type="array" db_ref_id="1">
+      <wvobject fp_name="/src_interpolator_tb/uut/coe_block/mul[0]" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">[0]</obj_property>
          <obj_property name="ObjectShortName">mul[0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject fp_name="/src_interpolator_tb/uut/coe_block/mul[1]" type="array" db_ref_id="1">
+      <wvobject fp_name="/src_interpolator_tb/uut/coe_block/mul[1]" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">[1]</obj_property>
          <obj_property name="ObjectShortName">mul[1]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_interpolator_tb/uut/latch_pipeline[8]" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">[8]</obj_property>
@@ -187,8 +185,8 @@
          <obj_property name="ObjectShortName">mul_acc_en</obj_property>
       </wvobject>
       <wvobject fp_name="/src_interpolator_tb/uut/coe_block/mul_acc" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">mul_acc[43:0]</obj_property>
-         <obj_property name="ObjectShortName">mul_acc[43:0]</obj_property>
+         <obj_property name="ElementShortName">mul_acc[41:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_acc[41:0]</obj_property>
          <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_interpolator_tb/uut/latch_pipeline[11]" type="logic" db_ref_id="1">
@@ -229,9 +227,5 @@
          <obj_property name="ElementShortName">o_lr</obj_property>
          <obj_property name="ObjectShortName">o_lr</obj_property>
       </wvobject>
-   </wvobject>
-   <wvobject fp_name="/src_interpolator_tb/uut/coe_block/coe_acc_round" type="other" db_ref_id="1">
-      <obj_property name="ElementShortName">coe_acc_round</obj_property>
-      <obj_property name="ObjectShortName">coe_acc_round</obj_property>
    </wvobject>
 </wave_config>

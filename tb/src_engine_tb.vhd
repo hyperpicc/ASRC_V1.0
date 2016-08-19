@@ -6,74 +6,89 @@ use ieee.std_logic_textio.all;
 library std;
 use std.textio.all;
 
-library work;
+LIBRARY work;
 use work.src_pkg.all;
- 
+use work.src_rom_pkg.all;
+
+library ieee_proposed;
+use ieee_proposed.fixed_pkg.all;
+use ieee_proposed.float_pkg.all;
+
 ENTITY src_engine_tb IS
 END src_engine_tb;
- 
+
 ARCHITECTURE behavior OF src_engine_tb IS 
- 
-    -- Component Declaration for the Unit Under Test (UUT)
- 
-    COMPONENT src_engine
-    PORT(
-         clk : IN  std_logic;
-         rst : IN  std_logic;
-         ratio : IN  unsigned(19 downto 0);
-         rd_addr : IN  unsigned(19 downto 0);
-         rd_init : IN  std_logic;
-         o_coe : OUT  signed(23 downto 0);
-         o_en : OUT  std_logic;
-         o_lr : OUT  std_logic
-        );
-    END COMPONENT;
-    
 
-   --Inputs
-   signal clk : std_logic := '0';
-   signal rst : std_logic := '0';
-   signal ratio : unsigned(19 downto 0) := (17 => '1', others => '0');
-   signal rd_addr : unsigned(19 downto 0) := (others => '0');
-   signal rd_init : std_logic := '0';
+	signal clk				: std_logic := '0';
+	signal rst				: std_logic := '0';
 
- 	--Outputs
-   signal o_coe : signed(23 downto 0);
-   signal o_en : std_logic;
-   signal o_lr : std_logic;
+	signal ctrl_lock		: std_logic := '1';
+	signal ctrl_offset	: std_logic := '0';
+
+	signal ratio			: unsigned( 19 downto 0 );
+
+	signal rd_addr_int	: unsigned(  9 downto 0 ) := ( others => '0' );
+	signal rd_addr_frc	: unsigned( 19 downto 0 );
+	signal rd_req			: std_logic := '0';
+
+	signal i_wr_data		: signed( 23 downto 0 ) := ( 23 => '0', others => '1' );
+	signal i_wr_addr		: unsigned( 9 downto 0 ) := to_unsigned( 16, 10 );
+	signal i_wr_en			: std_logic := '0';
+	signal i_wr_lr			: std_logic := '0';
+
+	signal o_data			: signed( 23 downto 0 ) := ( others => '0' );
+	signal o_data_en		: std_logic := '0';
+	signal o_data_lr		: std_logic := '0';
+
+	signal rd_run			: std_logic := '0';
 	
-	
-   signal rd_coe : signed(23 downto 0) := (others => '0');
+	 -- Clock period definitions
+	 constant clk_period : time := 10 ns;
 
-   -- Clock period definitions
-   constant clk_period : time := 10 ns;
- 
+	constant	FRQ_O			: real := 44.1;
+	constant	FRQ_I			: real := 245.349867349862;
+
+	constant ratio_real	: real := FRQ_O / FRQ_I;
+	signal   ratio_sfixed: sfixed( 3 downto -19 );
+	signal   ratio_limit	: sfixed( 0 downto -19 );
+	
+	shared variable rd_cnt			: integer := 0;
+	shared variable rd_term			: integer := 356;
+	shared variable rd_norm			: std_logic := '0';
+
 BEGIN
+	
+	INST_SRC : src_engine
+		generic map (
+			COE_WIDTH		=> COE_WIDTH
+		)
+		port map (
+			clk				=> clk,
+			rst				=> rst,
+			
+			ctrl_lock		=> ctrl_lock,
+			ctrl_offset		=> ctrl_offset,
+			
+			ratio				=> ratio,
+			
+			rd_addr_int		=> rd_addr_int,
+			rd_addr_frc		=> rd_addr_frc,
+			rd_req			=> rd_req,
+			
+			i_wr_data		=> i_wr_data,
+			i_wr_addr		=> i_wr_addr,
+			i_wr_en			=> i_wr_en,
+			i_wr_lr			=> i_wr_lr,
+			
+			o_data			=> o_data,
+			o_data_en		=> o_data_en,
+			o_data_lr		=> o_data_lr
+		);
  
-	-- Instantiate the Unit Under Test (UUT)
-   uut: src_engine PORT MAP (
-          clk => clk,
-          rst => rst,
-          ratio => ratio,
-          rd_addr => rd_addr,
-          rd_init => rd_init,
-          o_coe => o_coe,
-          o_en => o_en,
-          o_lr => o_lr
-        );
-		  
-	read_process : process( clk )
-		file		outfile	: text is out "test/src_engine_tb.txt";
-		variable outline	: line;
-	begin
-		if rising_edge( clk ) then
-			if ( o_en and o_lr ) = '1' then
-				rd_coe <= o_coe;
-				write( outline, to_integer( o_coe ) );
-				writeline( outfile, outline );
-			end if;
-		end if;
-	end process;
+	ratio_sfixed <= to_sfixed( ratio_real, ratio_sfixed );
+	ratio_limit <= ( 0 => '1', others => '0' ) when ratio_sfixed( 3 downto 0 ) > 0 else ratio_sfixed( ratio_limit'range );
+	ratio <= unsigned( std_logic_vector( ratio_limit ) );
+	rd_addr_frc <= "00000000000000000000";
 
    -- Clock process definitions
    clk_process :process
@@ -83,22 +98,58 @@ BEGIN
 		clk <= '1';
 		wait for clk_period/2;
    end process;
- 
+	
+	stim_proc : process( clk )
+	begin
+		if rising_edge( clk ) then
+			if rd_run = '1' then
+				rd_req <= '0';
+				
+				if rd_cnt <= rd_term then
+					if rd_norm = '0' then
+						rd_req <= '1';
+						rd_cnt := rd_cnt + 1;
+					elsif o_data_en = '1' and o_data_lr = '1' then
+						rd_req <= '1';
+						rd_cnt := rd_cnt + 1;
+					end if;
+				end if;
+				if rd_req = '1' then
+					rd_addr_int <= rd_addr_int + 1;
+				end if;
+				rd_norm := '1';
+			end if;
+		end if;
+	end process;
+	
+	read_process : process( clk )
+		file		outfile	: text is out "test/src_impulse.txt";
+		variable outline	: line;
+	begin
+		if rising_edge( clk ) then
+			if ( o_data_en and o_data_lr ) = '1' then
+				write( outline, to_integer( o_data ) );
+				writeline( outfile, outline );
+			end if;
+		end if;
+	end process;
 
-   -- Stimulus process
-   stim_proc: process
-   begin		
-      
+	tb : PROCESS
+	BEGIN
 		wait until rising_edge( clk );
+		i_wr_en <= '1';
+		i_wr_lr <= '0';
 		wait until rising_edge( clk );
+		i_wr_en <= '1';
+		i_wr_lr <= '1';
+		wait until rising_edge( clk );
+		i_wr_en <= '0';
+		i_wr_lr <= '0';
 		
-		rd_init <= '1';
 		wait until rising_edge( clk );
+		rd_run <= '1';
 		
-		rd_init <= '0';
-		wait until rising_edge( clk );
-		
-      wait;
-   end process;
+		wait;
+	END PROCESS tb;
 
 END;

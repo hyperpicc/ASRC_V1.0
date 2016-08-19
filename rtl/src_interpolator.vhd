@@ -14,8 +14,8 @@ entity src_interpolator is
 		clk				: in  std_logic;
 		rst				: in  std_logic;
 		
-		i_ratio			: in  unsigned( 16 downto 0 );
-		i_ratio_init	: in  unsigned( 16 downto 0 );
+		i_ratio			: in  unsigned( 17 downto 0 );
+		i_ratio_init	: in  unsigned( 17 downto 0 );
 		i_en				: in  std_logic;
 		
 		o_coe				: out signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
@@ -28,18 +28,18 @@ entity src_interpolator is
 end src_interpolator;
 
 architecture rtl of src_interpolator is
-	signal latch_pipeline	: std_logic_vector( 8 downto 0 ) := ( others => '0' );
-	signal latch_init_delay	: std_logic_vector( 8 downto 0 ) := ( others => '0' );
+	signal latch_pipeline	: std_logic_vector( 10 downto 0 ) := ( others => '0' );
+	signal latch_init_delay	: std_logic_vector( 10 downto 0 ) := ( others => '0' );
 	
 	signal addr_gen_en		: std_logic := '0';
 	signal addr_gen_fin		: std_logic := '0';
 	
 	signal fold_int			: unsigned( 11 downto 0 ) := ( others => '0' );
-	signal fold_frc			: unsigned(  8 downto 0 ) := ( others => '0' );
+	signal fold_frc			: unsigned(  9 downto 0 ) := ( others => '0' );
 	signal fold_centre		: std_logic := '0';
 	
 	signal rom_coe				: signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
-	signal dx					: signed( 17 downto 0 ) := ( others => '0' );
+	signal dx					: signed( 23 downto 0 ) := ( others => '0' );
 begin
 	
 	latch_pipeline_process : process( clk )
@@ -61,7 +61,7 @@ begin
 	end process latch_pipeline_process;
 	
 	CTRL_BLOCK : block
-		constant EN_REG			: integer := 7;
+		constant EN_REG			: integer := 9;
 		constant NORM_EN_REG		: integer := 13;
 		
 		alias  mac_en				: std_logic is latch_pipeline( EN_REG );
@@ -101,7 +101,7 @@ begin
 				else
 					o_en <= mac_en or mac_lr;
 					o_acc <= ( mac_en xor mac_en_d ) or ( mac_lr xor mac_lr_d );
-					o_lr <= mac_lr or norm_lr;
+					o_lr <= mac_en or norm_lr;
 				end if;
 			end if;
 		end process mac_ctrl_process;
@@ -111,17 +111,17 @@ begin
 	ADDR_GEN_BLOCK : block
 		constant ADDR_FB_REG		: integer := 2;
 		
-		signal addr_gen			: unsigned( 21 downto 0 ) := ( others => '0' );
+		signal addr_gen			: unsigned( 22 downto 0 ) := ( others => '0' );
 		signal addr_offset		: unsigned(  1 downto 0 ) := ( others => '0' );
 		signal addr_adder			: unsigned( 12 downto 0 ) := ( others => '0' );
-		alias  addr_gen_int		: unsigned( 12 downto 0 ) is addr_gen( 21 downto 9 );
-		alias  addr_gen_frc		: unsigned(  8 downto 0 ) is addr_gen(  8 downto 0 );
+		alias  addr_gen_int		: unsigned( 12 downto 0 ) is addr_gen( 22 downto 10 );
+		alias  addr_gen_frc		: unsigned(  9 downto 0 ) is addr_gen(  9 downto  0 );
 		
-		signal addr_next			: unsigned( 22 downto 0 ) := ( others => '0' );
+		signal addr_next			: unsigned( 23 downto 0 ) := ( others => '0' );
 		signal addr_fold			: unsigned( 12 downto 0 ) := ( others => '0' );
 		
 		signal addr_gen_term		: std_logic := '0';
-		signal addr_ratio			: unsigned( 16 downto 0 ) := ( 16 => '1', others => '0' );
+		signal addr_ratio			: unsigned( i_ratio'range ) := ( i_ratio'high => '1', others => '0' );
 	begin
 		addr_gen_en <= ( i_en or ( not( addr_gen_fin ) and latch_pipeline( ADDR_FB_REG ) ) );
 		
@@ -139,7 +139,7 @@ begin
 				o_fin <= addr_gen_fin;
 				if rst = '1' then
 					addr_gen <= ( others => '0' );
-					addr_ratio <= ( 15 => '1', others => '0' );
+					addr_ratio <= ( addr_ratio'high => '1', others => '0' );
 				elsif i_en = '1' then
 					addr_gen <= RESIZE( i_ratio_init, addr_gen'length );
 					addr_ratio <= i_ratio;
@@ -185,16 +185,16 @@ begin
 		alias  mul_mux0	: std_logic is latch_pipeline( DX_MUX0_REG );
 		alias  mul_mux1	: std_logic is latch_pipeline( DX_MUX1_REG );
 		
-		signal DX0			: signed( 12 downto 0 ) := ( others => '0' );
-		signal DX1			: signed( 12 downto 0 ) := ( others => '0' );
-		signal DX2			: signed( 12 downto 0 ) := ( others => '0' );
+		signal DX0			: signed( 13 downto 0 ) := ( others => '0' );
+		signal DX1			: signed( 13 downto 0 ) := ( others => '0' );
+		signal DX2			: signed( 13 downto 0 ) := ( others => '0' );
 		
-		signal mul_i0		: signed( 12 downto 0 ) := ( others => '0' );
-		signal mul_mux_i0	: signed( 12 downto 0 ) := ( others => '0' );
-		signal mul_i1		: signed( 12 downto 0 ) := ( others => '0' );
-		signal mul_mux_i1	: signed( 12 downto 0 ) := ( others => '0' );
+		signal mul_i0		: signed( 13 downto 0 ) := ( others => '0' );
+		signal mul_mux_i0	: signed( 13 downto 0 ) := ( others => '0' );
+		signal mul_i1		: signed( 13 downto 0 ) := ( others => '0' );
+		signal mul_mux_i1	: signed( 13 downto 0 ) := ( others => '0' );
 		
-		signal mul_o		: signed( 25 downto 0 ) := ( others => '0' );
+		signal mul_o		: signed( 27 downto 0 ) := ( others => '0' );
 	begin
 		DX0 <=              b"000" & SIGNED( fold_frc & '0' );
 		DX1 <= SHIFT_RIGHT( b"111" & SIGNED( fold_frc & '0' ), 1 );
@@ -203,7 +203,7 @@ begin
 		mul_i0 <= DX1 when mul_mux0 = '0' else -DX0;
 		mul_i1 <= DX0 when mul_mux1 = '1' else  DX2;
 		
-		dx <= mul_o( 21 downto 4 );
+		dx <= mul_o( 23 downto 0 );
 		
 		muliplier_process : process( clk )
 		begin
@@ -218,8 +218,8 @@ begin
 	end block DX_BLOCK;
 	
 	COE_BLOCK : block
-		constant MUL_PIPE_DEPTH	: integer := 3;
-		constant COE_ACC_REG		: integer := 5;
+		constant MUL_PIPE_DEPTH	: integer := 5;
+		constant COE_ACC_REG		: integer := 7;
 		
 		constant MUL_PIPE_WIDTH : integer := dx'length + rom_coe'length - 1;
 		constant COE_ACC_ROUND	: integer := MUL_PIPE_WIDTH - COE_WIDTH - 2;

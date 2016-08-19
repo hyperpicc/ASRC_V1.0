@@ -25,8 +25,8 @@ ARCHITECTURE behavior OF src_interpolator_tb IS
     PORT(
          clk : IN  std_logic;
          rst : IN  std_logic;
-         i_ratio : IN  unsigned(16 downto 0);
-         i_ratio_init : IN  unsigned(16 downto 0);
+         i_ratio : IN  unsigned(17 downto 0);
+         i_ratio_init : IN  unsigned(17 downto 0);
          i_en : IN  std_logic;
          o_coe : OUT  signed(COE_WIDTH-1 downto 0);
          o_fin : OUT  std_logic;
@@ -40,8 +40,8 @@ ARCHITECTURE behavior OF src_interpolator_tb IS
    --Inputs
    signal clk : std_logic := '0';
    signal rst : std_logic := '0';
-   signal i_ratio : unsigned(16 downto 0) := ( 16 => '1', others => '0' );
-   signal i_ratio_init : unsigned(16 downto 0) := (others => '0');
+   signal i_ratio : unsigned(17 downto 0) := ( 17 => '1', others => '0' );
+   signal i_ratio_init : unsigned(17 downto 0) := (others => '0');
    signal i_en : std_logic := '0';
 
  	--Outputs
@@ -59,14 +59,14 @@ ARCHITECTURE behavior OF src_interpolator_tb IS
 	constant	FRQ_I			: real := 245.349867349862;
 	
 	constant ratio_real	: real := FRQ_O / FRQ_I;
-	signal   ratio_sfixed: sfixed( 3 downto -16 );
-	signal   ratio_limit	: sfixed( 0 downto -16 );
+	signal   ratio_sfixed: sfixed( 3 downto -17 );
+	signal   ratio_limit	: sfixed( 0 downto -17 );
 BEGIN
  
 	ratio_sfixed <= to_sfixed( ratio_real, ratio_sfixed );
 	ratio_limit <= ( 0 => '1', others => '0' ) when ratio_sfixed( 3 downto 0 ) > 0 else ratio_sfixed( ratio_limit'range );
 	i_ratio <= unsigned( std_logic_vector( ratio_limit ) );
-	i_ratio_init <= "00000111111111111";
+	i_ratio_init <= "000000000000000011";
 
 	-- Instantiate the Unit Under Test (UUT)
    uut: src_interpolator PORT MAP (

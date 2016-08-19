@@ -100,8 +100,8 @@ begin
 			clk				=> clk,
 			rst				=> rst,
 			
-			i_ratio			=> ratio( 19 downto 3 ),
-			i_ratio_init	=> unsigned( mul_o( 37 downto 21 ) ),
+			i_ratio			=> ratio( 19 downto 2 ),
+			i_ratio_init	=> unsigned( mul_o( 37 downto 20 ) ),
 			i_en				=> interp_en,
 			
 			o_coe				=> mac_coe,

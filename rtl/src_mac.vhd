@@ -32,12 +32,12 @@ architecture rtl of src_mac is
 	
 	constant PIPELINE_WIDTH		: integer := i_data'length + COE_WIDTH - 1;
 	constant PIPELINE_LENGTH	: integer := 5;
-	signal pipe_norm	: std_logic_vector( PIPELINE_LENGTH-1 downto 0 ) := ( others => '0' );
+	signal pipe_norm	: std_logic_vector( PIPELINE_LENGTH-2 downto 0 ) := ( others => '0' );
 	signal pipe_acc	: std_logic_vector( PIPELINE_LENGTH-2 downto 0 ) := ( others => '0' );
 	signal pipe_en		: std_logic_vector( PIPELINE_LENGTH-2 downto 0 ) := ( others => '0' );
-	signal pipe_lr		: std_logic_vector( PIPELINE_LENGTH-1 downto 0 ) := ( others => '0' );
+	signal pipe_lr		: std_logic_vector( PIPELINE_LENGTH-2 downto 0 ) := ( others => '0' );
 	
-	constant ACC_ROUND_BIT		: integer := 26;
+	constant ACC_ROUND_BIT		: integer := PIPELINE_WIDTH - COE_WIDTH + 2;
 	constant mac_acc_rnd			: signed( PIPELINE_WIDTH + 3 downto 0 ) := ( ACC_ROUND_BIT => '1', others => '0' );
 	signal mac_acc_sel: signed( PIPELINE_WIDTH + 3 downto 0 ) := ( others => '0' );
 	
@@ -55,8 +55,8 @@ architecture rtl of src_mac is
 begin
 	
 	-- mappings
-	mac_o_l <= mac_acc_l( mac_acc_l'high - 1 downto mac_acc_l'high - 24 );
-	mac_o_r <= mac_acc_r( mac_acc_r'high - 1 downto mac_acc_r'high - 24 );
+	mac_o_l <= pipe_mac( pipe_mac'high )( COE_WIDTH + 16 downto COE_WIDTH - 7 );
+	mac_o_r <= pipe_mac( pipe_mac'high )( COE_WIDTH + 16 downto COE_WIDTH - 7 );
 	
 	mac_n_l <= mac_acc_l( mac_acc_l'high - 1 downto mac_acc_l'high - COE_WIDTH );
 	mac_n_r <= mac_acc_l( mac_acc_l'high - 1 downto mac_acc_l'high - COE_WIDTH );
