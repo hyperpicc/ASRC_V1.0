@@ -8,28 +8,28 @@ function Hd = FD1
 % Equiripple Lowpass filter designed using the FIRPM function.
 
 % All frequency values are in kHz.
-Fs = 176400;  % Sampling Frequency
+Fs = 352800;  % Sampling Frequency
 
-N     = 256;    % Order
+N     = 502;    % Order
 Fpass = 20000;  % Passband Frequency
 Fstop = 24100;  % Stopband Frequency
 Wpass = 1;      % Passband Weight
-Wstop = 60000;  % Stopband Weight
+Wstop = 160000;  % Stopband Weight
 dens  = 16;     % Density Factor
 
 % Calculate the coefficients using the FIRPM function.
 b1  = firpm(N, [0 Fpass Fstop Fs/2]/(Fs/2), [1 1 0 0], [Wpass Wstop], ...
            {dens});
-b1 = upsample( b1, 32 );
-b1 = b1( 1 : length(b1) - 31 );
+b1 = upsample( b1, 16 );
+b1 = b1( 1 : length(b1) - 15 );
 Hd1 = dfilt.dffir(b1);
 
 % All frequency values are in kHz.
 Fs = 5644800;  % Sampling Frequency
 
-N     = 320;     % Order
+N     = 160;     % Order
 Fpass = 20000;   % Passband Frequency
-Fstop = 156400;  % Stopband Frequency
+Fstop = 332800;  % Stopband Frequency
 Wpass = 1;       % Passband Weight
 Wstop = 60000;   % Stopband Weight
 dens  = 16;      % Density Factor
@@ -41,7 +41,7 @@ Hd2 = dfilt.dffir(b2);
 
 ND2 = N/2;
 Hd = conv( b1, b2 );
-Hd = Hd( ND2 + 1 : length( Hd ) - ND2 );
+%Hd = Hd( ND2 + 1 : length( Hd ) - ND2 );
 Hd = Hd * 0.995/max(Hd);
 
 %fvtool(Hd1, Hd2 );

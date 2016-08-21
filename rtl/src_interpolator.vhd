@@ -62,7 +62,6 @@ begin
 	
 	CTRL_BLOCK : block
 		constant EN_REG			: integer := 9;
-		constant NORM_EN_REG		: integer := 13;
 		
 		alias  mac_en				: std_logic is latch_pipeline( EN_REG );
 		alias  mac_en_d			: std_logic is latch_init_delay( EN_REG );
@@ -71,6 +70,7 @@ begin
 		
 		signal norm_edge			: std_logic := '0';
 		signal norm_edge_pipe	: std_logic_vector( 14 downto 0 ) := ( others => '0' );
+		constant NORM_EN_REG		: integer := norm_edge_pipe'high - 1;
 		alias	 norm_en				: std_logic is norm_edge_pipe( NORM_EN_REG );
 		alias	 norm_lr				: std_logic is norm_edge_pipe( NORM_EN_REG + 1 );
 	begin

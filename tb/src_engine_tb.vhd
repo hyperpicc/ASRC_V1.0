@@ -46,7 +46,7 @@ ARCHITECTURE behavior OF src_engine_tb IS
 	 constant clk_period : time := 10 ns;
 
 	constant	FRQ_O			: real := 44.1;
-	constant	FRQ_I			: real := 245.349867349862;
+	constant	FRQ_I			: real := 192.0;
 
 	constant ratio_real	: real := FRQ_O / FRQ_I;
 	signal   ratio_sfixed: sfixed( 3 downto -19 );
@@ -88,7 +88,7 @@ BEGIN
 	ratio_sfixed <= to_sfixed( ratio_real, ratio_sfixed );
 	ratio_limit <= ( 0 => '1', others => '0' ) when ratio_sfixed( 3 downto 0 ) > 0 else ratio_sfixed( ratio_limit'range );
 	ratio <= unsigned( std_logic_vector( ratio_limit ) );
-	rd_addr_frc <= "00000000000000000000";
+	rd_addr_frc <= ( others => '0' ); --"00011111111111111111";
 
    -- Clock process definitions
    clk_process :process
