@@ -129,7 +129,7 @@ BEGIN
 		variable outline0	: line;
 	begin
 		if rising_edge( clk ) then
-			if ( fs_o_lr and fs_o_en ) = '1' then
+			if ( not( fs_o_lr ) and fs_o_en ) = '1' then
 				write( outline0, to_integer( fs_o_dat ) );
 				writeline( outfile0, outline0 );
 			end if;

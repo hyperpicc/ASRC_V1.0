@@ -27,7 +27,6 @@ architecture rtl of src_ring_buffer is
 	type RBUF_RAM_TYPE is array( 1023 downto 0 ) of signed( 23 downto 0 );
 	signal ram	: RBUF_RAM_TYPE 	:= ( others => ( others => '0' ) );
 	
-	signal wr_addr		: unsigned( 9 downto 0 ) := ( others => '0' );
 	signal rd_addr		: unsigned( 9 downto 0 ) := ( others => '0' );
 	alias  rd_count	: unsigned( 8 downto 0 ) is rd_addr( 9 downto 1 );
 	alias  rd_lr		: std_logic is rd_addr( 0 );
@@ -35,13 +34,11 @@ architecture rtl of src_ring_buffer is
 	signal rd_offset	: unsigned( 6 downto 0 ) := to_unsigned( 16, 7 );
 begin
 
-	wr_addr <= i_wr_addr( 8 downto 0 ) & i_wr_lr;
-
 	write_process : process( clk )
 	begin
 		if rising_edge( clk ) then
 			if i_wr_en = '1' then
-				ram( TO_INTEGER( wr_addr( 9 downto 0 ) ) ) <= i_wr_data;
+				ram( TO_INTEGER( i_wr_addr( 8 downto 0 ) & i_wr_lr ) ) <= i_wr_data;
 			end if;
 		end if;
 	end process write_process;
