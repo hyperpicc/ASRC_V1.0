@@ -122,8 +122,8 @@ begin
 	end block BLOCK_GENERATE;
 	
 	BLOCK_INTERPOLATE : block
-		constant RAMP_LOCKED		: integer := 7;
-		constant RAMP_UNLOCKED	: integer := 9;
+		constant RAMP_LOCKED		: integer := 5;
+		constant RAMP_UNLOCKED	: integer := 5;
 	
 		-- internal signals
 		-- first adder
@@ -157,6 +157,7 @@ begin
 			port map (
 				clk			=> clk,
 				rst			=> rst,
+				lock			=> lock,
 				
 				lpf_in		=> signed( adder( 29 downto 0 ) ),
 				lpf_in_en	=> fs_o_en,

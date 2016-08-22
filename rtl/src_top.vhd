@@ -46,8 +46,9 @@ begin
 			rst				=> rst,
 			lock				=> lock,
 			
-			fs_i_en			=> fs_i_en,
+			fs_i_en			=> fs_i_lr,
 			fs_o_clk			=> fs_o_clk,
+			fs_o_en			=> fs_o_req,
 			
 			ratio				=> ratio
 		);
@@ -93,6 +94,22 @@ begin
 			o_data_en		=> fs_o_en,
 			o_data_lr		=> fs_o_lr
 		);
+	
+--	ratio <= ( 19 => '1', others => '0' );
+--	
+--	tst_process : process( clk )
+--		variable ramp : unsigned( 29 downto 0 ) := ( 17 => '1', others => '0' );
+--	begin
+--		if rising_edge( clk ) then
+--			rd_en <= fs_o_req;
+--			if fs_o_req = '1' then
+--				rd_int <= ramp( 29 downto 20 );
+--				rd_frc <= ramp( 19 downto  0 );
+--				ramp := ramp + ratio;
+--				
+--			end if;
+--		end if;
+--	end process;
 
 end rtl;
 

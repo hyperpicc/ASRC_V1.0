@@ -61,6 +61,7 @@ package src_pkg is
 			
 			fs_i_en			: in  std_logic;
 			fs_o_clk			: in  std_logic;
+			fs_o_en			: in  std_logic;
 			
 			ratio				: out unsigned( 19 downto 0 )
 		);
@@ -74,8 +75,8 @@ package src_pkg is
 			clk				: in  std_logic;
 			rst				: in  std_logic;
 			
-			i_ratio			: in  unsigned( 17 downto 0 );
-			i_ratio_init	: in  unsigned( 17 downto 0 );
+			i_ratio			: in  unsigned( 19 downto 0 );
+			i_ratio_init	: in  unsigned( 19 downto 0 );
 			i_en				: in  std_logic;
 			
 			o_coe				: out signed( COE_WIDTH-1 downto 0 );
@@ -148,16 +149,18 @@ package src_pkg is
 	component lpf_top is
 		generic (
 			LPF_WIDTH		: natural range 8 to 64 := 16;
-			LPF_PAD			: natural range 4 to 24 :=  9
+			LPF_PAD_UNLOCK	: natural range 4 to 24 :=  9;
+			LPF_PAD_LOCK	: natural range 4 to 24 :=  9
 		);
 		port (
-			clk				: in  std_logic;
-			rst				: in  std_logic;
+			clk			: in  std_logic;
+			rst			: in  std_logic;
+			lock			: in  std_logic;
 			
-			lpf_in			: in  signed( LPF_WIDTH - 1 downto 0 );
-			lpf_in_en		: in  std_logic;
+			lpf_in		: in  signed( LPF_WIDTH - 1 downto 0 );
+			lpf_in_en	: in  std_logic;
 			
-			lpf_out			: out signed( LPF_WIDTH - 1 downto 0 )
+			lpf_out		: out signed( LPF_WIDTH - 1 downto 0 )
 		);
 	end component lpf_top;
 

@@ -105,6 +105,7 @@ begin
 	end process accumulator_process;
 	
 	output_process : process( clk )
+		constant COE_OFFSET : integer := 4;
 	begin
 		if rising_edge( clk ) then
 			o_data_en <= pipe_norm( pipe_norm'high );
@@ -115,7 +116,7 @@ begin
 				o_data_en <= '0';
 				o_data_lr <= '0';
 			elsif pipe_norm( pipe_norm'high ) = '1' then
-				o_data <= pipe_mac( pipe_mac'high )( COE_WIDTH + 24 - 5 downto COE_WIDTH + 1 - 5 );
+				o_data <= pipe_mac( pipe_mac'high )( COE_WIDTH + 24 - COE_OFFSET downto COE_WIDTH + 1 - COE_OFFSET );
 			end if;
 		end if;
 	end process output_process;

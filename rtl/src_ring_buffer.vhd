@@ -21,33 +21,34 @@ entity src_ring_buffer is
 end src_ring_buffer;
 
 architecture rtl of src_ring_buffer is
+	constant OS_ENABLE	: unsigned( 6 downto 0 ) := to_unsigned( 64, 7 );
+	constant OS_NENABLE	: unsigned( 6 downto 0 ) := to_unsigned( 16, 7 );
+
 	type RBUF_RAM_TYPE is array( 1023 downto 0 ) of signed( 23 downto 0 );
 	signal ram	: RBUF_RAM_TYPE 	:= ( others => ( others => '0' ) );
 	
-	signal wr_en		: std_logic := '0';
-	signal wr_addr		: unsigned( 10 downto 0 ) := ( others => '0' );
-	
-	signal rd_addr		: unsigned( 10 downto 0 ) := ( others => '0' );
-	alias  rd_count	: unsigned(  9 downto 0 ) is rd_addr( 10 downto 1 );
+	signal wr_addr		: unsigned( 9 downto 0 ) := ( others => '0' );
+	signal rd_addr		: unsigned( 9 downto 0 ) := ( others => '0' );
+	alias  rd_count	: unsigned( 8 downto 0 ) is rd_addr( 9 downto 1 );
 	alias  rd_lr		: std_logic is rd_addr( 0 );
-	signal rd_latch	: unsigned(  9 downto 0 ) := ( others => '0' );
-	signal rd_offset	: unsigned(  6 downto 0 ) := to_unsigned( 16, 7 );
+	signal rd_latch	: unsigned( 8 downto 0 ) := ( others => '0' );
+	signal rd_offset	: unsigned( 6 downto 0 ) := to_unsigned( 16, 7 );
 begin
-	wr_en   <= i_wr_en;
-	wr_addr <= i_wr_addr & i_wr_lr;
+
+	wr_addr <= i_wr_addr( 8 downto 0 ) & i_wr_lr;
 
 	write_process : process( clk )
 	begin
 		if rising_edge( clk ) then
-			if wr_en = '1' then
+			if i_wr_en = '1' then
 				ram( TO_INTEGER( wr_addr( 9 downto 0 ) ) ) <= i_wr_data;
 			end if;
 		end if;
 	end process write_process;
 	
-	rd_offset <= to_unsigned( 64, 7 ) when i_rd_offset = '1' else to_unsigned( 16, 7 );
+	rd_offset <= OS_ENABLE when i_rd_offset = '1' else OS_NENABLE;
 	
-	rd_latch <= i_rd_addr + TO_INTEGER( rd_offset );
+	rd_latch <= i_rd_addr( 8 downto 0 ) + TO_INTEGER( rd_offset );
 	
 	rd_lr <= i_rd_step;
 	
@@ -62,7 +63,7 @@ begin
 				rd_count <= rd_count - 1;
 			end if;
 			
-			o_rd_data <= ram( TO_INTEGER( rd_addr( 9 downto 0 ) ) );
+			o_rd_data <= ram( TO_INTEGER( rd_addr ) );
 		end if;
 	end process read_process;
 
