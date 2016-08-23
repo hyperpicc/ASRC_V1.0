@@ -127,7 +127,7 @@ begin
 		
 		addr_gen_fin <= addr_next( addr_next'high );
 		
-		addr_fold <= U_HALF_ADDER( addr_adder( 12 downto 0 ) );
+		addr_fold <= U_HALF_ADDER( addr_adder );
 		
 		addr_adder <= addr_gen_int + addr_offset;
 		
@@ -158,8 +158,8 @@ begin
 		fold_process : process( clk )
 		begin
 			if rising_edge( clk ) then
-				fold_centre <= addr_fold( 12 );
-				fold_int <= addr_fold( 11 downto 0 );
+				fold_centre <= addr_fold( addr_fold'high );
+				fold_int <= addr_fold( addr_fold'high-1 downto 0 );
 				fold_frc <= addr_gen_frc;
 			end if;
 		end process fold_process;
@@ -185,25 +185,25 @@ begin
 		alias  mul_mux0	: std_logic is latch_pipeline( DX_MUX0_REG );
 		alias  mul_mux1	: std_logic is latch_pipeline( DX_MUX1_REG );
 		
-		signal DX0			: signed( 15 downto 0 ) := ( others => '0' );
-		signal DX1			: signed( 15 downto 0 ) := ( others => '0' );
-		signal DX2			: signed( 15 downto 0 ) := ( others => '0' );
+		signal DX0			: signed( 14 downto 0 ) := ( others => '0' );
+		signal DX1			: signed( 14 downto 0 ) := ( others => '0' );
+		signal DX2			: signed( 14 downto 0 ) := ( others => '0' );
 		
-		signal mul_i0		: signed( 15 downto 0 ) := ( others => '0' );
-		signal mul_mux_i0	: signed( 15 downto 0 ) := ( others => '0' );
-		signal mul_i1		: signed( 15 downto 0 ) := ( others => '0' );
-		signal mul_mux_i1	: signed( 15 downto 0 ) := ( others => '0' );
+		signal mul_i0		: signed( 14 downto 0 ) := ( others => '0' );
+		signal mul_mux_i0	: signed( 14 downto 0 ) := ( others => '0' );
+		signal mul_i1		: signed( 14 downto 0 ) := ( others => '0' );
+		signal mul_mux_i1	: signed( 14 downto 0 ) := ( others => '0' );
 		
-		signal mul_o		: signed( 31 downto 0 ) := ( others => '0' );
+		signal mul_o		: signed( 29 downto 0 ) := ( others => '0' );
 	begin
-		DX0 <=              b"000" & SIGNED( fold_frc & '0' );
-		DX1 <= SHIFT_RIGHT( b"111" & SIGNED( fold_frc & '0' ), 1 );
-		DX2 <=              b"110" & SIGNED( fold_frc & '0' );
+		DX0 <=              b"000" & SIGNED( fold_frc );
+		DX1 <= SHIFT_RIGHT( b"111" & SIGNED( fold_frc ), 1 );
+		DX2 <=              b"110" & SIGNED( fold_frc );
 		
 		mul_i0 <= DX1 when mul_mux0 = '0' else -DX0;
 		mul_i1 <= DX0 when mul_mux1 = '1' else  DX2;
 		
-		dx <= mul_o( 27 downto 4 );
+		dx <= mul_o( 25 downto 2 );
 		
 		muliplier_process : process( clk )
 		begin

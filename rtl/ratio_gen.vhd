@@ -26,8 +26,8 @@ architecture rtl of ratio_gen is
 	signal fs_i_cnt	: unsigned(  3 downto 0 ) := ( others => '0' );
 	signal fs_i_trm	: std_logic := '0';
 	
-	type FS_O_CNT_TYPE is array (  2 downto 0 ) of unsigned( 13 downto 0 );
 	signal fs_o_cnt	: unsigned( 13 downto 0 ) := ( others => '0' );
+	type FS_O_CNT_TYPE is array (  2 downto 0 ) of unsigned( fs_o_cnt'range );
 	signal fs_o_cnt_d	: FS_O_CNT_TYPE := ( others => ( others => '0' ) );
 	signal fs_o_abs	: std_logic := '0';
 	signal fs_o_latch	: std_logic := '0';
@@ -80,7 +80,7 @@ begin
 		end if;
 	end process latch_process;
 	
-	lpf_in <= signed( fs_o_cnt_d( 2 ) ) & o"000";
+	lpf_in <= signed( fs_o_cnt_d( 2 ) ) & TO_SIGNED( 0, 23 - fs_o_cnt'length );
 	
 	INST_LPF : lpf_top
 		generic map (
@@ -89,10 +89,9 @@ begin
 		port map (
 			clk			=> clk,
 			rst			=> rst,
-			lock			=> o_lock,
 			
 			lpf_in		=> lpf_in,
-			lpf_in_en	=> fs_o_clk,
+			lpf_in_en	=> fs_o_en,
 			
 			lpf_out		=> lpf_out
 		);
@@ -102,7 +101,7 @@ begin
 		signal mclk_cnt_trm	: std_logic := '0';
 		
 		signal lim_abs			: std_logic := '0';
-		signal lock_cnt		: unsigned( 4 downto 0 ) := ( others => '0' );
+		signal lock_cnt		: unsigned( 2 downto 0 ) := ( others => '0' );
 		signal lock_trm		: std_logic := '0';
 		signal lock_en			: std_logic := '0';
 		
@@ -114,7 +113,7 @@ begin
 	
 		lim_abs <= '1' when ABS( lpf_in - lpf_out ) > 1 else '0';
 		mclk_cnt_trm <= '1' when mclk_cnt = 8191 else '0';
-		lock_trm <= '1' when lock_cnt =  31 else '0';
+		lock_trm <= '1' when lock_cnt = 2**lock_cnt'length - 1 else '0';
 		lock_zero <= '1' when o_ratio < 1023 else '0';
 	
 		count_process : process( clk )

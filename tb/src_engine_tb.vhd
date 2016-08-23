@@ -39,21 +39,24 @@ ARCHITECTURE behavior OF src_engine_tb IS
 	signal o_data			: signed( 23 downto 0 ) := ( others => '0' );
 	signal o_data_en		: std_logic := '0';
 	signal o_data_lr		: std_logic := '0';
+	
+	signal o_coe			: signed( 25 downto 0 ) := ( others => '0' );
+	signal o_coe_en		: std_logic := '0';
 
 	signal rd_run			: std_logic := '0';
 	
 	 -- Clock period definitions
 	 constant clk_period : time := 10 ns;
 
-	constant	FRQ_O			: real := 44.1;
-	constant	FRQ_I			: real := 192.0;
+	constant	FRQ_O			: real := 192.0;
+	constant	FRQ_I			: real := 96.0;
 
 	constant ratio_real	: real := FRQ_O / FRQ_I;
 	signal   ratio_sfixed: sfixed( 3 downto -19 );
 	signal   ratio_limit	: sfixed( 0 downto -19 );
 	
 	shared variable rd_cnt			: integer := 0;
-	shared variable rd_term			: integer := 356;
+	shared variable rd_term			: integer := 0;--356;
 	shared variable rd_norm			: std_logic := '0';
 
 BEGIN
@@ -82,13 +85,16 @@ BEGIN
 			
 			o_data			=> o_data,
 			o_data_en		=> o_data_en,
-			o_data_lr		=> o_data_lr
+			o_data_lr		=> o_data_lr,
+			
+			o_coe				=> o_coe,
+			o_coe_en			=> o_coe_en
 		);
  
 	ratio_sfixed <= to_sfixed( ratio_real, ratio_sfixed );
 	ratio_limit <= ( 0 => '1', others => '0' ) when ratio_sfixed( 3 downto 0 ) > 0 else ratio_sfixed( ratio_limit'range );
 	ratio <= unsigned( std_logic_vector( ratio_limit ) );
-	rd_addr_frc <= ( others => '0' ); --"00011111111111111111";
+	rd_addr_frc <= ( 18 => '1', others => '0' );
 
    -- Clock process definitions
    clk_process :process
@@ -122,13 +128,25 @@ BEGIN
 		end if;
 	end process;
 	
-	read_process : process( clk )
-		file		outfile	: text is out "test/src_impulse.txt";
+--	read_process : process( clk )
+--		file		outfile	: text is out "test/src_impulse.txt";
+--		variable outline	: line;
+--	begin
+--		if rising_edge( clk ) then
+--			if ( o_data_en and o_data_lr ) = '1' then
+--				write( outline, to_integer( o_data ) );
+--				writeline( outfile, outline );
+--			end if;
+--		end if;
+--	end process;
+	
+	coe_process : process( clk )
+		file		outfile	: text is out "test/src_impulse_coe.txt";
 		variable outline	: line;
 	begin
 		if rising_edge( clk ) then
-			if ( o_data_en and o_data_lr ) = '1' then
-				write( outline, to_integer( o_data ) );
+			if o_coe_en= '1' then
+				write( outline, to_integer( o_coe ) );
 				writeline( outfile, outline );
 			end if;
 		end if;

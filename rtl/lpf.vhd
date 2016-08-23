@@ -4,14 +4,11 @@ use ieee.numeric_std.all;
 
 entity lpf_top is
 	generic (
-		LPF_WIDTH		: natural range 8 to 64 := 16;
-		LPF_PAD_UNLOCK	: natural range 4 to 24 :=  9;
-		LPF_PAD_LOCK	: natural range 4 to 24 := 11
+		LPF_WIDTH		: natural range 8 to 64 := 16
 	);
 	port (
 		clk				: in  std_logic;
 		rst				: in  std_logic;
-		lock				: in  std_logic;
 		
 		lpf_in			: in  signed( LPF_WIDTH - 1 downto 0 );
 		lpf_in_en		: in  std_logic;
@@ -21,13 +18,14 @@ entity lpf_top is
 end lpf_top;
 
 architecture rtl of lpf_top is
-	constant ZERO		: signed( LPF_PAD_LOCK - 1 downto 0 ) := ( others => '0' );
+	constant LPF_PAD	: integer := 7;
+	constant ZERO		: signed( LPF_PAD - 1 downto 0 ) := ( others => '0' );
 	
 	signal pad_mux		: unsigned( 3 downto 0 ) := ( others => '0' );
 
-	signal reg_add		: signed( LPF_WIDTH + LPF_PAD_LOCK downto 0 ) := ( others => '0' );
-	signal reg_shift	: signed( LPF_WIDTH + LPF_PAD_LOCK downto 0 ) := ( others => '0' );
-	signal reg_out		: signed( LPF_WIDTH + LPF_PAD_LOCK downto 0 ) := ( others => '0' );
+	signal reg_add		: signed( LPF_WIDTH + LPF_PAD downto 0 ) := ( others => '0' );
+	signal reg_shift	: signed( LPF_WIDTH + LPF_PAD downto 0 ) := ( others => '0' );
+	signal reg_out		: signed( LPF_WIDTH + LPF_PAD downto 0 ) := ( others => '0' );
 	
 	signal rst_buf		: std_logic := '0';
 	signal rst_stb		: std_logic := '0';
@@ -43,8 +41,7 @@ begin
 	end process reset_process;
 	
 	-- gain mux
-	pad_mux <= TO_UNSIGNED( LPF_PAD_LOCK,   4 ) when lock = '1' else
-				  TO_UNSIGNED( LPF_PAD_UNLOCK, 4 );
+	pad_mux <= TO_UNSIGNED( LPF_PAD, 4 );
 	
 	-- lpf function
 	lpf_out <= reg_out( reg_out'left - 1 downto reg_out'left - LPF_WIDTH );
@@ -57,7 +54,7 @@ begin
 			if rst_stb = '1' then
 				reg_out <= ( others => '0' );
 			elsif lpf_in_en = '1' then
-				reg_out <= reg_out + reg_shift + 1;
+				reg_out <= reg_out + reg_shift;
 			end if;
 		end if;
 	end process integrator_process;

@@ -39,10 +39,10 @@ begin
 
 	BLOCK_GENERATE : block
 		-- these go to divider
-		signal fs_cnt_a0	: unsigned( 14 downto 0 ) := ( others => '0' );
-		signal fs_cnt_a1	: unsigned( 14 downto 0 ) := ( others => '0' );
-		signal fs_cnt_b	: unsigned( 14 downto 0 ) := ( others => '0' );
 		signal fs_cnt		: unsigned( 14 downto 0 ) := ( others => '0' );
+		signal fs_cnt_i0	: unsigned( 14 downto 0 ) := ( others => '0' );
+		signal fs_cnt_i1	: unsigned( 14 downto 0 ) := ( others => '0' );
+		signal fs_cnt_o	: unsigned( 14 downto 0 ) := ( others => '0' );
 		
 		signal div_en		: std_logic := '0';
 		signal div_fin		: std_logic := '0';
@@ -51,8 +51,8 @@ begin
 		signal remainder	: unsigned( 19 downto 0 ) := ( others => '0' );
 	begin
 		
-		dividend <= RESIZE( fs_cnt_b, dividend'length );
-		divisor  <= RESIZE( fs_cnt_a1, divisor'length );
+		dividend <= RESIZE( fs_cnt_o, dividend'length );
+		divisor  <= RESIZE( fs_cnt_i1, divisor'length );
 		
 		interp_i( 19 downto 0 ) <= remainder;
 		
@@ -60,23 +60,23 @@ begin
 		begin
 			if rising_edge( clk ) then
 				if rst = '1' then
-					div_en	 <= '0';
-					fs_cnt	 <= ( others => '0' );
-					fs_cnt_a0 <= ( others => '0' );
-					fs_cnt_a1 <= ( others => '0' );
-					fs_cnt_b  <= ( others => '0' );
+					div_en <= '0';
+					fs_cnt <= ( others => '0' );
+					fs_cnt_i0 <= ( others => '0' );
+					fs_cnt_i1 <= ( others => '0' );
+					fs_cnt_o <= ( others => '0' );
 				else
 					fs_cnt <= fs_cnt + 1;
 					
 					if fs_i_en = '1' then
-						fs_cnt_a0 <= fs_cnt;
-						fs_cnt    <= ( others => '0' );
+						fs_cnt <= ( others => '0' );
+						fs_cnt_i0 <= fs_cnt;
 					end if;
 					
 					div_en <= fs_o_en;
 					if fs_o_en = '1' then
-						fs_cnt_a1 <= fs_cnt_a0;
-						fs_cnt_b  <= fs_cnt;
+						fs_cnt_i1 <= fs_cnt_i0;
+						fs_cnt_o  <= fs_cnt;
 					end if;
 					
 				end if;
@@ -122,8 +122,8 @@ begin
 	end block BLOCK_GENERATE;
 	
 	BLOCK_INTERPOLATE : block
-		constant RAMP_LOCKED		: integer := 5;
-		constant RAMP_UNLOCKED	: integer := 5;
+		constant RAMP_LOCKED		: integer := 7;
+		constant RAMP_UNLOCKED	: integer := 7;
 	
 		-- internal signals
 		-- first adder
@@ -136,16 +136,18 @@ begin
 		signal lpf_out		:   signed( 29 downto 0 ) := ( others => '0' );	
 	begin
 		
-		adder		  <= RESIZE( interp_i, 31 ) - RESIZE( latch_out, 31 );
+		adder <= RESIZE( interp_i, 31 ) - RESIZE( latch_out, 31 );
+		
+		shift_reg <= SHIFT_RIGHT( adder( 29 downto 0 ), TO_INTEGER( shift_ctrl ) ) + 1;
+		
 		shift_ctrl <= TO_UNSIGNED( RAMP_LOCKED, 4 ) when lock = '1' else TO_UNSIGNED( RAMP_UNLOCKED, 4 );
-		shift_reg  <= SHIFT_RIGHT( adder( 29 downto 0 ), TO_INTEGER( shift_ctrl ) );
 		
 		latch_process : process( clk )
 		begin
 			if rising_edge( clk ) then
-				interp_o	  <= latch_out - unsigned( lpf_out );
+				interp_o	<= latch_out - unsigned( lpf_out );
 				if fs_o_en = '1' then
-					latch_out <= shift_reg + latch_out + 1;
+					latch_out <= shift_reg + latch_out;
 				end if;
 			end if;
 		end process latch_process;
@@ -157,7 +159,6 @@ begin
 			port map (
 				clk			=> clk,
 				rst			=> rst,
-				lock			=> lock,
 				
 				lpf_in		=> signed( adder( 29 downto 0 ) ),
 				lpf_in_en	=> fs_o_en,

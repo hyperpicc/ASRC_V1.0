@@ -33,7 +33,10 @@ package src_pkg is
 			
 			o_data			: out signed( 23 downto 0 ) := ( others => '0' );
 			o_data_en		: out std_logic := '0';
-			o_data_lr		: out std_logic := '0'
+			o_data_lr		: out std_logic := '0';
+			
+			o_coe				: out signed( 25 downto 0 ) := ( others => '0' );
+			o_coe_en			: out std_logic := '0'
 		);
 	end component src_engine;
 	
@@ -148,14 +151,11 @@ package src_pkg is
 	
 	component lpf_top is
 		generic (
-			LPF_WIDTH		: natural range 8 to 64 := 16;
-			LPF_PAD_UNLOCK	: natural range 4 to 24 :=  9;
-			LPF_PAD_LOCK	: natural range 4 to 24 :=  9
+			LPF_WIDTH		: natural range 8 to 64 := 16
 		);
 		port (
 			clk			: in  std_logic;
 			rst			: in  std_logic;
-			lock			: in  std_logic;
 			
 			lpf_in		: in  signed( LPF_WIDTH - 1 downto 0 );
 			lpf_in_en	: in  std_logic;

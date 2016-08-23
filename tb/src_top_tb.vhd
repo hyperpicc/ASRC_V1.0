@@ -12,7 +12,7 @@ ENTITY src_top_tb IS
 END src_top_tb;
 
 ARCHITECTURE behavior OF src_top_tb IS
-	constant	FRQ_I		: real := 96.0;
+	constant	FRQ_I		: real := 48.0;
 	constant	FRQ_O		: real := 192.0;
 
 	component src_top is
@@ -22,7 +22,7 @@ ARCHITECTURE behavior OF src_top_tb IS
 			
 			ctrl_lock	: out std_logic := '0';
 			ctrl_offset	: in  std_logic := '0';
-				
+			
 			fs_i_en		: in  std_logic;
 			fs_i_lr		: in  std_logic;
 			fs_i_dat		: in  signed( 23 downto 0 );
@@ -62,6 +62,7 @@ ARCHITECTURE behavior OF src_top_tb IS
 	signal ctrl_lock		: std_logic := '0';
 	signal ctrl_offset	: std_logic := '0';
 		
+	signal fs_i_clk		: std_logic := '0';
 	signal fs_i_en			: std_logic := '0';
 	signal fs_i_lr			: std_logic := '0';
 	signal fs_i_dat		: signed( 23 downto 0 ) := ( others => '0' );
@@ -97,7 +98,7 @@ BEGIN
 		)
 		port map (
 			clk_m		=> clk,
-			clk		=> open,
+			clk		=> fs_i_clk,
 			clk_en	=> fs_i_en,
 			clk_lr	=> fs_i_lr
 		);
