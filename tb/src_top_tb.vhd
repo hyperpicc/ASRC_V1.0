@@ -12,8 +12,9 @@ ENTITY src_top_tb IS
 END src_top_tb;
 
 ARCHITECTURE behavior OF src_top_tb IS
-	constant	FRQ_I		: real := 48.0;
-	constant	FRQ_O		: real := 192.0;
+	constant MCLK		: real := 22579.2;
+	constant	FRQ_O		: real := 96.0;
+	constant	FRQ_I		: real := 176.4;
 
 	component src_top is
 		port (
@@ -37,7 +38,7 @@ ARCHITECTURE behavior OF src_top_tb IS
 	
 	component time_util is
 		generic (
-			frq_m		: real :=  24576.0 * 4.0;
+			frq_m		: real :=  MCLK * 4.0;
 			frq		: real :=  44.1
 		);
 		port (

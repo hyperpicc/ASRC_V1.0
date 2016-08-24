@@ -41,24 +41,24 @@ architecture rtl of src_engine is
 	type STATE_TYPE is ( S0_WAIT, S1_MULTIPLY, S2_ADDR_LOAD );
 	signal state		: STATE_TYPE := S0_WAIT;
 	
-	signal interp_en		: std_logic := '0';
-	signal interp_fin		: std_logic := '0';
+	signal interp_en	: std_logic := '0';
+	signal interp_fin	: std_logic := '0';
 	
 	signal mul_i0		: signed( 20 downto 0 ) := ( others => '0' );
 	signal mul_i1		: signed( 17 downto 0 ) := ( others => '0' );
 	signal mul_o		: signed( 37 downto 0 ) := ( others => '0' );
 
-	signal mac_coe			: signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
-	signal mac_en			: std_logic := '0';
-	signal mac_acc			: std_logic := '0';
-	signal mac_lr			: std_logic := '0';
-	signal mac_norm		: std_logic := '0';
+	signal mac_coe		: signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
+	signal mac_en		: std_logic := '0';
+	signal mac_acc		: std_logic := '0';
+	signal mac_lr		: std_logic := '0';
+	signal mac_norm	: std_logic := '0';
 	
-	signal rbuf_data		: signed( 23 downto 0 ) := ( others => '0' );
-	signal rbuf_lr			: std_logic := '0';
+	signal rbuf_data	: signed( 23 downto 0 ) := ( others => '0' );
+	signal rbuf_lr		: std_logic := '0';
 begin
 	
-	mul_i0 <= signed( '0' & rd_addr_frc          );
+	mul_i0 <= signed( '0' & rd_addr_frc );
 	mul_i1 <= signed( '0' & ratio( 19 downto 3 ) );
 	
 	o_coe <= mac_coe;
@@ -100,8 +100,8 @@ begin
 			clk				=> clk,
 			rst				=> rst,
 			
-			i_ratio			=> ratio,
-			i_ratio_init	=> unsigned( mul_o( 37 downto 18 ) ),
+			i_ratio			=> ratio( 19 downto 2 ),
+			i_ratio_init	=> unsigned( mul_o( 34 downto 18 ) ),
 			i_en				=> interp_en,
 			
 			o_coe				=> mac_coe,
@@ -154,6 +154,7 @@ begin
 	MUL_21x18_BLOCK : block
 		signal m_i		: signed( 17 downto 0 ) := ( others => '0' );
 		
+		signal m_o_en	: std_logic := '0';
 		signal m_o		: signed( 35 downto 0 ) := ( others => '0' );
 		signal m_cry	: signed( 17 downto 0 ) := ( others => '0' );
 		signal m_lsb	: signed( 16 downto 0 ) := ( others => '0' );
@@ -164,7 +165,10 @@ begin
 		multiply_process : process( clk )
 		begin
 			if rising_edge( clk ) then
-				mul_o <= m_o( 20 downto 0 ) & m_lsb;
+				m_o_en <= rd_req;
+				if m_o_en = '1' then
+					mul_o <= SHIFT_RIGHT( m_o( 20 downto 0 ) & m_lsb, 1 );
+				end if;
 				
 				m_cry <= ( others => '0' );
 				if rd_req = '1' then

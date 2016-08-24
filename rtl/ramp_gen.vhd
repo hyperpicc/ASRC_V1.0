@@ -46,9 +46,9 @@ begin
 		
 		signal div_en		: std_logic := '0';
 		signal div_fin		: std_logic := '0';
-		signal divisor		: unsigned( 19 downto 0 ) := ( others => '0' );
-		signal dividend	: unsigned( 19 downto 0 ) := ( others => '0' );
-		signal remainder	: unsigned( 19 downto 0 ) := ( others => '0' );
+		signal divisor		: unsigned( 19  downto 0 ) := ( others => '0' );
+		signal dividend	: unsigned( 19  downto 0 ) := ( others => '0' );
+		signal remainder	: unsigned( 19  downto 0 ) := ( others => '0' );
 	begin
 		
 		dividend <= RESIZE( fs_cnt_o, dividend'length );
@@ -136,7 +136,7 @@ begin
 		signal lpf_out		:   signed( 29 downto 0 ) := ( others => '0' );	
 	begin
 		
-		adder <= RESIZE( interp_i, 31 ) - RESIZE( latch_out, 31 );
+		adder <= RESIZE( interp_i, 31 ) - latch_out;
 		
 		shift_reg <= SHIFT_RIGHT( adder( 29 downto 0 ), TO_INTEGER( shift_ctrl ) ) + 1;
 		

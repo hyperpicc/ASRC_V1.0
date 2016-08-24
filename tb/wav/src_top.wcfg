@@ -20,7 +20,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="68" />
+   <WVObjectSize size="9" />
    <wvobject fp_name="/src_top_tb/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -37,281 +37,148 @@
       <obj_property name="ElementShortName">ctrl_offset</obj_property>
       <obj_property name="ObjectShortName">ctrl_offset</obj_property>
    </wvobject>
-   <wvobject fp_name="/src_top_tb/fs_i_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_i_en</obj_property>
-      <obj_property name="ObjectShortName">fs_i_en</obj_property>
+   <wvobject fp_name="group260" type="group">
+      <obj_property name="label">Clocks</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/fs_i_en" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_i_en</obj_property>
+         <obj_property name="ObjectShortName">fs_i_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/fs_o_clk" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_clk</obj_property>
+         <obj_property name="ObjectShortName">fs_o_clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/fs_o_en" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_en</obj_property>
+         <obj_property name="ObjectShortName">fs_o_en</obj_property>
+      </wvobject>
    </wvobject>
-   <wvobject fp_name="/src_top_tb/fs_i_lr" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_i_lr</obj_property>
-      <obj_property name="ObjectShortName">fs_i_lr</obj_property>
+   <wvobject fp_name="group266" type="group">
+      <obj_property name="label">Ratio</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/ratio" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">ratio[19:0]</obj_property>
+         <obj_property name="ObjectShortName">ratio[19:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_i_trm" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_i_trm</obj_property>
+         <obj_property name="ObjectShortName">fs_i_trm</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_i_cnt" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_i_cnt[3:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_i_cnt[3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_abs" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_abs</obj_property>
+         <obj_property name="ObjectShortName">fs_o_abs</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_latch" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_latch</obj_property>
+         <obj_property name="ObjectShortName">fs_o_latch</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_cnt" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_cnt[13:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_o_cnt[13:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_d0" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_d0[13:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_o_d0[13:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_d1" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_d1[13:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_o_d1[13:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_d2" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_d2[13:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_o_d2[13:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lpf_in" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">lpf_in[22:0]</obj_property>
+         <obj_property name="ObjectShortName">lpf_in[22:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lpf_out" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">lpf_out[22:0]</obj_property>
+         <obj_property name="ObjectShortName">lpf_out[22:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
    </wvobject>
-   <wvobject fp_name="/src_top_tb/fs_i_dat" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_i_dat[23:0]</obj_property>
-      <obj_property name="ObjectShortName">fs_i_dat[23:0]</obj_property>
+   <wvobject fp_name="group388" type="group">
+      <obj_property name="label">Ramp</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/ramp_en" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">ramp_en</obj_property>
+         <obj_property name="ObjectShortName">ramp_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/ramp_int" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">ramp_int[9:0]</obj_property>
+         <obj_property name="ObjectShortName">ramp_int[9:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/ramp_frc" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">ramp_frc[19:0]</obj_property>
+         <obj_property name="ObjectShortName">ramp_frc[19:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
    </wvobject>
-   <wvobject fp_name="/src_top_tb/fs_o_req" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_o_req</obj_property>
-      <obj_property name="ObjectShortName">fs_o_req</obj_property>
+   <wvobject fp_name="group436" type="group">
+      <obj_property name="label">Engine</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/mul_i0" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">mul_i0[20:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_i0[20:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/mul_i1" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">mul_i1[17:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_i1[17:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/mul_o" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">mul_o[37:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_o[37:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/i_ratio" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_ratio[17:0]</obj_property>
+         <obj_property name="ObjectShortName">i_ratio[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/i_ratio_init" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_ratio_init[17:0]</obj_property>
+         <obj_property name="ObjectShortName">i_ratio_init[17:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
    </wvobject>
-   <wvobject fp_name="/src_top_tb/fs_o_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_o_en</obj_property>
-      <obj_property name="ObjectShortName">fs_o_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/fs_o_clk" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_o_clk</obj_property>
-      <obj_property name="ObjectShortName">fs_o_clk</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/fs_o_lr" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_o_lr</obj_property>
-      <obj_property name="ObjectShortName">fs_o_lr</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_i_trm" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_i_trm</obj_property>
-      <obj_property name="ObjectShortName">fs_i_trm</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_abs" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_o_abs</obj_property>
-      <obj_property name="ObjectShortName">fs_o_abs</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_i_cnt" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_i_cnt[3:0]</obj_property>
-      <obj_property name="ObjectShortName">fs_i_cnt[3:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_cnt" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_o_cnt[13:0]</obj_property>
-      <obj_property name="ObjectShortName">fs_o_cnt[13:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lpf_out" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">lpf_out[22:0]</obj_property>
-      <obj_property name="ObjectShortName">lpf_out[22:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/rom_coe" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">rom_coe[25:0]</obj_property>
-      <obj_property name="ObjectShortName">rom_coe[25:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/fs_o_dat" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_o_dat[23:0]</obj_property>
-      <obj_property name="ObjectShortName">fs_o_dat[23:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/pipe_mac" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">pipe_mac[3:0]</obj_property>
-      <obj_property name="ObjectShortName">pipe_mac[3:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/mac_i0" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">mac_i0[23:0]</obj_property>
-      <obj_property name="ObjectShortName">mac_i0[23:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/mac_i1" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">mac_i1[26:0]</obj_property>
-      <obj_property name="ObjectShortName">mac_i1[26:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/pipe_norm[3]" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">[3]</obj_property>
-      <obj_property name="ObjectShortName">pipe_norm[3]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/pipe_mac[3]" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">[3]</obj_property>
-      <obj_property name="ObjectShortName">pipe_mac[3]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/frq_i" type="other" db_ref_id="1">
-      <obj_property name="ElementShortName">frq_i</obj_property>
-      <obj_property name="ObjectShortName">frq_i</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/frq_o" type="other" db_ref_id="1">
-      <obj_property name="ElementShortName">frq_o</obj_property>
-      <obj_property name="ObjectShortName">frq_o</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/fs_i_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_i_en</obj_property>
-      <obj_property name="ObjectShortName">fs_i_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/fs_o_req" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_o_req</obj_property>
-      <obj_property name="ObjectShortName">fs_o_req</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/rd_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">rd_en</obj_property>
-      <obj_property name="ObjectShortName">rd_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/interp_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">interp_en</obj_property>
-      <obj_property name="ObjectShortName">interp_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/interp_fin" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">interp_fin</obj_property>
-      <obj_property name="ObjectShortName">interp_fin</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/state" type="other" db_ref_id="1">
-      <obj_property name="ElementShortName">state</obj_property>
-      <obj_property name="ObjectShortName">state</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/rd_addr_frc" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">rd_addr_frc[19:0]</obj_property>
-      <obj_property name="ObjectShortName">rd_addr_frc[19:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_RING_BUFFER/i_rd_addr" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">i_rd_addr[9:0]</obj_property>
-      <obj_property name="ObjectShortName">i_rd_addr[9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_RING_BUFFER/rd_addr" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">rd_addr[9:0]</obj_property>
-      <obj_property name="ObjectShortName">rd_addr[9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_RING_BUFFER/o_rd_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">o_rd_data[23:0]</obj_property>
-      <obj_property name="ObjectShortName">o_rd_data[23:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/rd_int" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">rd_int[9:0]</obj_property>
-      <obj_property name="ObjectShortName">rd_int[9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/rd_frc" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">rd_frc[19:0]</obj_property>
-      <obj_property name="ObjectShortName">rd_frc[19:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/i_ratio" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">i_ratio[19:0]</obj_property>
-      <obj_property name="ObjectShortName">i_ratio[19:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/i_ratio_init" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">i_ratio_init[19:0]</obj_property>
-      <obj_property name="ObjectShortName">i_ratio_init[19:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/addr_gen_block/addr_gen" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">addr_gen[24:0]</obj_property>
-      <obj_property name="ObjectShortName">addr_gen[24:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/addr_gen_block/addr_fold" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">addr_fold[11:0]</obj_property>
-      <obj_property name="ObjectShortName">addr_fold[11:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/i_ctrl_norm" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">i_ctrl_norm</obj_property>
-      <obj_property name="ObjectShortName">i_ctrl_norm</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/i_ctrl_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">i_ctrl_en</obj_property>
-      <obj_property name="ObjectShortName">i_ctrl_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/i_ctrl_acc" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">i_ctrl_acc</obj_property>
-      <obj_property name="ObjectShortName">i_ctrl_acc</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/i_ctrl_lr" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">i_ctrl_lr</obj_property>
-      <obj_property name="ObjectShortName">i_ctrl_lr</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_RING_BUFFER/i_wr_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">i_wr_en</obj_property>
-      <obj_property name="ObjectShortName">i_wr_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_RING_BUFFER/i_wr_addr" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">i_wr_addr[9:0]</obj_property>
-      <obj_property name="ObjectShortName">i_wr_addr[9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_RING_BUFFER/i_wr_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">i_wr_data[23:0]</obj_property>
-      <obj_property name="ObjectShortName">i_wr_data[23:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/mac_i0" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">mac_i0[23:0]</obj_property>
-      <obj_property name="ObjectShortName">mac_i0[23:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/mac_i1" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">mac_i1[26:0]</obj_property>
-      <obj_property name="ObjectShortName">mac_i1[26:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/mac_acc_l" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">mac_acc_l[52:0]</obj_property>
-      <obj_property name="ObjectShortName">mac_acc_l[52:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_MAC/mac_acc_r" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">mac_acc_r[52:0]</obj_property>
-      <obj_property name="ObjectShortName">mac_acc_r[52:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/rom_coe" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">rom_coe[25:0]</obj_property>
-      <obj_property name="ObjectShortName">rom_coe[25:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/fold_centre" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fold_centre</obj_property>
-      <obj_property name="ObjectShortName">fold_centre</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_RING_BUFFER/i_rd_addr" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">i_rd_addr[9:0]</obj_property>
-      <obj_property name="ObjectShortName">i_rd_addr[9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_abs" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_o_abs</obj_property>
-      <obj_property name="ObjectShortName">fs_o_abs</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lpf_out" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">lpf_out[22:0]</obj_property>
-      <obj_property name="ObjectShortName">lpf_out[22:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/ratio" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">ratio[19:0]</obj_property>
-      <obj_property name="ObjectShortName">ratio[19:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lock_block/mclk_cnt_trm" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">mclk_cnt_trm</obj_property>
-      <obj_property name="ObjectShortName">mclk_cnt_trm</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lock_block/lock_trm" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">lock_trm</obj_property>
-      <obj_property name="ObjectShortName">lock_trm</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lock_block/lim_abs" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">lim_abs</obj_property>
-      <obj_property name="ObjectShortName">lim_abs</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_i_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_i_en</obj_property>
-      <obj_property name="ObjectShortName">fs_i_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lock_block/lock_fs_i" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">lock_fs_i</obj_property>
-      <obj_property name="ObjectShortName">lock_fs_i</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fs_o_en</obj_property>
-      <obj_property name="ObjectShortName">fs_o_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lock_block/lock_fs_o" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">lock_fs_o</obj_property>
-      <obj_property name="ObjectShortName">lock_fs_o</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lock_block/lock_zero" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">lock_zero</obj_property>
-      <obj_property name="ObjectShortName">lock_zero</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lpf_in" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">lpf_in[22:0]</obj_property>
-      <obj_property name="ObjectShortName">lpf_in[22:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lpf_out" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">lpf_out[22:0]</obj_property>
-      <obj_property name="ObjectShortName">lpf_out[22:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   <wvobject fp_name="group382" type="group">
+      <obj_property name="label">Outputs</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/fs_o_req" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_req</obj_property>
+         <obj_property name="ObjectShortName">fs_o_req</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/fs_o_en" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_en</obj_property>
+         <obj_property name="ObjectShortName">fs_o_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/fs_o_clk" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_clk</obj_property>
+         <obj_property name="ObjectShortName">fs_o_clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/fs_o_lr" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_lr</obj_property>
+         <obj_property name="ObjectShortName">fs_o_lr</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/fs_o_dat" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_dat[23:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_o_dat[23:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
    </wvobject>
 </wave_config>

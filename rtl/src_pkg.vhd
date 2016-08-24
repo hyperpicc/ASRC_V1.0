@@ -78,8 +78,8 @@ package src_pkg is
 			clk				: in  std_logic;
 			rst				: in  std_logic;
 			
-			i_ratio			: in  unsigned( 19 downto 0 );
-			i_ratio_init	: in  unsigned( 19 downto 0 );
+			i_ratio			: in  unsigned( 17 downto 0 );
+			i_ratio_init	: in  unsigned( 16 downto 0 );
 			i_en				: in  std_logic;
 			
 			o_coe				: out signed( COE_WIDTH-1 downto 0 );

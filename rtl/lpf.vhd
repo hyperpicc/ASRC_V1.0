@@ -18,7 +18,7 @@ entity lpf_top is
 end lpf_top;
 
 architecture rtl of lpf_top is
-	constant LPF_PAD	: integer := 7;
+	constant LPF_PAD	: integer := 5;
 	constant ZERO		: signed( LPF_PAD - 1 downto 0 ) := ( others => '0' );
 	
 	signal pad_mux		: unsigned( 3 downto 0 ) := ( others => '0' );
@@ -54,7 +54,7 @@ begin
 			if rst_stb = '1' then
 				reg_out <= ( others => '0' );
 			elsif lpf_in_en = '1' then
-				reg_out <= reg_out + reg_shift;
+				reg_out <= reg_out + reg_shift + 1;
 			end if;
 		end if;
 	end process integrator_process;

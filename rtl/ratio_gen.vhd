@@ -1,6 +1,3 @@
--- lock
--- try for 64 stable output requests before letting lock assert
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -23,12 +20,13 @@ entity ratio_gen is
 end ratio_gen;
 
 architecture rtl of ratio_gen is
-	signal fs_i_cnt	: unsigned(  3 downto 0 ) := ( others => '0' );
+	signal fs_i_cnt	: unsigned(  4 downto 0 ) := ( others => '0' );
 	signal fs_i_trm	: std_logic := '0';
 	
-	signal fs_o_cnt	: unsigned( 13 downto 0 ) := ( others => '0' );
-	type FS_O_CNT_TYPE is array (  2 downto 0 ) of unsigned( fs_o_cnt'range );
-	signal fs_o_cnt_d	: FS_O_CNT_TYPE := ( others => ( others => '0' ) );
+	signal fs_o_cnt	: unsigned( 14 downto 0 ) := ( others => '0' );
+	signal fs_o_d0		: unsigned( 14 downto 0 ) := ( others => '0' );
+	signal fs_o_d1		: unsigned( 14 downto 0 ) := ( others => '0' );
+	signal fs_o_d2		: unsigned( 14 downto 0 ) := ( others => '0' );
 	signal fs_o_abs	: std_logic := '0';
 	signal fs_o_latch	: std_logic := '0';
 	
@@ -39,9 +37,9 @@ architecture rtl of ratio_gen is
 	signal o_ratio		: unsigned( 19 downto 0 ) := ( others => '0' );
 begin
 	
-	fs_o_latch <= fs_i_trm and fs_i_en;
-	fs_i_trm <= '1' when fs_i_cnt = ( 2**fs_i_cnt'high - 1 ) else '0';
-	fs_o_abs <= '1' when U_ABS( fs_o_cnt_d( 0 ) - fs_o_cnt_d( 1 ) ) > 2 else '0';
+	fs_o_latch <= fs_i_trm and fs_o_abs;
+	fs_i_trm <= '1' when fs_i_cnt = ( 2**fs_i_cnt'high - 1 ) and fs_i_en = '1' else '0';
+	fs_o_abs <= '1' when U_ABS( fs_o_d0 - fs_o_d1 ) > 2 else '0';
 	
 	lock <= o_lock;
 	ratio <= o_ratio;
@@ -66,21 +64,21 @@ begin
 	latch_process : process( clk )
 	begin
 		if rising_edge( clk ) then
-			if fs_o_latch = '1' then
-				fs_o_cnt_d( 0 ) <= fs_o_cnt;
+			if fs_i_trm = '1' then
+				fs_o_d0 <= fs_o_cnt;
 			end if;
 			
-			if ( fs_o_abs and fs_i_trm ) = '1' then
-				fs_o_cnt_d( 1 ) <= fs_o_cnt_d( 0 );
+			if fs_o_latch = '1' then
+				fs_o_d1 <= fs_o_d0;
 			end if;
 			
 			if fs_o_clk = '1' then
-				fs_o_cnt_d( 2 ) <= fs_o_cnt_d( 1 );
+				fs_o_d2 <= fs_o_d1;
 			end if;
 		end if;
 	end process latch_process;
 	
-	lpf_in <= signed( fs_o_cnt_d( 2 ) ) & TO_SIGNED( 0, 23 - fs_o_cnt'length );
+	lpf_in <= signed( fs_o_d2 ) & TO_SIGNED( 0, 23 - fs_o_d2'length );
 	
 	INST_LPF : lpf_top
 		generic map (
@@ -101,7 +99,7 @@ begin
 		signal mclk_cnt_trm	: std_logic := '0';
 		
 		signal lim_abs			: std_logic := '0';
-		signal lock_cnt		: unsigned( 2 downto 0 ) := ( others => '0' );
+		signal lock_cnt		: unsigned( 1 downto 0 ) := ( others => '0' );
 		signal lock_trm		: std_logic := '0';
 		signal lock_en			: std_logic := '0';
 		
