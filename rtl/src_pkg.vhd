@@ -17,7 +17,6 @@ package src_pkg is
 			clk				: in  std_logic;
 			rst				: in  std_logic;
 			
-			ctrl_lock		: in  std_logic;
 			ctrl_offset		: in  std_logic;
 			
 			ratio				: in  unsigned( 19 downto 0 );
@@ -35,7 +34,7 @@ package src_pkg is
 			o_data_en		: out std_logic := '0';
 			o_data_lr		: out std_logic := '0';
 			
-			o_coe				: out signed( 25 downto 0 ) := ( others => '0' );
+			o_coe				: out signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
 			o_coe_en			: out std_logic := '0'
 		);
 	end component src_engine;

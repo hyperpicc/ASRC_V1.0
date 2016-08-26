@@ -76,7 +76,6 @@ begin
 			clk				=> clk,
 			rst				=> rst,
 			
-			ctrl_lock		=> lock,
 			ctrl_offset		=> ctrl_offset,
 			
 			ratio				=> ratio,

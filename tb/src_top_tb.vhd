@@ -12,9 +12,9 @@ ENTITY src_top_tb IS
 END src_top_tb;
 
 ARCHITECTURE behavior OF src_top_tb IS
-	constant MCLK		: real := 22579.2;
-	constant	FRQ_O		: real := 96.0;
-	constant	FRQ_I		: real := 176.4;
+	constant MCLK		: real := 24576.0;
+	constant	FRQ_O		: real := 176.4;
+	constant	FRQ_I		: real := 192.0;
 
 	component src_top is
 		port (
