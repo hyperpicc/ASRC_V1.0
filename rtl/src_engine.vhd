@@ -73,7 +73,7 @@ begin
 				interp_en <= '0';
 				case state is
 					when S0_WAIT =>
-						if rd_req = '1' then
+						if rd_req = '1' and ratio( 19 downto 15 ) /= 0 then
 							state <= S1_MULTIPLY;
 						end if;
 						
