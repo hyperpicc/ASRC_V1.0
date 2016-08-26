@@ -45,7 +45,7 @@ architecture rtl of src_engine is
 	
 	signal mul_i0		: unsigned( 19 downto 0 ) := ( others => '0' );
 	signal mul_i1		: unsigned( 16 downto 0 ) := ( others => '0' );
-	signal mul_o		: unsigned( 35 downto 0 ) := ( others => '0' );
+	signal mul_o		: unsigned( 16 downto 0 ) := ( others => '0' );
 
 	signal mac_coe		: signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
 	signal mac_en		: std_logic := '0';
@@ -100,7 +100,7 @@ begin
 			rst				=> rst,
 			
 			i_ratio			=> ratio( 19 downto 2 ),
-			i_ratio_init	=> unsigned( mul_o( 35 downto 19 ) ),
+			i_ratio_init	=> mul_o,
 			i_en				=> interp_en,
 			
 			o_coe				=> mac_coe,
@@ -158,7 +158,6 @@ begin
 		signal m_en_d	: std_logic := '0';
 		signal m_o		: unsigned( 33 downto 0 ) := ( others => '0' );
 		signal m_cry	: unsigned( 16 downto 0 ) := ( others => '0' );
-		signal m_lsb	: unsigned( 16 downto 0 ) := ( others => '0' );
 	begin
 
 		mi_0 <= mul_i0( 16 downto 0 ) when m_en = '1' else RESIZE( mul_i0( 19 downto 17 ), 17 );
@@ -176,11 +175,10 @@ begin
 				-- Least significant bits are available on rd_req
 				if m_en = '1' then
 					m_cry <= m_o( 33 downto 17 );
-					m_lsb <= m_o( 16 downto  0 );
 				end if;
 				
 				if m_en_d = '1' then
-					mul_o <= m_o( 18 downto 0 ) & m_lsb;
+					mul_o <= m_o( 18 downto 2 );
 				end if;
 			
 			end if;

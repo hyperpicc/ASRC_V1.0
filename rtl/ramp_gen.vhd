@@ -122,8 +122,6 @@ begin
 	end block BLOCK_GENERATE;
 	
 	BLOCK_INTERPOLATE : block
-		constant RAMP_LOCKED		: integer := 7;
-		constant RAMP_UNLOCKED	: integer := 7;
 	
 		-- internal signals
 		-- first adder

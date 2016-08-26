@@ -36,11 +36,11 @@ architecture rtl of src_mac is
 	signal pipe_en			: std_logic_vector( PIPELINE_LENGTH-2 downto 0 ) := ( others => '0' );
 	signal pipe_lr			: std_logic_vector( PIPELINE_LENGTH-2 downto 0 ) := ( others => '0' );
 	
-	type PIPELINE_MAC	is array( PIPELINE_LENGTH-2 downto 0 ) of signed( COE_WIDTH + 24 downto 0 );
+	type PIPELINE_MAC	is array( PIPELINE_LENGTH - 2 downto 0 ) of signed( COE_WIDTH + 27 downto 0 );
 	signal pipe_mac		: PIPELINE_MAC := ( others => ( others => '0' ) );
-	signal mac_acc_sel	: signed( COE_WIDTH + 26 downto 0 ) := ( others => '0' );
-	signal mac_acc_l		: signed( COE_WIDTH + 26 downto 0 ) := ( others => '0' );
-	signal mac_acc_r		: signed( COE_WIDTH + 26 downto 0 ) := ( others => '0' );
+	signal mac_acc_sel	: signed( COE_WIDTH + 29 downto 0 ) := ( others => '0' );
+	signal mac_acc_l		: signed( COE_WIDTH + 29 downto 0 ) := ( others => '0' );
+	signal mac_acc_r		: signed( COE_WIDTH + 29 downto 0 ) := ( others => '0' );
 	
 	signal mac_i0			: signed( 23 downto 0 ) := ( others => '0' );
 	signal mac_i1			: signed( COE_WIDTH + 3 downto 0 ) := ( others => '0' );
@@ -116,7 +116,7 @@ begin
 				o_data_en <= '0';
 				o_data_lr <= '0';
 			elsif pipe_norm( pipe_norm'high ) = '1' then
-				o_data <= pipe_mac( pipe_mac'high )( COE_WIDTH + 24 - COE_OFFSET downto COE_WIDTH + 1 - COE_OFFSET );
+				o_data <= pipe_mac( pipe_mac'high )( COE_WIDTH + 27 - COE_OFFSET downto COE_WIDTH + 4 - COE_OFFSET );
 			end if;
 		end if;
 	end process output_process;

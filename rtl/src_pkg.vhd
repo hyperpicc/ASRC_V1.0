@@ -4,6 +4,9 @@ use ieee.numeric_std.all;
 use ieee.std_logic_textio.all;
 
 package src_pkg is
+	
+	constant RAMP_LOCKED		: integer := 11;
+	constant RAMP_UNLOCKED	: integer :=  9;
 
 	impure function U_ABS( i : unsigned ) return unsigned;
 	impure function U_XOR( i : unsigned ) return unsigned;
@@ -150,7 +153,8 @@ package src_pkg is
 	
 	component lpf_top is
 		generic (
-			LPF_WIDTH		: natural range 8 to 64 := 16
+			LPF_WIDTH		: natural range 8 to 64 := 16;
+			LPF_PAD			: natural range 5 to 15 := RAMP_UNLOCKED
 		);
 		port (
 			clk			: in  std_logic;

@@ -4,7 +4,8 @@ use ieee.numeric_std.all;
 
 entity lpf_top is
 	generic (
-		LPF_WIDTH		: natural range 8 to 64 := 16
+		LPF_WIDTH		: natural range 8 to 64 := 16;
+		LPF_PAD			: natural range 5 to 15 :=  9
 	);
 	port (
 		clk				: in  std_logic;
@@ -18,7 +19,6 @@ entity lpf_top is
 end lpf_top;
 
 architecture rtl of lpf_top is
-	constant LPF_PAD	: integer := 5;
 	constant ZERO		: signed( LPF_PAD - 1 downto 0 ) := ( others => '0' );
 	
 	signal pad_mux		: unsigned( 3 downto 0 ) := ( others => '0' );
