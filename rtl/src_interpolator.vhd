@@ -8,7 +8,8 @@ use work.src_rom_pkg.all;
 
 entity src_interpolator is
 	generic (
-		COE_WIDTH		: integer := COE_WIDTH
+		COE_WIDTH		: integer := COE_WIDTH;
+		DX_WIDTH			: integer := DX_WIDTH
 	);
 	port (
 		clk				: in  std_logic;
@@ -39,7 +40,7 @@ architecture rtl of src_interpolator is
 	signal fold_centre		: std_logic := '0';
 	
 	signal rom_coe				: signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
-	signal dx					: signed( 23 downto 0 ) := ( others => '0' );
+	signal dx					: signed( DX_WIDTH-1 downto 0 ) := ( others => '0' );
 begin
 	
 	latch_pipeline_process : process( clk )
@@ -203,7 +204,7 @@ begin
 		mul_i0 <= DX1 when mul_mux0 = '0' else -DX0;
 		mul_i1 <= DX0 when mul_mux1 = '1' else  DX2;
 		
-		dx <= mul_o( 23 downto 0 );
+		dx <= mul_o( 23 downto 23 - DX_WIDTH + 1 );
 		
 		muliplier_process : process( clk )
 		begin

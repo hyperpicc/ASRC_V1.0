@@ -7,6 +7,8 @@ package src_pkg is
 	
 	constant RAMP_LOCKED		: integer := 11;
 	constant RAMP_UNLOCKED	: integer :=  9;
+	
+	constant DX_WIDTH			: integer := 24;
 
 	impure function U_ABS( i : unsigned ) return unsigned;
 	impure function U_XOR( i : unsigned ) return unsigned;
@@ -74,7 +76,8 @@ package src_pkg is
 	
 	component src_interpolator is
 		generic (
-			COE_WIDTH		: integer := 24
+			COE_WIDTH		: integer := 24;
+			DX_WIDTH			: integer := DX_WIDTH
 		);
 		port (
 			clk				: in  std_logic;
