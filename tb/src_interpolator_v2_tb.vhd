@@ -95,7 +95,7 @@ ARCHITECTURE behavior OF src_interpolator_v2_tb IS
 	 constant clk_period : time := 10 ns;
 	 
 	constant	FRQ_I		: real := 44.1;
-	constant	FRQ_O		: real := 48.0;
+	constant	FRQ_O		: real := 192.0;
 
 	constant ratio_real	: real := FRQ_O / FRQ_I;
 	signal   ratio_sfixed: sfixed( 3 downto -19 );
@@ -113,13 +113,11 @@ ARCHITECTURE behavior OF src_interpolator_v2_tb IS
 		return sig0.sig( 34 downto 11 );
 	end function;
 	
-
 BEGIN
  
 	ratio_sfixed <= to_sfixed( ratio_real, ratio_sfixed );
 	ratio_limit <= ( 0 => '1', others => '0' ) when ratio_sfixed( 3 downto 0 ) > 0 else ratio_sfixed( ratio_limit'range );
 	ratio <= unsigned( std_logic_vector( ratio_limit ) );
-	
 	
 	iratio_sfixed <= to_sfixed( iratio_real, iratio_sfixed );
 	ratio_inc <= SHIFT_LEFT( unsigned( std_logic_vector( iratio_sfixed ) ), 0 );
@@ -188,7 +186,10 @@ BEGIN
 				sample := gen_sig0;
 				i_wr_addr <= i_wr_addr + 1;
 				i_wr_data <= sample;
+			elsif i_wr_en = '1' then
+				i_wr_data <= SHIFT_RIGHT( sample, 4 );
 			end if;
+			
 		end if;
 	end process;
 	
@@ -202,13 +203,18 @@ BEGIN
 	end process;
 	
 	read_process : process( clk )
-		file		outfile	: text is out "test/src_interpolate.txt";
-		variable outline	: line;
+		file		outfile_l	: text is out "test/src_interpolate_l.txt";
+		file		outfile_r	: text is out "test/src_interpolate_r.txt";
+		variable outline		: line;
 	begin
 		if rising_edge( clk ) then
-			if ( o_data_en and o_data_lr ) = '1' then
+			if o_data_en = '1' then
 				write( outline, to_integer( o_data ) );
-				writeline( outfile, outline );
+				if o_data_lr = '1' then
+					writeline( outfile_r, outline );
+				else
+					writeline( outfile_l, outline );
+				end if;
 			end if;
 		end if;
 	end process;

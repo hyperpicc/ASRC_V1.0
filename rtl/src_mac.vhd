@@ -50,8 +50,8 @@ begin
 	mac_i0 <= i_data when i_ctrl_norm = '0' else 
 				 SIGNED( "0" & i_ratio & o"0" );
 	mac_i1 <= ( i_coe & x"0" ) when i_ctrl_norm = '0' else 
-				 mac_acc_l( mac_acc_l'high downto mac_acc_l'high - COE_WIDTH - 3 ) when pipe_lr( pipe_lr'high ) = '0' else
-				 mac_acc_r( mac_acc_l'high downto mac_acc_l'high - COE_WIDTH - 3 );
+				 mac_acc_l( mac_acc_l'high downto mac_acc_l'high - COE_WIDTH - 3 ) when i_ctrl_lr = '0' else
+				 mac_acc_r( mac_acc_r'high downto mac_acc_r'high - COE_WIDTH - 3 );
 	
 	mac_acc_sel <= mac_acc_l when pipe_acc( pipe_acc'high ) = '1' and pipe_lr( pipe_lr'high ) = '0' else
 					   mac_acc_r when pipe_acc( pipe_acc'high ) = '1' and pipe_lr( pipe_lr'high ) = '1' else

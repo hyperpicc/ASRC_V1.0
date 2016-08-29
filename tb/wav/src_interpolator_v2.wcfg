@@ -20,7 +20,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="38" />
+   <WVObjectSize size="37" />
    <wvobject fp_name="/src_interpolator_v2_tb/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -90,8 +90,8 @@
       <obj_property name="ObjectShortName">o_data_lr</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/o_coe" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">o_coe[25:0]</obj_property>
-      <obj_property name="ObjectShortName">o_coe[25:0]</obj_property>
+      <obj_property name="ElementShortName">o_coe[21:0]</obj_property>
+      <obj_property name="ObjectShortName">o_coe[21:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/o_coe_en" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">o_coe_en</obj_property>
@@ -143,14 +143,9 @@
       <obj_property name="ElementShortName">m_en</obj_property>
       <obj_property name="ObjectShortName">m_en</obj_property>
    </wvobject>
-   <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/mul_o_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">mul_o_en</obj_property>
-      <obj_property name="ObjectShortName">mul_o_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/block_mul/m_en_d" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">m_en_d[1:0]</obj_property>
-      <obj_property name="ObjectShortName">m_en_d[1:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/block_mul/m_en_d" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">m_en_d</obj_property>
+      <obj_property name="ObjectShortName">m_en_d</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/block_mul/m_o" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">m_o[33:0]</obj_property>
@@ -160,11 +155,6 @@
    <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/block_mul/m_cry" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">m_cry[16:0]</obj_property>
       <obj_property name="ObjectShortName">m_cry[16:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/block_mul/m_lsb" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">m_lsb[16:0]</obj_property>
-      <obj_property name="ObjectShortName">m_lsb[16:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/mul_i0" type="array" db_ref_id="1">
@@ -178,8 +168,53 @@
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/mul_o" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">mul_o[35:0]</obj_property>
-      <obj_property name="ObjectShortName">mul_o[35:0]</obj_property>
+      <obj_property name="ElementShortName">mul_o[16:0]</obj_property>
+      <obj_property name="ObjectShortName">mul_o[16:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="group1166" type="group">
+      <obj_property name="label">MAC</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/INST_MAC/i_ctrl_en" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">i_ctrl_en</obj_property>
+         <obj_property name="ObjectShortName">i_ctrl_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/INST_MAC/i_ctrl_acc" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">i_ctrl_acc</obj_property>
+         <obj_property name="ObjectShortName">i_ctrl_acc</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/INST_MAC/i_ctrl_norm" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">i_ctrl_norm</obj_property>
+         <obj_property name="ObjectShortName">i_ctrl_norm</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/INST_MAC/i_ctrl_lr" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">i_ctrl_lr</obj_property>
+         <obj_property name="ObjectShortName">i_ctrl_lr</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/INST_MAC/mac_acc_l" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">mac_acc_l[51:0]</obj_property>
+         <obj_property name="ObjectShortName">mac_acc_l[51:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/INST_MAC/mac_acc_r" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">mac_acc_r[51:0]</obj_property>
+         <obj_property name="ObjectShortName">mac_acc_r[51:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/INST_MAC/mac_i0" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">mac_i0[23:0]</obj_property>
+         <obj_property name="ObjectShortName">mac_i0[23:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/INST_MAC/mac_i1" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">mac_i1[25:0]</obj_property>
+         <obj_property name="ObjectShortName">mac_i1[25:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/INST_MAC/pipe_mac[0]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">pipe_mac[0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
    </wvobject>
 </wave_config>
