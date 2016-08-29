@@ -87,6 +87,7 @@ begin
 		port map (
 			clk			=> clk,
 			rst			=> rst,
+			lock			=> o_lock,
 			
 			lpf_in		=> lpf_in,
 			lpf_in_en	=> fs_o_en,

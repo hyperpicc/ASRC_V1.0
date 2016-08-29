@@ -125,7 +125,7 @@ begin
 	
 		-- internal signals
 		-- first adder
-		signal adder		: unsigned( 29 downto 0 ) := ( others => '0' );
+		signal adder		: unsigned( 28 downto 0 ) := ( others => '0' );
 		signal shift_reg	: unsigned( 28 downto 0 ) := ( others => '0' );
 		signal shift_ctrl	: unsigned(  3 downto 0 ) := ( others => '0' );
 		signal latch_out	: unsigned( 28 downto 0 ) := ( others => '0' );
@@ -134,9 +134,9 @@ begin
 		signal lpf_out		:   signed( 28 downto 0 ) := ( others => '0' );	
 	begin
 		
-		adder <= RESIZE( interp_i, 30 ) - latch_out;
+		adder <= interp_i - latch_out;
 		
-		shift_reg <= SHIFT_RIGHT( adder( 28 downto 0 ), TO_INTEGER( shift_ctrl ) ) + 1;
+		shift_reg <= SHIFT_RIGHT( adder, TO_INTEGER( shift_ctrl ) ) + 1;
 		
 		shift_ctrl <= TO_UNSIGNED( RAMP_LOCKED, 4 ) when lock = '1' else TO_UNSIGNED( RAMP_UNLOCKED, 4 );
 		
@@ -157,8 +157,9 @@ begin
 			port map (
 				clk			=> clk,
 				rst			=> rst,
+				lock			=> lock,
 				
-				lpf_in		=> signed( adder( 28 downto 0 ) ),
+				lpf_in		=> signed( adder ),
 				lpf_in_en	=> fs_o_en,
 				
 				lpf_out		=> lpf_out
