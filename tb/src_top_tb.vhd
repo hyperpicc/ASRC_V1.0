@@ -140,6 +140,7 @@ BEGIN
 	
 	config_process : process
 	begin
+		sig0.freq := 1.0;
 		set_rate( FRQ_I );
 		wait;
 	end process;
