@@ -5,8 +5,8 @@ use ieee.std_logic_textio.all;
 
 package src_pkg is
 	
-	constant RAMP_LOCKED		: integer := 11;
-	constant RAMP_UNLOCKED	: integer :=  9;
+	constant RAMP_LOCKED		: integer := 9;
+	constant RAMP_UNLOCKED	: integer := 7;
 	
 	constant DX_WIDTH			: integer := 24;
 
@@ -26,12 +26,12 @@ package src_pkg is
 			
 			ratio				: in  unsigned( 19 downto 0 );
 			
-			rd_addr_int		: in  unsigned(  9 downto 0 );
+			rd_addr_int		: in  unsigned( 8 downto 0 );
 			rd_addr_frc		: in  unsigned( 19 downto 0 );
 			rd_req			: in  std_logic;
 			
 			i_wr_data		: in  signed( 23 downto 0 );
-			i_wr_addr		: in  unsigned( 9 downto 0 );
+			i_wr_addr		: in  unsigned( 8 downto 0 );
 			i_wr_en			: in  std_logic;
 			i_wr_lr			: in  std_logic;
 			
@@ -51,11 +51,11 @@ package src_pkg is
 			lock			: in  std_logic;
 			
 			fs_i_en		: in  std_logic;
-			fs_i_addr	: out unsigned(  9 downto 0 );
+			fs_i_addr	: out unsigned( 8 downto 0 );
 			fs_o_en		: in  std_logic;
 			
 			ramp_en		: out std_logic;
-			ramp_int		: out unsigned(  9 downto 0 );
+			ramp_int		: out unsigned( 8 downto 0 );
 			ramp_frc		: out unsigned( 19 downto 0 )
 		);
 	end component ramp_gen;
@@ -125,12 +125,12 @@ package src_pkg is
 			rst			: in  std_logic;
 			
 			i_wr_data	: in  signed( 23 downto 0 );
-			i_wr_addr	: in  unsigned( 9 downto 0 );
+			i_wr_addr	: in  unsigned( 8 downto 0 );
 			i_wr_en		: in  std_logic;
 			i_wr_lr		: in  std_logic;
 			
 			o_rd_data	: out signed( 23 downto 0 );
-			i_rd_addr	: in  unsigned( 9 downto 0 );
+			i_rd_addr	: in  unsigned( 8 downto 0 );
 			i_rd_offset	: in  std_logic;
 			i_rd_preset	: in  std_logic;
 			i_rd_step	: in  std_logic
@@ -157,7 +157,7 @@ package src_pkg is
 	component lpf_top is
 		generic (
 			LPF_WIDTH		: natural range 8 to 64 := 16;
-			LPF_PAD			: natural range 5 to 15 := RAMP_UNLOCKED
+			LPF_PAD			: natural range 5 to 15 :=  9
 		);
 		port (
 			clk			: in  std_logic;

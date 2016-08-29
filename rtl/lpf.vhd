@@ -20,8 +20,6 @@ end lpf_top;
 
 architecture rtl of lpf_top is
 	constant ZERO		: signed( LPF_PAD - 1 downto 0 ) := ( others => '0' );
-	
-	signal pad_mux		: unsigned( 3 downto 0 ) := ( others => '0' );
 
 	signal reg_add		: signed( LPF_WIDTH + LPF_PAD downto 0 ) := ( others => '0' );
 	signal reg_shift	: signed( LPF_WIDTH + LPF_PAD downto 0 ) := ( others => '0' );
@@ -40,13 +38,10 @@ begin
 		end if;
 	end process reset_process;
 	
-	-- gain mux
-	pad_mux <= TO_UNSIGNED( LPF_PAD, 4 );
-	
 	-- lpf function
 	lpf_out <= reg_out( reg_out'left - 1 downto reg_out'left - LPF_WIDTH );
 	reg_add <= ( '0' & lpf_in & ZERO ) - reg_out;
-	reg_shift <= shift_right( reg_add, TO_INTEGER( pad_mux ) );
+	reg_shift <= shift_right( reg_add, LPF_PAD );
 	
 	integrator_process : process( clk )
 	begin

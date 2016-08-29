@@ -8,12 +8,12 @@ entity src_ring_buffer is
 		rst			: in  std_logic;
 		
 		i_wr_data	: in  signed( 23 downto 0 );
-		i_wr_addr	: in  unsigned( 9 downto 0 );
+		i_wr_addr	: in  unsigned( 8 downto 0 );
 		i_wr_en		: in  std_logic;
 		i_wr_lr		: in  std_logic;
 		
 		o_rd_data	: out signed( 23 downto 0 ) := ( others => '0' );
-		i_rd_addr	: in  unsigned( 9 downto 0 );
+		i_rd_addr	: in  unsigned( 8 downto 0 );
 		i_rd_offset	: in  std_logic;
 		i_rd_preset	: in  std_logic;
 		i_rd_step	: in  std_logic
@@ -38,14 +38,14 @@ begin
 	begin
 		if rising_edge( clk ) then
 			if i_wr_en = '1' then
-				ram( TO_INTEGER( i_wr_addr( 8 downto 0 ) & i_wr_lr ) ) <= i_wr_data;
+				ram( TO_INTEGER( i_wr_addr & i_wr_lr ) ) <= i_wr_data;
 			end if;
 		end if;
 	end process write_process;
 	
 	rd_offset <= OS_ENABLE when i_rd_offset = '1' else OS_NENABLE;
 	
-	rd_latch <= i_rd_addr( 8 downto 0 ) + TO_INTEGER( rd_offset );
+	rd_latch <= i_rd_addr + TO_INTEGER( rd_offset );
 	
 	rd_lr <= i_rd_step;
 	

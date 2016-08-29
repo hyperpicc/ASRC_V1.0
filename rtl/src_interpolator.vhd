@@ -223,8 +223,6 @@ begin
 		constant COE_ACC_REG		: integer := 7;
 		
 		constant MUL_PIPE_WIDTH : integer := dx'length + COE_WIDTH - 1;
-		constant COE_ACC_ROUND	: integer := MUL_PIPE_WIDTH - COE_WIDTH - 2;
-		constant mul_acc_rnd		: signed( MUL_PIPE_WIDTH - 2 downto 0 ) := ( COE_ACC_ROUND => '1', others => '0' );
 		
 		alias  mul_acc0		: std_logic is latch_pipeline( COE_ACC_REG );
 		alias  mul_acc1		: std_logic is latch_pipeline( COE_ACC_REG + 1 );
@@ -242,7 +240,7 @@ begin
 	
 		mul_acc_en <= mul_acc0 or mul_acc1;
 		
-		mul_acc_sel <= mul_acc when mul_acc_en = '1' else mul_acc_rnd;
+		mul_acc_sel <= mul_acc when mul_acc_en = '1' else ( others => '0' );
 		
 		muliplier_process : process( clk )
 		begin

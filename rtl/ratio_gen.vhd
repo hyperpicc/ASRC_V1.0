@@ -109,7 +109,7 @@ begin
 		signal lock_zero		: std_logic := '0';
 	begin
 	
-		lim_abs <= '1' when ABS( lpf_in - lpf_out ) > 1 else '0';
+		lim_abs <= '1' when ABS( lpf_in - lpf_out ) > 15 else '0';
 		mclk_cnt_trm <= '1' when mclk_cnt = 8191 else '0';
 		lock_trm <= '1' when lock_cnt = 2**lock_cnt'length - 1 else '0';
 		lock_zero <= '1' when o_ratio < 1023 else '0';

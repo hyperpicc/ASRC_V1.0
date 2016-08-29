@@ -32,12 +32,12 @@ ARCHITECTURE behavior OF src_interpolator_v2_tb IS
 			
 			ratio				: in  unsigned( 19 downto 0 );
 			
-			rd_addr_int		: in  unsigned(  9 downto 0 );
+			rd_addr_int		: in  unsigned( 8 downto 0 );
 			rd_addr_frc		: in  unsigned( 19 downto 0 );
 			rd_req			: in  std_logic;
 			
 			i_wr_data		: in  signed( 23 downto 0 );
-			i_wr_addr		: in  unsigned( 9 downto 0 );
+			i_wr_addr		: in  unsigned( 8 downto 0 );
 			i_wr_en			: in  std_logic;
 			i_wr_lr			: in  std_logic;
 			
@@ -72,12 +72,12 @@ ARCHITECTURE behavior OF src_interpolator_v2_tb IS
 	signal ratio			: unsigned( 19 downto 0 );
 
 	signal rd_addr			: unsigned( 29 downto 0 ) := ( others => '0' );
-	signal rd_addr_int	: unsigned(  9 downto 0 ) := ( others => '0' );
+	signal rd_addr_int	: unsigned( 8 downto 0 ) := ( others => '0' );
 	signal rd_addr_frc	: unsigned( 19 downto 0 );
 	signal rd_req			: std_logic := '0';
 
 	signal i_wr_data		: signed( 23 downto 0 ) := ( 23 => '0', others => '1' );
-	signal i_wr_addr		: unsigned( 9 downto 0 ) := to_unsigned( 16, 10 );
+	signal i_wr_addr		: unsigned( 8 downto 0 ) := to_unsigned( 16, 9 );
 	signal i_wr_en			: std_logic := '0';
 	signal i_wr_lr			: std_logic := '0';
 
@@ -122,7 +122,7 @@ BEGIN
 	iratio_sfixed <= to_sfixed( iratio_real, iratio_sfixed );
 	ratio_inc <= SHIFT_LEFT( unsigned( std_logic_vector( iratio_sfixed ) ), 0 );
 
-	rd_addr_int <= rd_addr( 29 downto 20 );
+	rd_addr_int <= rd_addr( 28 downto 20 );
 	rd_addr_frc <= rd_addr( 19 downto  0 );
 	
 	INST_SRC : src_engine

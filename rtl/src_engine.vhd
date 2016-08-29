@@ -18,12 +18,12 @@ entity src_engine is
 		
 		ratio				: in  unsigned( 19 downto 0 );
 		
-		rd_addr_int		: in  unsigned(  9 downto 0 );
+		rd_addr_int		: in  unsigned( 8 downto 0 );
 		rd_addr_frc		: in  unsigned( 19 downto 0 );
 		rd_req			: in  std_logic;
 		
 		i_wr_data		: in  signed( 23 downto 0 );
-		i_wr_addr		: in  unsigned( 9 downto 0 );
+		i_wr_addr		: in  unsigned( 8 downto 0 );
 		i_wr_en			: in  std_logic;
 		i_wr_lr			: in  std_logic;
 		

@@ -12,11 +12,11 @@ entity ramp_gen is
 		lock			: in  std_logic;
 		
 		fs_i_en		: in  std_logic;
-		fs_i_addr	: out unsigned(  9 downto 0 ) := ( others => '0' );
+		fs_i_addr	: out unsigned( 8 downto 0 ) := ( others => '0' );
 		fs_o_en		: in  std_logic;
 		
 		ramp_en		: out std_logic := '0';
-		ramp_int		: out unsigned(  9 downto 0 ) := ( others => '0' );
+		ramp_int		: out unsigned( 8 downto 0 ) := ( others => '0' );
 		ramp_frc		: out unsigned( 19 downto 0 ) := ( others => '0' )
 	);
 end ramp_gen;
@@ -24,17 +24,17 @@ end ramp_gen;
 architecture rtl of ramp_gen is
 	
 	-- write address counter
-	signal wr_addr	: unsigned( 9 downto 0 ) := ( others => '0' );
+	signal wr_addr	: unsigned( 8 downto 0 ) := ( others => '0' );
 	
 	-- i/o from interpolator
 	signal interp_en		: std_logic := '0';
-	signal interp_i		: unsigned( 29 downto 0 ) := ( others => '0' );
-	signal interp_o		: unsigned( 29 downto 0 ) := ( others => '0' );
+	signal interp_i		: unsigned( 28 downto 0 ) := ( others => '0' );
+	signal interp_o		: unsigned( 28 downto 0 ) := ( others => '0' );
 begin
 		
 	fs_i_addr <= wr_addr;
 	
-	ramp_int  <= interp_o( 29 downto 20 );
+	ramp_int  <= interp_o( 28 downto 20 );
 	ramp_frc  <= interp_o( 19 downto  0 );
 
 	BLOCK_GENERATE : block
@@ -88,7 +88,7 @@ begin
 			if rising_edge( clk ) then
 				if rst = '1' then
 					wr_addr <= ( others => '0' );
-					interp_i( 29 downto 20 ) <= ( others => '0' );
+					interp_i( 28 downto 20 ) <= ( others => '0' );
 				else
 					if fs_i_en = '1' then
 						wr_addr <= wr_addr + 1;
@@ -97,7 +97,7 @@ begin
 					-- this is double flopping
 					ramp_en <= div_fin;
 					if div_fin = '1' then
-						interp_i( 29 downto 20 ) <= wr_addr;
+						interp_i( 28 downto 20 ) <= wr_addr;
 					end if;
 				end if;
 			end if;
@@ -125,18 +125,18 @@ begin
 	
 		-- internal signals
 		-- first adder
-		signal adder		: unsigned( 30 downto 0 ) := ( others => '0' );
-		signal shift_reg	: unsigned( 29 downto 0 ) := ( others => '0' );
+		signal adder		: unsigned( 29 downto 0 ) := ( others => '0' );
+		signal shift_reg	: unsigned( 28 downto 0 ) := ( others => '0' );
 		signal shift_ctrl	: unsigned(  3 downto 0 ) := ( others => '0' );
-		signal latch_out	: unsigned( 29 downto 0 ) := ( others => '0' );
+		signal latch_out	: unsigned( 28 downto 0 ) := ( others => '0' );
 		
 		-- output from leaky integrater
-		signal lpf_out		:   signed( 29 downto 0 ) := ( others => '0' );	
+		signal lpf_out		:   signed( 28 downto 0 ) := ( others => '0' );	
 	begin
 		
-		adder <= RESIZE( interp_i, 31 ) - latch_out;
+		adder <= RESIZE( interp_i, 30 ) - latch_out;
 		
-		shift_reg <= SHIFT_RIGHT( adder( 29 downto 0 ), TO_INTEGER( shift_ctrl ) ) + 1;
+		shift_reg <= SHIFT_RIGHT( adder( 28 downto 0 ), TO_INTEGER( shift_ctrl ) ) + 1;
 		
 		shift_ctrl <= TO_UNSIGNED( RAMP_LOCKED, 4 ) when lock = '1' else TO_UNSIGNED( RAMP_UNLOCKED, 4 );
 		
@@ -152,13 +152,13 @@ begin
 		
 		INST_LPF : lpf_top
 			generic map (
-				LPF_WIDTH		=> 30
+				LPF_WIDTH		=> 29
 			)
 			port map (
 				clk			=> clk,
 				rst			=> rst,
 				
-				lpf_in		=> signed( adder( 29 downto 0 ) ),
+				lpf_in		=> signed( adder( 28 downto 0 ) ),
 				lpf_in_en	=> fs_o_en,
 				
 				lpf_out		=> lpf_out
