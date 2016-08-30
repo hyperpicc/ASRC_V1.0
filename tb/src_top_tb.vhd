@@ -13,8 +13,9 @@ END src_top_tb;
 
 ARCHITECTURE behavior OF src_top_tb IS
 	constant MCLK		: real := 24576.0;
-	constant	FRQ_O		: real := 192.0;
-	constant	FRQ_I		: real := 44.1;
+	constant	FRQ_I		: real := 192.0;
+	constant	FRQ_O		: real := 44.1;
+	constant IFREQ		: real := 10.0;
 
 	component src_top is
 		port (
@@ -140,7 +141,7 @@ BEGIN
 	
 	config_process : process
 	begin
-		sig0.freq := 1.0;
+		sig0.freq := IFREQ;
 		set_rate( FRQ_I );
 		wait;
 	end process;

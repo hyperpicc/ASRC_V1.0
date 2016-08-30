@@ -37,7 +37,7 @@ architecture rtl of ratio_gen is
 	signal o_ratio		: unsigned( 19 downto 0 ) := ( others => '0' );
 begin
 	
-	fs_o_latch <= fs_i_trm and fs_o_abs;
+	fs_o_latch <= fs_i_en and fs_o_abs;
 	fs_i_trm <= '1' when fs_i_cnt = ( 2**fs_i_cnt'high - 1 ) and fs_i_en = '1' else '0';
 	fs_o_abs <= '1' when U_ABS( fs_o_d0 - fs_o_d1 ) > 2 else '0';
 	
