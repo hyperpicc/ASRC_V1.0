@@ -22,14 +22,14 @@ entity ramp_gen is
 end ramp_gen;
 
 architecture rtl of ramp_gen is
+	signal wr_addr		: unsigned(  8 downto 0 ) := ( others => '0' );
+		
+	signal interp_en	: std_logic := '0';
+	signal interp_i	: unsigned( 28 downto 0 ) := ( others => '0' );
+	signal interp_o	: unsigned( 28 downto 0 ) := ( others => '0' );
 	
-	-- write address counter
-	signal wr_addr	: unsigned( 8 downto 0 ) := ( others => '0' );
-	
-	-- i/o from interpolator
-	signal interp_en		: std_logic := '0';
-	signal interp_i		: unsigned( 28 downto 0 ) := ( others => '0' );
-	signal interp_o		: unsigned( 28 downto 0 ) := ( others => '0' );
+	signal ramp_en_d0	: std_logic := '0';
+	signal ramp_en_d1	: std_logic := '0';
 begin
 		
 	fs_i_addr <= wr_addr;
@@ -38,47 +38,40 @@ begin
 	ramp_frc  <= interp_o( 19 downto  0 );
 
 	BLOCK_GENERATE : block
-		-- these go to divider
 		signal fs_cnt		: unsigned( 14 downto 0 ) := ( others => '0' );
-		signal fs_cnt_i0	: unsigned( 14 downto 0 ) := ( others => '0' );
-		signal fs_cnt_i1	: unsigned( 14 downto 0 ) := ( others => '0' );
+		signal fs_cnt_i	: unsigned( 14 downto 0 ) := ( others => '0' );
+		signal fs_cnt_i_d	: unsigned( 14 downto 0 ) := ( others => '0' );
 		signal fs_cnt_o	: unsigned( 14 downto 0 ) := ( others => '0' );
 		
-		signal div_en		: std_logic := '0';
 		signal div_fin		: std_logic := '0';
-		signal divisor		: unsigned( 19  downto 0 ) := ( others => '0' );
 		signal dividend	: unsigned( 19  downto 0 ) := ( others => '0' );
+		signal divisor		: unsigned( 19  downto 0 ) := ( others => '0' );
 		signal remainder	: unsigned( 19  downto 0 ) := ( others => '0' );
 	begin
 		
-		dividend <= RESIZE( fs_cnt_o, dividend'length );
-		divisor  <= RESIZE( fs_cnt_i1, divisor'length );
+		interp_i <= wr_addr & remainder;
 		
-		interp_i( 19 downto 0 ) <= remainder;
+		ramp_en_d0 <= div_fin;
+		
+		dividend <= RESIZE( fs_cnt, 20 );
+		divisor <= RESIZE( fs_cnt_i, 20 );
+		
+		enable_process : process( clk )
+		begin
+			if rising_edge( clk ) then
+				ramp_en_d1 <= ramp_en_d0;
+				ramp_en <= ramp_en_d1;
+			end if;
+		end process enable_process;
 		
 		count_process : process( clk )
 		begin
 			if rising_edge( clk ) then
-				if rst = '1' then
-					div_en <= '0';
-					fs_cnt <= ( others => '0' );
-					fs_cnt_i0 <= ( others => '0' );
-					fs_cnt_i1 <= ( others => '0' );
-					fs_cnt_o <= ( others => '0' );
+				if ( rst or fs_i_en ) = '1' then
+					fs_cnt <= ( 0 => '1', others => '0' );
+					fs_cnt_i <= fs_cnt;
 				else
 					fs_cnt <= fs_cnt + 1;
-					
-					if fs_i_en = '1' then
-						fs_cnt <= ( others => '0' );
-						fs_cnt_i0 <= fs_cnt;
-					end if;
-					
-					div_en <= fs_o_en;
-					if fs_o_en = '1' then
-						fs_cnt_i1 <= fs_cnt_i0;
-						fs_cnt_o  <= fs_cnt;
-					end if;
-					
 				end if;
 			end if;
 		end process count_process;
@@ -88,16 +81,9 @@ begin
 			if rising_edge( clk ) then
 				if rst = '1' then
 					wr_addr <= ( others => '0' );
-					interp_i( 28 downto 20 ) <= ( others => '0' );
 				else
 					if fs_i_en = '1' then
 						wr_addr <= wr_addr + 1;
-					end if;
-					
-					-- this is double flopping
-					ramp_en <= div_fin;
-					if div_fin = '1' then
-						interp_i( 28 downto 20 ) <= wr_addr;
 					end if;
 				end if;
 			end if;
@@ -111,7 +97,7 @@ begin
 				clk			=> clk,
 				rst			=> rst,
 				
-				i_en			=> div_en,
+				i_en			=> fs_o_en,
 				i_divisor	=> divisor,
 				i_dividend	=> dividend,
 				
@@ -136,16 +122,18 @@ begin
 		
 		adder <= interp_i - latch_out;
 		
-		shift_reg <= SHIFT_RIGHT( adder, TO_INTEGER( shift_ctrl ) ) + 1;
-		
 		shift_ctrl <= TO_UNSIGNED( RAMP_LOCKED, 4 ) when lock = '1' else TO_UNSIGNED( RAMP_UNLOCKED, 4 );
+		
+		shift_reg <= SHIFT_RIGHT( adder, TO_INTEGER( shift_ctrl ) ) + 1;
 		
 		latch_process : process( clk )
 		begin
 			if rising_edge( clk ) then
-				interp_o	<= latch_out - unsigned( lpf_out );
-				if fs_o_en = '1' then
+				if ramp_en_d0 = '1' then
 					latch_out <= shift_reg + latch_out;
+				end if;
+				if ramp_en_d1 = '1' then
+					interp_o	<= latch_out - unsigned( lpf_out );
 				end if;
 			end if;
 		end process latch_process;
@@ -160,7 +148,7 @@ begin
 				lock			=> lock,
 				
 				lpf_in		=> signed( adder ),
-				lpf_in_en	=> fs_o_en,
+				lpf_in_en	=> ramp_en_d0,
 				
 				lpf_out		=> lpf_out
 			);

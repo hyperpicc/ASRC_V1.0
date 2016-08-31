@@ -1,36 +1,13 @@
---------------------------------------------------------------------------------
--- Company: 
--- Engineer:
---
--- Create Date:   14:57:23 08/30/2016
--- Design Name:   
--- Module Name:   /home/charlie/work/ASRC_V1.0/ASRC_V1.0/tb/ramp_tb.vhd
--- Project Name:  XST
--- Target Device:  
--- Tool versions:  
--- Description:   
--- 
--- VHDL Test Bench Created by ISE for module: ramp_gen
--- 
--- Dependencies:
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
---
--- Notes: 
--- This testbench has been automatically generated using types std_logic and
--- std_logic_vector for the ports of the unit under test.  Xilinx recommends
--- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation 
--- simulation model.
---------------------------------------------------------------------------------
-LIBRARY ieee;
-USE ieee.std_logic_1164.ALL;
- 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+library std;
+use std.textio.all;
+
+library work;
+use work.src_pkg.all;
+use work.sig_gen_pkg.all;
  
 ENTITY ramp_tb IS
 END ramp_tb;
@@ -66,13 +43,13 @@ ARCHITECTURE behavior OF ramp_tb IS
 		);
 	end component time_util;
 	
-	constant	FRQ_O		: real := 192.0;
 	constant	FRQ_I		: real := 44.1;
+	constant	FRQ_O		: real := 192.0;
    
    --Inputs
    signal clk : std_logic := '0';
    signal rst : std_logic := '0';
-   signal lock : std_logic := '1';
+   signal lock : std_logic := '0';
    signal fs_i_en : std_logic := '0';
    signal fs_o_en : std_logic := '0';
 
@@ -82,9 +59,19 @@ ARCHITECTURE behavior OF ramp_tb IS
    signal ramp_int : unsigned(8 downto 0);
    signal ramp_frc : unsigned(19 downto 0);
 
-   -- Clock period definitions
-   constant clk_period : time := 10 ns;
- 
+	signal ramp_c0			: unsigned( 28 downto 0 ) := ( others => '0' );
+	signal ramp_d0			: unsigned( 28 downto 0 ) := ( others => '0' );
+	signal abs0				: unsigned( 29 downto 0 ) := ( others => '0' );
+	signal ramp_abs0		: unsigned( 28 downto 0 ) := ( others => '0' );
+	signal ramp_d0_en		: std_logic := '0';
+	
+	signal ramp_d1			: unsigned( 28 downto 0 ) := ( others => '0' );
+	signal ramp_abs1		: unsigned( 28 downto 0 ) := ( others => '0' );
+	
+	signal mclk_cnt		: unsigned( 12 downto 0 ) := ( others => '0' );
+	signal mclk_cnt_trm	: std_logic := '0';
+	signal lock_fs_i		: std_logic := '0';
+	signal lock_fs_o		: std_logic := '0';
 BEGIN
 	
 	INST_TIME_I : time_util
@@ -121,27 +108,65 @@ BEGIN
           ramp_int => ramp_int,
           ramp_frc => ramp_frc
         );
-
-   -- Clock process definitions
-   clk_process :process
-   begin
-		clk <= '0';
-		wait for clk_period/2;
-		clk <= '1';
-		wait for clk_period/2;
-   end process;
+	
+	ramp_c0 <= ramp_int & ramp_frc;
+	ramp_abs1 <= unsigned( abs( signed( ramp_abs0 ) - signed( ramp_d1 ) ) );
+	
+	ramp_derivative : process( clk )
+	begin
+		if rising_edge( clk ) then
+			ramp_d0_en <= ramp_en;
+			
+			if ramp_en = '1' then
+				ramp_d0 <= ramp_c0;
+				ramp_abs0 <= unsigned( abs( signed( ramp_d0 ) - signed( ramp_c0 ) ) );
+				ramp_d1 <= ramp_abs0;
+			end if;
+			
+			if ramp_abs1 < 8  and ramp_abs0 > 16385 then
+				lock <= '1';
+			end if;
+			
+		end if;
+	end process;
+	
+	mclk_cnt_trm <= '1' when mclk_cnt = 8191 else '0';
+	
+	count_process : process( clk )
+	begin
+		if rising_edge( clk ) then
+			mclk_cnt <= mclk_cnt + 1;
+			
+			if mclk_cnt_trm = '1' then
+				lock_fs_i <= '0';
+				lock_fs_o <= '0';
+			else
+				if fs_i_en = '1' then
+					lock_fs_i <= '1';
+				end if;
+				if fs_o_en = '1' then
+					lock_fs_o <= '1';
+				end if;
+			end if;
+		end if;
+	end process;
+	
+	o_process : process( clk )
+		file		outfile0	: text is out "test/ramp.txt";
+		variable outline0	: line;
+	begin
+		if rising_edge( clk ) then
+			if ramp_d0_en = '1' then
+				write( outline0, to_integer( ramp_abs1 ) );
+				writeline( outfile0, outline0 );
+			end if;
+		end if;
+	end process;
  
 
    -- Stimulus process
    stim_proc: process
-   begin		
-      -- hold reset state for 100 ns.
-      wait for 100 ns;	
-
-      wait for clk_period*10;
-
-      -- insert stimulus here 
-
+   begin
       wait;
    end process;
 

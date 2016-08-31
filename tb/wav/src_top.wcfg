@@ -121,14 +121,32 @@
          <obj_property name="ObjectShortName">ramp_en</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/ramp_int" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">ramp_int[9:0]</obj_property>
-         <obj_property name="ObjectShortName">ramp_int[9:0]</obj_property>
+         <obj_property name="ElementShortName">ramp_int[8:0]</obj_property>
+         <obj_property name="ObjectShortName">ramp_int[8:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/ramp_frc" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">ramp_frc[19:0]</obj_property>
          <obj_property name="ObjectShortName">ramp_frc[19:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="group79" type="group">
+         <obj_property name="label">Divider</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/block_generate/div_en" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">div_en</obj_property>
+            <obj_property name="ObjectShortName">div_en</obj_property>
+         </wvobject>
+         <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/block_generate/dividend" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">dividend[19:0]</obj_property>
+            <obj_property name="ObjectShortName">dividend[19:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/block_generate/divisor" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">divisor[19:0]</obj_property>
+            <obj_property name="ObjectShortName">divisor[19:0]</obj_property>
+            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         </wvobject>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group436" type="group">
@@ -167,13 +185,13 @@
          <obj_property name="ElementShortName">fs_o_req</obj_property>
          <obj_property name="ObjectShortName">fs_o_req</obj_property>
       </wvobject>
-      <wvobject fp_name="/src_top_tb/INST_ASRC/fs_o_en" type="logic" db_ref_id="1">
-         <obj_property name="ElementShortName">fs_o_en</obj_property>
-         <obj_property name="ObjectShortName">fs_o_en</obj_property>
-      </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/fs_o_clk" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">fs_o_clk</obj_property>
          <obj_property name="ObjectShortName">fs_o_clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/fs_o_en" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_o_en</obj_property>
+         <obj_property name="ObjectShortName">fs_o_en</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/fs_o_lr" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">fs_o_lr</obj_property>
