@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/charlie/work/ASRC_V1.0/XST/ramp_tb_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="fixed_float_types" />
+            <top_module name="fixed_pkg" />
+            <top_module name="float_pkg" />
+            <top_module name="math_real" />
+            <top_module name="numeric_std" />
+            <top_module name="ramp_tb" />
+            <top_module name="sig_gen_pkg" />
+            <top_module name="src_pkg" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_textio" />
+            <top_module name="textio" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="18" />
+   <wvobject fp_name="/ramp_tb/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/lock" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">lock</obj_property>
+      <obj_property name="ObjectShortName">lock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/ctrl_lock" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ctrl_lock</obj_property>
+      <obj_property name="ObjectShortName">ctrl_lock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/fs_i_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fs_i_en</obj_property>
+      <obj_property name="ObjectShortName">fs_i_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/fs_o_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fs_o_en</obj_property>
+      <obj_property name="ObjectShortName">fs_o_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/fs_i_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fs_i_addr[8:0]</obj_property>
+      <obj_property name="ObjectShortName">fs_i_addr[8:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/ramp_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ramp_en</obj_property>
+      <obj_property name="ObjectShortName">ramp_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/ramp_int" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ramp_int[8:0]</obj_property>
+      <obj_property name="ObjectShortName">ramp_int[8:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/ramp_frc" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ramp_frc[19:0]</obj_property>
+      <obj_property name="ObjectShortName">ramp_frc[19:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/ramp_c0" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ramp_c0[28:0]</obj_property>
+      <obj_property name="ObjectShortName">ramp_c0[28:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/ramp_d0" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ramp_d0[28:0]</obj_property>
+      <obj_property name="ObjectShortName">ramp_d0[28:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/ramp_abs0" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ramp_abs0[28:0]</obj_property>
+      <obj_property name="ObjectShortName">ramp_abs0[28:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/ramp_d0_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ramp_d0_en</obj_property>
+      <obj_property name="ObjectShortName">ramp_d0_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/ramp_d1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ramp_d1[28:0]</obj_property>
+      <obj_property name="ObjectShortName">ramp_d1[28:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/ramp_abs1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ramp_abs1[28:0]</obj_property>
+      <obj_property name="ObjectShortName">ramp_abs1[28:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/frq_o" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">frq_o</obj_property>
+      <obj_property name="ObjectShortName">frq_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/frq_i" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">frq_i</obj_property>
+      <obj_property name="ObjectShortName">frq_i</obj_property>
+   </wvobject>
+</wave_config>
