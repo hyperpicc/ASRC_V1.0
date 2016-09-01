@@ -43,8 +43,8 @@ ARCHITECTURE behavior OF ramp_tb IS
 		);
 	end component time_util;
 	
-	constant	FRQ_I		: real := 44.1;
-	constant	FRQ_O		: real := 192.0;
+	constant	FRQ_O		: real := 44.1;
+	constant	FRQ_I		: real := 192.0;
    
    --Inputs
    signal clk : std_logic := '0';
@@ -52,6 +52,7 @@ ARCHITECTURE behavior OF ramp_tb IS
    signal lock : std_logic := '0';
    signal fs_i_en : std_logic := '0';
    signal fs_o_en : std_logic := '0';
+   signal fs_o_clk : std_logic := '0';
 
  	--Outputs
    signal fs_i_addr : unsigned(8 downto 0);
@@ -61,17 +62,12 @@ ARCHITECTURE behavior OF ramp_tb IS
 
 	signal ramp_c0			: unsigned( 28 downto 0 ) := ( others => '0' );
 	signal ramp_d0			: unsigned( 28 downto 0 ) := ( others => '0' );
-	signal abs0				: unsigned( 29 downto 0 ) := ( others => '0' );
 	signal ramp_abs0		: unsigned( 28 downto 0 ) := ( others => '0' );
 	signal ramp_d0_en		: std_logic := '0';
 	
 	signal ramp_d1			: unsigned( 28 downto 0 ) := ( others => '0' );
 	signal ramp_abs1		: unsigned( 28 downto 0 ) := ( others => '0' );
-	
-	signal mclk_cnt		: unsigned( 12 downto 0 ) := ( others => '0' );
-	signal mclk_cnt_trm	: std_logic := '0';
-	signal lock_fs_i		: std_logic := '0';
-	signal lock_fs_o		: std_logic := '0';
+
 BEGIN
 	
 	INST_TIME_I : time_util
@@ -124,30 +120,9 @@ BEGIN
 			end if;
 			
 			if ramp_abs1 < 8  and ramp_abs0 > 16385 then
-				lock <= '1';
+				--lock <= '1';
 			end if;
 			
-		end if;
-	end process;
-	
-	mclk_cnt_trm <= '1' when mclk_cnt = 8191 else '0';
-	
-	count_process : process( clk )
-	begin
-		if rising_edge( clk ) then
-			mclk_cnt <= mclk_cnt + 1;
-			
-			if mclk_cnt_trm = '1' then
-				lock_fs_i <= '0';
-				lock_fs_o <= '0';
-			else
-				if fs_i_en = '1' then
-					lock_fs_i <= '1';
-				end if;
-				if fs_o_en = '1' then
-					lock_fs_o <= '1';
-				end if;
-			end if;
 		end if;
 	end process;
 	

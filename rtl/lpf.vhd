@@ -14,21 +14,21 @@ entity lpf_top is
 		rst				: in  std_logic;
 		lock				: in  std_logic;
 		
-		lpf_in			: in  signed( LPF_WIDTH - 1 downto 0 );
+		lpf_in			: in  unsigned( LPF_WIDTH - 1 downto 0 );
 		lpf_in_en		: in  std_logic;
 		
-		lpf_out			: out signed( LPF_WIDTH - 1 downto 0 ) := ( others => '0' )
+		lpf_out			: out unsigned( LPF_WIDTH - 1 downto 0 ) := ( others => '0' )
 	);
 end lpf_top;
 
 architecture rtl of lpf_top is
-	constant ZERO		: signed( RAMP_LOCKED - 1 downto 0 ) := ( others => '0' );
+	constant ZERO		: unsigned( RAMP_LOCKED - 1 downto 0 ) := ( others => '0' );
 	
 	signal pad_mux		: unsigned( 3 downto 0 ) := ( others => '0' );
 
-	signal reg_add		: signed( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
-	signal reg_shift	: signed( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
-	signal reg_out		: signed( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
+	signal reg_add		: unsigned( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
+	signal reg_shift	: unsigned( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
+	signal reg_out		: unsigned( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
 	
 	signal rst_buf		: std_logic := '0';
 	signal rst_stb		: std_logic := '0';

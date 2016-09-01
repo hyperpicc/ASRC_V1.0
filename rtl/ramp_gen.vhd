@@ -22,72 +22,49 @@ entity ramp_gen is
 end ramp_gen;
 
 architecture rtl of ramp_gen is
-	signal wr_addr		: unsigned(  8 downto 0 ) := ( others => '0' );
-		
-	signal interp_en	: std_logic := '0';
-	signal interp_i	: unsigned( 28 downto 0 ) := ( others => '0' );
-	signal interp_o	: unsigned( 28 downto 0 ) := ( others => '0' );
+	signal wr_addr		: unsigned(  9 downto 0 ) := ( others => '0' );
 	
-	signal ramp_en_d0	: std_logic := '0';
-	signal ramp_en_d1	: std_logic := '0';
+	signal rf_en		: std_logic := '0';
+	signal rf_input	: unsigned( 29 downto 0 ) := ( others => '0' );
+	signal rf_output	: unsigned( 29 downto 0 ) := ( others => '0' );
 begin
 		
-	fs_i_addr <= wr_addr;
+	fs_i_addr <= wr_addr( 8 downto 0 );
 	
-	ramp_int  <= interp_o( 28 downto 20 );
-	ramp_frc  <= interp_o( 19 downto  0 );
+	ramp_int  <= rf_output( 28 downto 20 );
+	ramp_frc  <= rf_output( 19 downto  0 );
 
 	BLOCK_GENERATE : block
-		signal fs_cnt		: unsigned( 14 downto 0 ) := ( others => '0' );
-		signal fs_cnt_i	: unsigned( 14 downto 0 ) := ( others => '0' );
-		signal fs_cnt_i_d	: unsigned( 14 downto 0 ) := ( others => '0' );
-		signal fs_cnt_o	: unsigned( 14 downto 0 ) := ( others => '0' );
+		signal m_cnt		: unsigned( 14 downto 0 ) := ( others => '0' );
+		signal i_cnt		: unsigned( 14 downto 0 ) := ( others => '0' );
 		
-		signal div_fin		: std_logic := '0';
+		signal wr_addr_d	: unsigned(  9 downto 0 ) := ( others => '0' );
+		
 		signal dividend	: unsigned( 19  downto 0 ) := ( others => '0' );
 		signal divisor		: unsigned( 19  downto 0 ) := ( others => '0' );
 		signal remainder	: unsigned( 19  downto 0 ) := ( others => '0' );
 	begin
 		
-		interp_i <= wr_addr & remainder;
+		dividend <= RESIZE( m_cnt, 20 );
+		divisor  <= RESIZE( i_cnt, 20 );
 		
-		ramp_en_d0 <= div_fin;
+		rf_input <= wr_addr_d & remainder;
 		
-		dividend <= RESIZE( fs_cnt, 20 );
-		divisor <= RESIZE( fs_cnt_i, 20 );
-		
-		enable_process : process( clk )
+		count_proc : process( clk )
 		begin
 			if rising_edge( clk ) then
-				ramp_en_d1 <= ramp_en_d0;
-				ramp_en <= ramp_en_d1;
-			end if;
-		end process enable_process;
-		
-		count_process : process( clk )
-		begin
-			if rising_edge( clk ) then
-				if ( rst or fs_i_en ) = '1' then
-					fs_cnt <= ( 0 => '1', others => '0' );
-					fs_cnt_i <= fs_cnt;
-				else
-					fs_cnt <= fs_cnt + 1;
+				m_cnt <= m_cnt + 1;
+				if fs_i_en = '1' then
+					i_cnt <= m_cnt;
+					wr_addr <= wr_addr + 1;
+					m_cnt <= ( others => '0' );
+				end if;
+				
+				if fs_o_en = '1' then
+					wr_addr_d <= wr_addr;
 				end if;
 			end if;
-		end process count_process;
-		
-		output_process : process( clk )
-		begin
-			if rising_edge( clk ) then
-				if rst = '1' then
-					wr_addr <= ( others => '0' );
-				else
-					if fs_i_en = '1' then
-						wr_addr <= wr_addr + 1;
-					end if;
-				end if;
-			end if;
-		end process output_process;
+		end process count_proc;
 		
 		INST_DIVIDER : divider_top
 			generic map (
@@ -98,59 +75,70 @@ begin
 				rst			=> rst,
 				
 				i_en			=> fs_o_en,
-				i_divisor	=> divisor,
 				i_dividend	=> dividend,
+				i_divisor	=> divisor,
 				
-				o_fin			=> div_fin,
+				o_fin			=> rf_en,
 				o_remainder	=> remainder
 			);
 		
 	end block BLOCK_GENERATE;
 	
 	BLOCK_INTERPOLATE : block
-	
-		-- internal signals
-		-- first adder
-		signal adder		: unsigned( 28 downto 0 ) := ( others => '0' );
-		signal shift_reg	: unsigned( 28 downto 0 ) := ( others => '0' );
-		signal shift_ctrl	: unsigned(  3 downto 0 ) := ( others => '0' );
-		signal latch_out	: unsigned( 28 downto 0 ) := ( others => '0' );
+		signal rf_en_d			: std_logic := '0';
 		
-		-- output from leaky integrater
-		signal lpf_out		:   signed( 28 downto 0 ) := ( others => '0' );	
+		signal f_input_sub	: unsigned( 30 downto 0 ) := ( others => '0' );
+		signal f_strip			: unsigned( 29 downto 0 ) := ( others => '0' );
+		signal f_sreg			: unsigned( 29 downto 0 ) := ( others => '0' );
+		signal f_sreg_ctrl	: unsigned(  3 downto 0 ) := ( others => '0' );
+		signal f_latch_in		: unsigned( 29 downto 0 ) := ( others => '0' );
+		signal f_latch_out	: unsigned( 29 downto 0 ) := ( others => '0' );
+		signal f_lpf_out		: unsigned( 29 downto 0 ) := ( others => '0' );
+		signal f_output_sub	: unsigned( 29 downto 0 ) := ( others => '0' );
 	begin
+	
+		f_input_sub <= RESIZE( rf_input, f_input_sub'length ) - f_latch_out;
 		
-		adder <= interp_i - latch_out;
+		f_strip <= f_input_sub( f_strip'range );
 		
-		shift_ctrl <= TO_UNSIGNED( RAMP_LOCKED, 4 ) when lock = '1' else TO_UNSIGNED( RAMP_UNLOCKED, 4 );
+		f_sreg_ctrl <= to_unsigned( RAMP_LOCKED, f_sreg_ctrl'length ) when lock = '1' else
+							to_unsigned( RAMP_UNLOCKED, f_sreg_ctrl'length );
 		
-		shift_reg <= SHIFT_RIGHT( adder, TO_INTEGER( shift_ctrl ) ) + 1;
+		f_sreg <= SHIFT_RIGHT( f_strip, to_integer( f_sreg_ctrl ) ) + 1;
 		
-		latch_process : process( clk )
+		f_latch_in <= f_sreg + f_latch_out;
+		
+		f_output_sub <= f_latch_out;-- - f_lpf_out;
+	
+		latch_proc : process( clk )
 		begin
 			if rising_edge( clk ) then
-				if ramp_en_d0 = '1' then
-					latch_out <= shift_reg + latch_out;
+				rf_en_d <= rf_en;
+				ramp_en <= rf_en_d;
+				
+				if rf_en = '1' then
+					f_latch_out <= f_latch_in;
 				end if;
-				if ramp_en_d1 = '1' then
-					interp_o	<= latch_out - unsigned( lpf_out );
+				
+				if rf_en_d = '1' then
+					rf_output <= f_output_sub( rf_output'range );
 				end if;
 			end if;
-		end process latch_process;
+		end process latch_proc;
 		
 		INST_LPF : lpf_top
 			generic map (
-				LPF_WIDTH		=> 29
+				LPF_WIDTH		=> 30
 			)
 			port map (
 				clk			=> clk,
 				rst			=> rst,
 				lock			=> lock,
 				
-				lpf_in		=> signed( adder ),
-				lpf_in_en	=> ramp_en_d0,
+				lpf_in		=> f_strip,
+				lpf_in_en	=> rf_en,
 				
-				lpf_out		=> lpf_out
+				lpf_out		=> f_lpf_out
 			);
 		
 	end block BLOCK_INTERPOLATE;

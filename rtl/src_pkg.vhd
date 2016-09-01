@@ -5,8 +5,8 @@ use ieee.std_logic_textio.all;
 
 package src_pkg is
 	
-	constant RAMP_LOCKED		: integer range 7 to 15 := 11;
-	constant RAMP_UNLOCKED	: integer range 7 to 15 :=  9;
+	constant RAMP_LOCKED		: integer range 5 to 15 := 11;
+	constant RAMP_UNLOCKED	: integer range 5 to 15 :=  7;
 	
 	constant DX_WIDTH			: integer := 24;
 
@@ -163,10 +163,10 @@ package src_pkg is
 			rst			: in  std_logic;
 			lock			: in  std_logic;
 			
-			lpf_in		: in  signed( LPF_WIDTH - 1 downto 0 );
+			lpf_in		: in  unsigned( LPF_WIDTH - 1 downto 0 );
 			lpf_in_en	: in  std_logic;
 			
-			lpf_out		: out signed( LPF_WIDTH - 1 downto 0 )
+			lpf_out		: out unsigned( LPF_WIDTH - 1 downto 0 )
 		);
 	end component lpf_top;
 
