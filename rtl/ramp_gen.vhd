@@ -24,12 +24,12 @@ entity ramp_gen is
 end ramp_gen;
 
 architecture rtl of ramp_gen is
-	signal wr_addr		: unsigned( 13 downto 0 ) := ( others => '0' );
+	signal wr_addr		: unsigned( 14 downto 0 ) := ( others => '0' );
 	
 	signal rf_en		: std_logic := '0';
 	signal lock_en		: std_logic := '0';
-	signal rf_input	: unsigned( 33 downto 0 ) := ( others => '0' );
-	signal rf_output	: unsigned( 33 downto 0 ) := ( others => '0' );
+	signal rf_input	: unsigned( 34 downto 0 ) := ( others => '0' );
+	signal rf_output	: unsigned( 34 downto 0 ) := ( others => '0' );
 begin
 		
 	fs_i_addr <= wr_addr( fs_i_addr'range );
@@ -43,7 +43,7 @@ begin
 		signal m_cnt		: unsigned( 14 downto 0 ) := ( others => '0' );
 		signal i_cnt		: unsigned( 14 downto 0 ) := ( others => '0' );
 		
-		signal wr_addr_d	: unsigned( 13 downto 0 ) := ( others => '0' );
+		signal wr_addr_d	: unsigned( 14 downto 0 ) := ( others => '0' );
 		
 		signal dividend	: unsigned( 19  downto 0 ) := ( others => '0' );
 		signal divisor		: unsigned( 19  downto 0 ) := ( others => '0' );
