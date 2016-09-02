@@ -28,8 +28,8 @@ ARCHITECTURE behavior OF ramp_tb IS
 		);
 	end component time_util;
 	
-	constant	FRQ_O		: real :=  24.0 * 8.0;
-	constant	FRQ_I		: real := 192.0 * 8.0;
+	constant	FRQ_O		: real :=  24.0;
+	constant	FRQ_I		: real := 192.0;
    
    --Inputs
    signal clk : std_logic := '0';
@@ -52,7 +52,7 @@ BEGIN
 	
 	INST_TIME_I : time_util
 		generic map (
-			frq		=> FRQ_I
+			frq		=> FRQ_I * 8.0
 		)
 		port map (
 			clk_m		=> clk,
@@ -63,7 +63,7 @@ BEGIN
 	
 	INST_TIME_O : time_util
 		generic map (
-			frq		=> FRQ_O
+			frq		=> FRQ_O * 8.0
 		)
 		port map (
 			clk_m		=> open,

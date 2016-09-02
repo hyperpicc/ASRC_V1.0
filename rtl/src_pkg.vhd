@@ -8,9 +8,9 @@ package src_pkg is
 	constant RAMP_LOCKED		: integer range 7 to 11 := 11;
 	constant RAMP_UNLOCKED	: integer range 7 to 11 :=  9;
 	
-	constant THRESH_PRE		: integer := 15;
-	constant THRESH_LOCK		: integer :=  7;
-	constant THRESH_UNLOCK	: integer := 63;
+	constant THRESH_PRE		: integer := 16;
+	constant THRESH_LOCK		: integer :=  8;
+	constant THRESH_UNLOCK	: integer := 64;
 	
 	constant DX_WIDTH			: integer := 24;
 
