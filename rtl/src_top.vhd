@@ -30,21 +30,22 @@ entity src_top is
 end src_top;
 
 architecture rtl of src_top is
-	signal lock		: std_logic := '0';
-	signal ratio	: unsigned( 19 downto 0 ) := ( others => '0' );
+	signal ramp_lock	: std_logic := '0';
+	signal ratio_lock	: std_logic := '0';
+	signal ratio		: unsigned( 19 downto 0 ) := ( others => '0' );
 	
-	signal wr_int	: unsigned( 8 downto 0 ) := ( others => '0' );
-	signal rd_en	: std_logic := '0';
-	signal rd_int	: unsigned( 8 downto 0 ) := ( others => '0' );
-	signal rd_frc	: unsigned( 19 downto 0 ) := ( others => '0' );
+	signal wr_int		: unsigned( 8 downto 0 ) := ( others => '0' );
+	signal rd_en		: std_logic := '0';
+	signal rd_int		: unsigned( 8 downto 0 ) := ( others => '0' );
+	signal rd_frc		: unsigned( 19 downto 0 ) := ( others => '0' );
 begin
-	ctrl_lock <= lock;
+	ctrl_lock <= ramp_lock;
 
 	INST_RATIO : ratio_gen
 		port map (
 			clk				=> clk,
 			rst				=> rst,
-			lock				=> lock,
+			ratio_lock		=> ratio_lock,
 			
 			fs_i_en			=> fs_i_lr,
 			fs_o_clk			=> fs_o_clk,
@@ -57,7 +58,8 @@ begin
 		port map (
 			clk				=> clk,
 			rst				=> rst,
-			lock				=> lock,
+			ratio_lock		=> ratio_lock,
+			ramp_lock		=> ramp_lock,
 			
 			fs_i_en			=> fs_i_lr,
 			fs_i_addr		=> wr_int,

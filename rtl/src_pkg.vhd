@@ -5,12 +5,17 @@ use ieee.std_logic_textio.all;
 
 package src_pkg is
 	
-	constant RAMP_LOCKED		: integer range 5 to 15 := 11;
-	constant RAMP_UNLOCKED	: integer range 5 to 15 :=  7;
+	constant RAMP_LOCKED		: integer range 7 to 11 := 11;
+	constant RAMP_UNLOCKED	: integer range 7 to 11 :=  9;
+	
+	constant THRESH_PRE		: integer := 15;
+	constant THRESH_LOCK		: integer :=  7;
+	constant THRESH_UNLOCK	: integer := 63;
 	
 	constant DX_WIDTH			: integer := 24;
 
 	impure function U_ABS( i : unsigned ) return unsigned;
+	impure function GET_ABS( i : unsigned; n : integer ) return unsigned;
 	impure function U_XOR( i : unsigned ) return unsigned;
 	impure function U_HALF_ADDER( i : unsigned ) return unsigned;
 	
@@ -35,11 +40,11 @@ package src_pkg is
 			i_wr_en			: in  std_logic;
 			i_wr_lr			: in  std_logic;
 			
-			o_data			: out signed( 23 downto 0 ) := ( others => '0' );
-			o_data_en		: out std_logic := '0';
-			o_data_lr		: out std_logic := '0';
+			o_data			: out signed( 23 downto 0 );
+			o_data_en		: out std_logic;
+			o_data_lr		: out std_logic;
 			
-			o_coe				: out signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
+			o_coe				: out signed( COE_WIDTH-1 downto 0 );
 			o_coe_en			: out std_logic := '0'
 		);
 	end component src_engine;
@@ -48,15 +53,17 @@ package src_pkg is
 		port (
 			clk			: in  std_logic;
 			rst			: in  std_logic;
-			lock			: in  std_logic;
+			ratio_lock	: in  std_logic;
+			ramp_lock	: out std_logic;
 			
 			fs_i_en		: in  std_logic;
-			fs_i_addr	: out unsigned( 8 downto 0 );
+			fs_i_addr	: out unsigned(  8 downto 0 );
 			fs_o_en		: in  std_logic;
 			
 			ramp_en		: out std_logic;
-			ramp_int		: out unsigned( 8 downto 0 );
-			ramp_frc		: out unsigned( 19 downto 0 )
+			ramp_int		: out unsigned(  8 downto 0 );
+			ramp_frc		: out unsigned( 19 downto 0 );
+			ramp_dx		: out unsigned( 12 downto 0 )
 		);
 	end component ramp_gen;
 	
@@ -64,7 +71,7 @@ package src_pkg is
 		port (
 			clk				: in  std_logic;
 			rst				: in  std_logic;
-			lock				: out std_logic;
+			ratio_lock		: out std_logic;
 			
 			fs_i_en			: in  std_logic;
 			fs_o_clk			: in  std_logic;
@@ -178,6 +185,15 @@ package body src_pkg is
 	begin
 		return unsigned( abs( signed( i ) ) );
 	end function U_ABS;
+	
+	impure function GET_ABS( i : unsigned; n : integer ) return unsigned is
+		variable x : unsigned( i'range );
+		variable y : unsigned( n-1 downto 0 );
+	begin
+		x := unsigned( abs( signed( i ) ) );
+		y := x( y'range );
+		return y;
+	end function GET_ABS;
 
 	impure function U_XOR( i : unsigned ) return unsigned is
 		variable mask : unsigned( i'high - 1 downto 0 );

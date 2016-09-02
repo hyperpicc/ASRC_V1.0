@@ -9,7 +9,7 @@ entity ratio_gen is
 	port (
 		clk				: in  std_logic;
 		rst				: in  std_logic;
-		lock				: out std_logic := '0';
+		ratio_lock		: out std_logic := '0';
 		
 		fs_i_en			: in  std_logic;
 		fs_o_clk			: in  std_logic;
@@ -30,8 +30,8 @@ architecture rtl of ratio_gen is
 	signal fs_o_abs	: std_logic := '0';
 	signal fs_o_latch	: std_logic := '0';
 	
-	signal lpf_in		: signed( 22 downto 0 ) := ( others => '0' );
-	signal lpf_out		: signed( 22 downto 0 ) := ( others => '0' );
+	signal lpf_in		: unsigned( 22 downto 0 ) := ( others => '0' );
+	signal lpf_out		: unsigned( 22 downto 0 ) := ( others => '0' );
 	
 	signal o_lock		: std_logic := '0';
 	signal o_ratio		: unsigned( 19 downto 0 ) := ( others => '0' );
@@ -41,7 +41,7 @@ begin
 	fs_i_trm <= '1' when fs_i_cnt = ( 2**fs_i_cnt'high - 1 ) and fs_i_en = '1' else '0';
 	fs_o_abs <= '1' when U_ABS( fs_o_d0 - fs_o_d1 ) > 2 else '0';
 	
-	lock <= o_lock;
+	ratio_lock <= o_lock;
 	ratio <= o_ratio;
 	o_ratio <= ( ratio'high => '1', others => '0' ) when lpf_out( 22 downto 19 ) > 0 else
 				  unsigned( lpf_out( 19 downto 0 ) );
@@ -78,7 +78,7 @@ begin
 		end if;
 	end process latch_process;
 	
-	lpf_in <= signed( fs_o_d2 ) & TO_SIGNED( 0, 23 - fs_o_d2'length );
+	lpf_in <= fs_o_d2 & TO_UNSIGNED( 0, 23 - fs_o_d2'length );
 	
 	INST_LPF : lpf_top
 		generic map (
@@ -110,7 +110,7 @@ begin
 		signal lock_zero		: std_logic := '0';
 	begin
 	
-		lim_abs <= '1' when ABS( lpf_in - lpf_out ) > 15 else '0';
+		lim_abs <= '1' when ABS( signed( lpf_in ) - signed( lpf_out ) ) > 15 else '0';
 		mclk_cnt_trm <= '1' when mclk_cnt = 8191 else '0';
 		lock_trm <= '1' when lock_cnt = 2**lock_cnt'length - 1 else '0';
 		lock_zero <= '1' when o_ratio < 1023 else '0';

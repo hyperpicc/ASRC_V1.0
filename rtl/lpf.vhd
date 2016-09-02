@@ -26,9 +26,9 @@ architecture rtl of lpf_top is
 	
 	signal pad_mux		: unsigned( 3 downto 0 ) := ( others => '0' );
 
-	signal reg_add		: unsigned( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
-	signal reg_shift	: unsigned( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
-	signal reg_out		: unsigned( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
+	signal reg_add		: signed( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
+	signal reg_shift	: signed( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
+	signal reg_out		: signed( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
 	
 	signal rst_buf		: std_logic := '0';
 	signal rst_stb		: std_logic := '0';
@@ -47,8 +47,8 @@ begin
 	pad_mux <= TO_UNSIGNED( RAMP_LOCKED, 4 ) when lock = '1' else TO_UNSIGNED( RAMP_UNLOCKED, 4 );
 	
 	-- lpf function
-	lpf_out <= reg_out( reg_out'left - 1 downto reg_out'left - LPF_WIDTH );
-	reg_add <= ( '0' & lpf_in & ZERO ) - reg_out;
+	lpf_out <= unsigned( reg_out( reg_out'left - 1 downto reg_out'left - LPF_WIDTH ) );
+	reg_add <= signed( '0' & lpf_in & ZERO ) - reg_out;
 	reg_shift <= shift_right( reg_add, TO_INTEGER( pad_mux ) );
 	
 	integrator_process : process( clk )
