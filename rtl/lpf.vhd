@@ -2,12 +2,11 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-library work;
-use work.src_pkg.all;
-
 entity lpf_top is
 	generic (
-		LPF_WIDTH		: natural range 8 to 64 := 16
+		LPF_WIDTH		: natural range 8 to 64 := 16;
+		LPF_LOCKED		: natural range 8 to 11 :=  9;
+		LPF_UNLOCKED	: natural range 8 to 11 :=  8
 	);
 	port (
 		clk				: in  std_logic;
@@ -22,13 +21,13 @@ entity lpf_top is
 end lpf_top;
 
 architecture rtl of lpf_top is
-	constant ZERO		: unsigned( RAMP_LOCKED - 1 downto 0 ) := ( others => '0' );
+	constant ZERO		: unsigned( LPF_LOCKED - 1 downto 0 ) := ( others => '0' );
 	
 	signal pad_mux		: unsigned( 3 downto 0 ) := ( others => '0' );
 
-	signal reg_add		: signed( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
-	signal reg_shift	: signed( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
-	signal reg_out		: signed( LPF_WIDTH + RAMP_LOCKED downto 0 ) := ( others => '0' );
+	signal reg_add		: signed( LPF_WIDTH + LPF_LOCKED downto 0 ) := ( others => '0' );
+	signal reg_shift	: signed( LPF_WIDTH + LPF_LOCKED downto 0 ) := ( others => '0' );
+	signal reg_out		: signed( LPF_WIDTH + LPF_LOCKED downto 0 ) := ( others => '0' );
 	
 	signal rst_buf		: std_logic := '0';
 	signal rst_stb		: std_logic := '0';
@@ -44,7 +43,7 @@ begin
 	end process reset_process;
 	
 	-- gain mux
-	pad_mux <= TO_UNSIGNED( RAMP_LOCKED, 4 ) when lock = '1' else TO_UNSIGNED( RAMP_UNLOCKED, 4 );
+	pad_mux <= TO_UNSIGNED( LPF_LOCKED, 4 ) when lock = '1' else TO_UNSIGNED( LPF_UNLOCKED, 4 );
 	
 	-- lpf function
 	lpf_out <= unsigned( reg_out( reg_out'left - 1 downto reg_out'left - LPF_WIDTH ) );

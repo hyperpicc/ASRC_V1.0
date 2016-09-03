@@ -15,7 +15,7 @@ ARCHITECTURE behavior OF src_top_tb IS
 	constant MCLK		: real := 24576.0;
 	constant	FRQ_I		: real := 192.0;
 	constant	FRQ_O		: real := 44.1;
-	constant IFREQ		: real := 10.0;
+	constant IFREQ		: real := 20.0;
 
 	component src_top is
 		port (
@@ -26,6 +26,7 @@ ARCHITECTURE behavior OF src_top_tb IS
 			ctrl_offset	: in  std_logic := '0';
 			
 			fs_i_en		: in  std_logic;
+			fs_i_clk		: in  std_logic;
 			fs_i_lr		: in  std_logic;
 			fs_i_dat		: in  signed( 23 downto 0 );
 			
@@ -84,6 +85,7 @@ BEGIN
 			ctrl_offset	=> ctrl_offset,
 			
 			fs_i_en		=> fs_i_en,
+			fs_i_clk		=> fs_i_clk,
 			fs_i_lr		=> fs_i_lr,
 			fs_i_dat		=> fs_i_dat,
 			

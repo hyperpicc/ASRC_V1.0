@@ -5,12 +5,14 @@ use ieee.std_logic_textio.all;
 
 package src_pkg is
 	
-	constant RAMP_LOCKED		: integer range 7 to 11 := 11;
-	constant RAMP_UNLOCKED	: integer range 7 to 11 :=  9;
+	constant RAMP_LOCKED		: integer range 8 to 11 := 11;
+	constant RAMP_UNLOCKED	: integer range 8 to 11 :=  9;
 	
 	constant THRESH_PRE		: integer := 16;
 	constant THRESH_LOCK		: integer :=  8;
 	constant THRESH_UNLOCK	: integer := 64;
+	
+	constant RATIO_FSI_CLK	: boolean := false;
 	
 	constant DX_WIDTH			: integer := 24;
 
@@ -28,6 +30,7 @@ package src_pkg is
 			rst				: in  std_logic;
 			
 			ctrl_offset		: in  std_logic;
+			ctrl_lock		: in  std_logic;
 			
 			ratio				: in  unsigned( 19 downto 0 );
 			
@@ -73,6 +76,7 @@ package src_pkg is
 			rst				: in  std_logic;
 			ratio_lock		: out std_logic;
 			
+			fs_i_clk			: in  std_logic;
 			fs_i_en			: in  std_logic;
 			fs_o_clk			: in  std_logic;
 			fs_o_en			: in  std_logic;
@@ -163,7 +167,9 @@ package src_pkg is
 	
 	component lpf_top is
 		generic (
-			LPF_WIDTH		: natural range 8 to 64 := 16
+			LPF_WIDTH		: natural range 8 to 64 := 16;
+			LPF_LOCKED		: natural range 8 to 11 := RAMP_LOCKED;
+			LPF_UNLOCKED	: natural range 8 to 11 := RAMP_UNLOCKED
 		);
 		port (
 			clk			: in  std_logic;

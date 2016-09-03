@@ -17,6 +17,7 @@ entity src_top is
 		
 		-- data in
 		fs_i_en		: in  std_logic;
+		fs_i_clk		: in  std_logic;
 		fs_i_lr		: in  std_logic;
 		fs_i_dat		: in  signed( 23 downto 0 );
 		
@@ -47,6 +48,7 @@ begin
 			rst				=> rst,
 			ratio_lock		=> ratio_lock,
 			
+			fs_i_clk			=> fs_i_clk,
 			fs_i_en			=> fs_i_lr,
 			fs_o_clk			=> fs_o_clk,
 			fs_o_en			=> fs_o_req,
@@ -79,6 +81,7 @@ begin
 			rst				=> rst,
 			
 			ctrl_offset		=> ctrl_offset,
+			ctrl_lock		=> ratio_lock,
 			
 			ratio				=> ratio,
 			

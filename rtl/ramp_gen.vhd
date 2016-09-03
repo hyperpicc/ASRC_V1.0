@@ -147,56 +147,62 @@ begin
 			);
 		
 	end block BLOCK_INTERPOLATE;
-	
-	BLOCK_LOCK : block
 		
-		signal d0			: unsigned( rf_output'range ) := ( others => '0' );
-		signal d0_abs		: unsigned( 23 downto 0 ) := ( others => '0' );
-		signal d1			: unsigned( 23 downto 0 ) := ( others => '0' );
-		signal d1_abs		: unsigned( 12 downto 0 ) := ( others => '0' );
-		
-		signal lock_evt	: std_logic := '0';
-		signal lock_evt_p	: std_logic := '0';
-		signal lock_evt_n	: std_logic := '0';
-		
-	begin
-		
-		ramp_dx <= d1_abs;
-		
-		d0_abs <= GET_ABS( d0 - rf_output, d0_abs'length );
-		
-		latch_process : process( clk )
-		begin
-			if rising_edge( clk ) then
-				if lock_en = '1' then
-					d0 <= rf_output;
-					d1 <= d0_abs;
-					d1_abs <= GET_ABS( d1 - d0_abs, d1_abs'length );
-				end if;
-			end if;
-		end process latch_process;
-		
-		lock_evt_p <= '1' when ( ratio_lock and lock_evt )= '1' and d1_abs < THRESH_LOCK else '0';
-		lock_evt_n <= '1' when ratio_lock = '0' or  d1_abs > THRESH_UNLOCK else '0';
-		
-		lock_process : process( clk )
-		begin
-			if rising_edge( clk ) then
-				if lock_evt_n = '1' then
-					lock_evt <= '0';
-				elsif ratio_lock = '1' and d1_abs > THRESH_PRE then
-					lock_evt <= '1';
-				end if;
+		GEN_LOCK_EVT   : if RAMP_LOCKED /= RAMP_UNLOCKED generate
+			BLOCK_LOCK : block
+				signal d0			: unsigned( rf_output'range ) := ( others => '0' );
+				signal d0_abs		: unsigned( 23 downto 0 ) := ( others => '0' );
+				signal d1			: unsigned( 23 downto 0 ) := ( others => '0' );
+				signal d1_abs		: unsigned( 12 downto 0 ) := ( others => '0' );
+				
+				signal lock_evt	: std_logic := '0';
+				signal lock_evt_p	: std_logic := '0';
+				signal lock_evt_n	: std_logic := '0';
+			begin
+				ramp_dx <= d1_abs;
+				
+				d0_abs <= GET_ABS( d0 - rf_output, d0_abs'length );
+				
+				latch_process : process( clk )
+				begin
+					if rising_edge( clk ) then
+						if lock_en = '1' then
+							d0 <= rf_output;
+							d1 <= d0_abs;
+							d1_abs <= GET_ABS( d1 - d0_abs, d1_abs'length );
+						end if;
+					end if;
+				end process latch_process;
+				
+				lock_evt_p <= '1' when ( ratio_lock and lock_evt )= '1' and d1_abs < THRESH_LOCK else '0';
+				lock_evt_n <= '1' when ratio_lock = '0' or  d1_abs > THRESH_UNLOCK else '0';
+				
+				lock_evt_process : process( clk )
+				begin
+					if rising_edge( clk ) then
+						if lock_evt_n = '1' then
+							lock_evt <= '0';
+						elsif ratio_lock = '1' and d1_abs > THRESH_PRE then
+							lock_evt <= '1';
+						end if;
+					end if;
+				end process lock_evt_process;
 			
-				if lock_evt_n = '1' then
-					lock_evt <= '0';
-					ramp_lock <= '0';
-				elsif lock_evt_p = '1' then
-					ramp_lock <= '1';
-				end if;
-			end if;
-		end process lock_process;
-	
-	end block BLOCK_LOCK;
+				lock_process : process( clk )
+				begin
+					if rising_edge( clk ) then
+						if lock_evt_n = '1' then
+							ramp_lock <= '0';
+						elsif lock_evt_p = '1' then
+							ramp_lock <= '1';
+						end if;
+					end if;
+				end process lock_process;
+			end block BLOCK_LOCK;
+		end generate GEN_LOCK_EVT;
+		
+		GEN_LOCK_EVT_N : if RAMP_LOCKED = RAMP_UNLOCKED generate
+			ramp_lock <= ratio_lock;
+		end generate GEN_LOCK_EVT_N;
 		
 end rtl;
