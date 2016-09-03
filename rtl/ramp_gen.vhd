@@ -19,7 +19,7 @@ entity ramp_gen is
 		ramp_en		: out std_logic := '0';
 		ramp_int		: out unsigned(  8 downto 0 ) := ( others => '0' );
 		ramp_frc		: out unsigned( 19 downto 0 ) := ( others => '0' );
-		ramp_dx		: out unsigned( 12 downto 0 ) := ( others => '0' )
+		ramp_dx		: out unsigned( 13 downto 0 ) := ( others => '0' )
 	);
 end ramp_gen;
 
@@ -152,8 +152,8 @@ begin
 			BLOCK_LOCK : block
 				signal d0			: unsigned( rf_output'range ) := ( others => '0' );
 				signal d0_abs		: unsigned( 23 downto 0 ) := ( others => '0' );
-				signal d1			: unsigned( 23 downto 0 ) := ( others => '0' );
-				signal d1_abs		: unsigned( 12 downto 0 ) := ( others => '0' );
+				signal d1			: unsigned( d0_abs'range ) := ( others => '0' );
+				signal d1_abs		: unsigned( ramp_dx'range ) := ( others => '0' );
 				
 				signal lock_evt	: std_logic := '0';
 				signal lock_evt_p	: std_logic := '0';
