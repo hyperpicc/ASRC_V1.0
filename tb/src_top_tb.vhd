@@ -13,7 +13,7 @@ END src_top_tb;
 
 ARCHITECTURE behavior OF src_top_tb IS
 	constant MCLK		: real := 24576.0;
-	constant	FRQ_I		: real := 176.4;
+	constant	FRQ_I		: real := 44.1;
 	constant	FRQ_O		: real := 192.0;
 	constant IFREQ		: real := 1.0;
 
@@ -122,21 +122,30 @@ BEGIN
 		variable sample	: signed( 23 downto 0 ) := ( others => '0' );
 	begin
 		if rising_edge( clk ) then
-			if fs_i_lr = '1' then
-				sample := gen_sig0;
-				fs_i_dat <= sample;
+			if fs_i_en = '1' then
+				if fs_i_lr = '1' then
+					sample := gen_sig0;
+					fs_i_dat <= sample;
+				else
+					fs_i_dat <= SHIFT_RIGHT( sample, 16 );
+				end if;
 			end if;
 		end if;
 	end process;
 	
 	o_process : process( clk )
-		file		outfile0	: text is out "test/src_l.txt";
+		file		outfilel	: text is out "test/src_l.txt";
+		file		outfiler	: text is out "test/src_r.txt";
 		variable outline0	: line;
 	begin
 		if rising_edge( clk ) then
-			if ( not( fs_o_lr ) and fs_o_en ) = '1' then
+			if fs_o_en = '1' then
 				write( outline0, to_integer( fs_o_dat ) );
-				writeline( outfile0, outline0 );
+				if fs_o_lr = '1' then
+					writeline( outfiler, outline0 );
+				else
+					writeline( outfilel, outline0 );
+				end if;
 			end if;
 		end if;
 	end process;
