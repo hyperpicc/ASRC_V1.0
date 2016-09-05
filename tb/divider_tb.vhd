@@ -67,8 +67,8 @@ BEGIN
    stim_proc: process
    begin
 		wait until rising_edge( clk );
-		i_dividend <= x"0000A";
-		i_divisor  <= x"0000F";
+		i_dividend <= x"00003";
+		i_divisor  <= x"00002";
 		i_en		  <= '1';
 		
 		wait until rising_edge( clk );

@@ -20,11 +20,9 @@ entity divider_top is
 end entity divider_top;
 
 architecture rtl of divider_top is
-	constant Q_COUNT_MAX : unsigned( 5 downto 0 ) := to_unsigned(   DIV_WIDTH + 1, 6 );
-	constant R_COUNT_MAX : unsigned( 5 downto 0 ) := to_unsigned( 2*DIV_WIDTH + 2, 6 );
+	constant R_COUNT_MAX : unsigned( 5 downto 0 ) := to_unsigned( DIV_WIDTH + 2, 6 );
 
 	signal a				 : unsigned( DIV_WIDTH   downto 0 ) := ( others => '0' );
-	signal b				 : unsigned( DIV_WIDTH-1 downto 0 ) := ( others => '0' );
 	signal acc			 : unsigned( DIV_WIDTH   downto 0 ) := ( others => '0' );
 	signal add_op_r	 : unsigned( DIV_WIDTH   downto 0 ) := ( others => '0' );
 	signal add_op_u	 : unsigned(  0 downto 0 ) := ( others => '0' );
@@ -57,23 +55,10 @@ begin
 	process( clk )
 	begin
 		if rising_edge( clk ) then
-			if rst = '1' then
-				b <= ( others => '0' );
-			elsif i_en = '1' then
-				b <= i_dividend( DIV_WIDTH-1 downto 0 );
-			else
-				b <= b( b'length-2 downto 0 ) & '0';
-			end if;
-		end if;
-	end process;
-
-	process( clk )
-	begin
-		if rising_edge( clk ) then
 			if ( rst or i_en ) = '1' then
-				acc <= ( others => '0' );
+				acc <= '0' & i_dividend;
 			else
-				acc <= sum( sum'length-2 downto 0 ) & b( b'left );
+				acc <= sum( sum'high-1 downto 0 ) & '0';
 			end if;
 		end if;
 	end process;
