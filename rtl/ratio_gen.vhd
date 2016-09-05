@@ -21,7 +21,8 @@ entity ratio_gen is
 end ratio_gen;
 
 architecture rtl of ratio_gen is
-	signal fs_i_cnt	: unsigned(  9 downto 0 ) := ( others => '0' );
+	signal fs_i_cnt	: unsigned( 10 downto 0 ) := ( others => '0' );
+	signal fs_i_sel	: std_logic := '0';
 	signal fs_i_trm	: std_logic := '0';
 	
 	signal fs_o_cnt	: unsigned( 14 downto 0 ) := ( others => '0' );
@@ -40,15 +41,17 @@ begin
 	
 	FSI_CLK_GEN : if RATIO_FSI_CLK generate
 	begin
-		fs_i_trm <= '1' when fs_i_cnt = 1023 and fs_i_en = '1' else '0';
+		fs_i_sel <= fs_i_clk;
+		fs_i_trm <= '1' when fs_i_cnt = 2**fs_i_cnt'length - 1 and fs_i_sel = '1' else '0';
 	end generate FSI_CLK_GEN;
 	
 	FSI_CLK_GEN_N : if not RATIO_FSI_CLK generate
 	begin
-		fs_i_trm <= '1' when fs_i_cnt( 4 downto 0 ) =   31 and fs_i_en = '1' else '0';
+		fs_i_sel <= fs_i_en;
+		fs_i_trm <= '1' when fs_i_cnt( 4 downto 0 ) =   31 and fs_i_sel = '1' else '0';
 	end generate FSI_CLK_GEN_N;
 	
-	fs_o_latch <= fs_i_en and fs_o_abs;
+	fs_o_latch <= fs_i_sel and fs_o_abs;
 	fs_o_abs <= '1' when U_ABS( fs_o_d0 - fs_o_d1 ) > 2 else '0';
 	
 	ratio_lock <= o_lock;
@@ -56,10 +59,10 @@ begin
 	o_ratio <= ( ratio'high => '1', others => '0' ) when lpf_out( 22 downto 19 ) > 0 else
 				  unsigned( lpf_out( 19 downto 0 ) );
 	
-	count_process : process( clk )
+	fs_o_cnt_process : process( clk )
 	begin
 		if rising_edge( clk ) then
-			if fs_i_en = '1' then
+			if fs_i_sel = '1' then
 				fs_i_cnt <= fs_i_cnt + 1;
 			end if;
 			
@@ -69,7 +72,7 @@ begin
 				fs_o_cnt <= fs_o_cnt + 1;
 			end if;
 		end if;
-	end process count_process;
+	end process fs_o_cnt_process;
 	
 	latch_process : process( clk )
 	begin
