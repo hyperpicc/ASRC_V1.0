@@ -46,7 +46,7 @@ architecture rtl of src_engine is
 	
 	signal mul_i0		: unsigned( 19 downto 0 ) := ( others => '0' );
 	signal mul_i1		: unsigned( 16 downto 0 ) := ( others => '0' );
-	signal mul_o		: unsigned( 18 downto 0 ) := ( others => '0' );
+	signal mul_o		: unsigned( 16 downto 0 ) := ( others => '0' );
 
 	signal mac_coe		: signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
 	signal mac_en		: std_logic := '0';
@@ -100,7 +100,7 @@ begin
 			clk				=> clk,
 			rst				=> rst,
 			
-			i_ratio			=> ratio,
+			i_ratio			=> ratio( 19 downto 2 ),
 			i_ratio_init	=> mul_o,
 			i_en				=> interp_en,
 			
@@ -179,7 +179,7 @@ begin
 				end if;
 				
 				if m_en_d = '1' then
-					mul_o <= m_o( 18 downto 0 );
+					mul_o <= m_o( 18 downto 2 );
 				end if;
 			
 			end if;

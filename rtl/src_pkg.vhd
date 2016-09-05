@@ -5,7 +5,7 @@ use ieee.std_logic_textio.all;
 
 package src_pkg is
 	
-	constant RAMP_LOCKED		: integer range 7 to 11 :=  7;
+	constant RAMP_LOCKED		: integer range 7 to 11 :=  9;
 	constant RAMP_UNLOCKED	: integer range 7 to 11 :=  7;
 	
 	constant THRESH_PRE		: integer := 16;
@@ -94,8 +94,8 @@ package src_pkg is
 			clk				: in  std_logic;
 			rst				: in  std_logic;
 			
-			i_ratio			: in  unsigned( 19 downto 0 );
-			i_ratio_init	: in  unsigned( 18 downto 0 );
+			i_ratio			: in  unsigned( 17 downto 0 );
+			i_ratio_init	: in  unsigned( 16 downto 0 );
 			i_en				: in  std_logic;
 			
 			o_coe				: out signed( COE_WIDTH-1 downto 0 );
