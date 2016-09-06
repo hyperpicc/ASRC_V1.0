@@ -14,7 +14,7 @@ END src_top_tb;
 ARCHITECTURE behavior OF src_top_tb IS
 	constant MCLK		: real := 24576.0;
 	constant	FRQ_I		: real := 44.1;
-	constant	FRQ_O		: real := 96.0;
+	constant	FRQ_O		: real := 192.0;
 	constant IFREQ		: real := 1.0;
 
 	component src_top is
@@ -139,7 +139,7 @@ BEGIN
 		variable outline0	: line;
 	begin
 		if rising_edge( clk ) then
-			if fs_o_en = '1' then
+			if ( fs_o_en and ctrl_lock )= '1' then
 				write( outline0, to_integer( fs_o_dat ) );
 				if fs_o_lr = '1' then
 					writeline( outfiler, outline0 );
