@@ -1,4 +1,4 @@
-function sr = sample_rate( fs_i, fs_o )
+function sr = sample_rate( fs_i, fs_o, wid )
 	
 	% rample rate ratio as a double
 	sr = fs_i/fs_o;
@@ -8,10 +8,10 @@ function sr = sample_rate( fs_i, fs_o )
 		sr = 1;
 	end
 
-	sr = sr * 2^16;
+	sr = sr * 2^wid;
 	
 	% scale and quantise
-	sr = fi( sr, 0, 16, 0 );
+	sr = fi( sr, 0, wid, 0 );
 
 	% return integer
 	sr = int32( sr.int );

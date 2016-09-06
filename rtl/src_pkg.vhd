@@ -16,7 +16,6 @@ package src_pkg is
 	
 	constant DX_WIDTH			: integer := 24;
 
-	impure function U_ABS( i : unsigned ) return unsigned;
 	impure function GET_ABS( i : unsigned; n : integer ) return unsigned;
 	impure function U_XOR( i : unsigned ) return unsigned;
 	impure function U_HALF_ADDER( i : unsigned ) return unsigned;
@@ -186,11 +185,6 @@ package src_pkg is
 end src_pkg;
 
 package body src_pkg is
-	
-	impure function U_ABS( i : unsigned ) return unsigned is
-	begin
-		return unsigned( abs( signed( i ) ) );
-	end function U_ABS;
 	
 	impure function GET_ABS( i : unsigned; n : integer ) return unsigned is
 		variable x : unsigned( i'range );

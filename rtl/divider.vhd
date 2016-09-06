@@ -29,7 +29,7 @@ architecture rtl of divider_top is
 	alias  add_op		 : std_logic is add_op_u( 0 );
 	signal en			 : std_logic := '0';
 	signal sum			 : unsigned( DIV_WIDTH   downto 0 ) := ( others => '0' );
-	signal count		 : unsigned( 5 downto 0 ) := ( others => '0' );
+	signal count		 : unsigned( 4 downto 0 ) := ( others => '0' );
 	signal result		 : unsigned( DIV_WIDTH   downto 0 ) := ( others => '0' );
 begin
 

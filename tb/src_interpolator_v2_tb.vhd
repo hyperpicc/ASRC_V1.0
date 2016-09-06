@@ -95,7 +95,7 @@ ARCHITECTURE behavior OF src_interpolator_v2_tb IS
 	 -- Clock period definitions
 	 constant clk_period : time := 10 ns;
 	 
-	constant	FRQ_I		: real := 176.4;
+	constant	FRQ_I		: real := 44.1;
 	constant	FRQ_O		: real := 192.0;
 	constant IFREQ		: real := 1.0;
 
@@ -183,19 +183,12 @@ BEGIN
 	
 	i_process : process( clk )
 		variable sample	: signed( 23 downto 0 ) := ( others => '0' );
-		file		outfile_in	: text is out "test/src_interpolate_in.txt";
-		variable outline		: line;
 	begin
 		if rising_edge( clk ) then
 			if i_wr_lr = '1' then
 				sample := gen_sig0;
 				i_wr_addr <= i_wr_addr + 1;
 				i_wr_data <= sample;
-				
-				write( outline, to_integer( sample ) );
-				writeline( outfile_in, outline );
-			elsif i_wr_en = '1' then
-				i_wr_data <= sample;--SHIFT_RIGHT( sample, 4 );
 			end if;
 			
 		end if;
@@ -211,17 +204,14 @@ BEGIN
 	end process;
 	
 	read_process : process( clk )
-		file		outfile_l	: text is out "test/src_interpolate_l.txt";
 		file		outfile_r	: text is out "test/src_interpolate_r.txt";
 		variable outline		: line;
 	begin
 		if rising_edge( clk ) then
 			if o_data_en = '1' then
-				write( outline, to_integer( o_data ) );
 				if o_data_lr = '1' then
+					write( outline, to_integer( o_data ) );
 					writeline( outfile_r, outline );
-				else
-					writeline( outfile_l, outline );
 				end if;
 			end if;
 		end if;

@@ -48,11 +48,11 @@ begin
 	FSI_CLK_GEN_N : if not RATIO_FSI_CLK generate
 	begin
 		fs_i_sel <= fs_i_en;
-		fs_i_trm <= '1' when fs_i_cnt( 4 downto 0 ) =   31 and fs_i_sel = '1' else '0';
+		fs_i_trm <= '1' when fs_i_cnt( 4 downto 0 ) = 31 and fs_i_sel = '1' else '0';
 	end generate FSI_CLK_GEN_N;
 	
 	fs_o_latch <= fs_i_sel and fs_o_abs;
-	fs_o_abs <= '1' when U_ABS( fs_o_d0 - fs_o_d1 ) > 2 else '0';
+	fs_o_abs <= '1' when GET_ABS( fs_o_d0 - fs_o_d1, fs_o_d0'length ) > 2 else '0';
 	
 	ratio_lock <= o_lock;
 	ratio <= o_ratio;
@@ -85,7 +85,7 @@ begin
 				fs_o_d1 <= fs_o_d0;
 			end if;
 			
-			if fs_o_clk = '1' then
+			if fs_o_en = '1' then
 				fs_o_d2 <= fs_o_d1;
 			end if;
 		end if;

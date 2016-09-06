@@ -11,7 +11,7 @@ function Hd = FD1
 Fs = 176400;  % Sampling Frequency
 
 N     = 246;    % Order
-Fpass = 20000;  % Passband Frequency
+Fpass = 20100;  % Passband Frequency
 Fstop = 24100;  % Stopband Frequency
 Wpass = 1;      % Passband Weight
 Wstop = 60000;  % Stopband Weight
@@ -27,7 +27,7 @@ Hd1 = dfilt.dffir(b1);
 Fs = 5644800;  % Sampling Frequency
 
 N     = 320;     % Order
-Fpass = 20000;   % Passband Frequency
+Fpass = 21000;   % Passband Frequency
 Fstop = 156400;  % Stopband Frequency
 Wpass = 1;       % Passband Weight
 Wstop = 60000;   % Stopband Weight
@@ -41,7 +41,7 @@ Hd2 = dfilt.dffir(b2);
 Hd = conv( b1, b2 );
 Hd = Hd( 1:length( Hd ) - 31 );
 Hd = Hd/max(Hd);
-Hd = Hd * 0.995;
+%Hd = Hd * 0.995;
 
 %fvtool(Hd1, Hd2 );
 
