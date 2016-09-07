@@ -5,14 +5,14 @@ use ieee.std_logic_textio.all;
 
 package src_pkg is
 	
-	constant RAMP_LOCKED		: integer range 7 to 11 := 7;
-	constant RAMP_UNLOCKED	: integer range 7 to 11 := 7;
+	constant RAMP_LOCKED		: integer range 7 to 11 := 11;
+	constant RAMP_UNLOCKED	: integer range 7 to 11 :=  9;
 	
 	constant THRESH_PRE		: integer :=  16;
 	constant THRESH_LOCK		: integer :=   8;
 	constant THRESH_UNLOCK	: integer :=  64;
 	
-	constant RATIO_FSI_CLK	: boolean := true;
+	constant RATIO_FSI_CLK	: boolean := false;
 	
 	constant DX_WIDTH			: integer := 24;
 

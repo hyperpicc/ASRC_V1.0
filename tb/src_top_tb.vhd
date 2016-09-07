@@ -15,7 +15,7 @@ ARCHITECTURE behavior OF src_top_tb IS
 	constant MCLK		: real := 24576.0;
 	constant	FRQ_I		: real := 192.0;
 	constant	FRQ_O		: real := 44.1;
-	constant IFREQ		: real := 1.0;
+	constant IFREQ		: real := 20.0;
 
 	component src_top is
 		port (
@@ -119,8 +119,6 @@ BEGIN
 		);
 
 	i_process : process( clk )
-		--file		outfile	: text is out "test/src_i.txt";
-		--variable outline	: line;
 		variable sample	: signed( 23 downto 0 ) := ( others => '0' );
 	begin
 		if rising_edge( clk ) then
@@ -128,11 +126,8 @@ BEGIN
 				if fs_i_lr = '1' then
 					sample := gen_sig0;
 					fs_i_dat <= sample;
-					
-					--write( outline, to_integer( sample ) );
-					--writeline( outfile, outline );
 				else
-					fs_i_dat <= sample;--SHIFT_RIGHT( sample, 16 );
+					fs_i_dat <= SHIFT_RIGHT( sample, 16 );
 				end if;
 			end if;
 		end if;
