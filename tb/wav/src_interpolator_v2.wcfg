@@ -46,8 +46,8 @@
       <obj_property name="ObjectShortName">rd_addr[29:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/rd_addr_int" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">rd_addr_int[9:0]</obj_property>
-      <obj_property name="ObjectShortName">rd_addr_int[9:0]</obj_property>
+      <obj_property name="ElementShortName">rd_addr_int[8:0]</obj_property>
+      <obj_property name="ObjectShortName">rd_addr_int[8:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/rd_addr_frc" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">rd_addr_frc[19:0]</obj_property>
@@ -62,8 +62,8 @@
       <obj_property name="ObjectShortName">i_wr_data[23:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/i_wr_addr" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">i_wr_addr[9:0]</obj_property>
-      <obj_property name="ObjectShortName">i_wr_addr[9:0]</obj_property>
+      <obj_property name="ElementShortName">i_wr_addr[8:0]</obj_property>
+      <obj_property name="ObjectShortName">i_wr_addr[8:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/i_wr_en" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">i_wr_en</obj_property>
@@ -108,6 +108,7 @@
    <wvobject fp_name="/src_interpolator_v2_tb/ratio_limit" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">ratio_limit[0:-19]</obj_property>
       <obj_property name="ObjectShortName">ratio_limit[0:-19]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/ratio_inc" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">ratio_inc[23:0]</obj_property>
@@ -168,8 +169,8 @@
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/mul_o" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">mul_o[16:0]</obj_property>
-      <obj_property name="ObjectShortName">mul_o[16:0]</obj_property>
+      <obj_property name="ElementShortName">mul_o[18:0]</obj_property>
+      <obj_property name="ObjectShortName">mul_o[18:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="group1166" type="group">

@@ -3,7 +3,7 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="E:/Development/HDL/ASRC_V1.0/XST/src_top_tb_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="/home/charlie/work/ASRC_V1.0/XST/src_top_tb_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="fixed_float_types" />
             <top_module name="fixed_pkg" />
@@ -20,7 +20,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="11" />
+   <WVObjectSize size="12" />
    <wvobject fp_name="/src_top_tb/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -44,6 +44,14 @@
    <wvobject fp_name="/src_top_tb/ctrl_offset" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">ctrl_offset</obj_property>
       <obj_property name="ObjectShortName">ctrl_offset</obj_property>
+   </wvobject>
+   <wvobject fp_name="group99" type="group">
+      <obj_property name="label">Inputs</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/fs_i_dat" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_i_dat[23:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_i_dat[23:0]</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject fp_name="group260" type="group">
       <obj_property name="label">Clocks</obj_property>
@@ -74,8 +82,8 @@
          <obj_property name="ObjectShortName">fs_i_trm</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_i_cnt" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">fs_i_cnt[4:0]</obj_property>
-         <obj_property name="ObjectShortName">fs_i_cnt[4:0]</obj_property>
+         <obj_property name="ElementShortName">fs_i_cnt[10:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_i_cnt[10:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_abs" type="logic" db_ref_id="1">
@@ -153,8 +161,8 @@
          </wvobject>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/ramp_dx" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">ramp_dx[12:0]</obj_property>
-         <obj_property name="ObjectShortName">ramp_dx[12:0]</obj_property>
+         <obj_property name="ElementShortName">ramp_dx[13:0]</obj_property>
+         <obj_property name="ObjectShortName">ramp_dx[13:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
    </wvobject>
@@ -172,18 +180,18 @@
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/mul_o" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">mul_o[18:0]</obj_property>
-         <obj_property name="ObjectShortName">mul_o[18:0]</obj_property>
+         <obj_property name="ElementShortName">mul_o[16:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_o[16:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/i_ratio" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">i_ratio[19:0]</obj_property>
-         <obj_property name="ObjectShortName">i_ratio[19:0]</obj_property>
+         <obj_property name="ElementShortName">i_ratio[17:0]</obj_property>
+         <obj_property name="ObjectShortName">i_ratio[17:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/i_ratio_init" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">i_ratio_init[18:0]</obj_property>
-         <obj_property name="ObjectShortName">i_ratio_init[18:0]</obj_property>
+         <obj_property name="ElementShortName">i_ratio_init[16:0]</obj_property>
+         <obj_property name="ObjectShortName">i_ratio_init[16:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
    </wvobject>

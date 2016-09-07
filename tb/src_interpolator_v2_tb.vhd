@@ -95,9 +95,9 @@ ARCHITECTURE behavior OF src_interpolator_v2_tb IS
 	 -- Clock period definitions
 	 constant clk_period : time := 10 ns;
 	 
-	constant	FRQ_I		: real := 44.1;
-	constant	FRQ_O		: real := 192.0;
-	constant IFREQ		: real := 1.0;
+	constant	FRQ_O		: real := 44.1;
+	constant	FRQ_I		: real := 192.0;
+	constant IFREQ		: real := 20.0;
 
 	constant ratio_real	: real := FRQ_O / FRQ_I;
 	signal   ratio_sfixed: sfixed( 3 downto -19 );
