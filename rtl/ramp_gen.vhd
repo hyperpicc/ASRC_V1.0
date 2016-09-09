@@ -18,8 +18,8 @@ entity ramp_gen is
 		
 		ramp_en		: out std_logic := '0';
 		ramp_int		: out unsigned(  8 downto 0 ) := ( others => '0' );
-		ramp_frc		: out unsigned( 19 downto 0 ) := ( others => '0' );
-		ramp_dx		: out unsigned( 13 downto 0 ) := ( others => '0' )
+		ramp_frc		: out unsigned( 21 downto 0 ) := ( others => '0' );
+		ramp_dx		: out unsigned( 16 downto 0 ) := ( others => '0' )
 	);
 end ramp_gen;
 
@@ -28,14 +28,14 @@ architecture rtl of ramp_gen is
 	
 	signal rf_en		: std_logic := '0';
 	signal lock_en		: std_logic := '0';
-	signal rf_input	: unsigned( 34 downto 0 ) := ( others => '0' );
-	signal rf_output	: unsigned( 34 downto 0 ) := ( others => '0' );
+	signal rf_input	: unsigned( 36 downto 0 ) := ( others => '0' );
+	signal rf_output	: unsigned( 36 downto 0 ) := ( others => '0' );
 begin
 		
 	fs_i_addr <= wr_addr( fs_i_addr'range );
 	
-	ramp_int  <= rf_output( 28 downto 20 );
-	ramp_frc  <= rf_output( 19 downto  0 );
+	ramp_int  <= rf_output( 30 downto 22 );
+	ramp_frc  <= rf_output( 21 downto  0 );
 	
 	ramp_en <= lock_en;
 
@@ -45,13 +45,13 @@ begin
 		
 		signal wr_addr_d	: unsigned( 14 downto 0 ) := ( others => '0' );
 		
-		signal dividend	: unsigned( 19  downto 0 ) := ( others => '0' );
-		signal divisor		: unsigned( 19  downto 0 ) := ( others => '0' );
-		signal remainder	: unsigned( 19  downto 0 ) := ( others => '0' );
+		signal dividend	: unsigned( 21  downto 0 ) := ( others => '0' );
+		signal divisor		: unsigned( 21  downto 0 ) := ( others => '0' );
+		signal remainder	: unsigned( 21  downto 0 ) := ( others => '0' );
 	begin
 		
-		dividend <= RESIZE( m_cnt, 20 );
-		divisor  <= RESIZE( i_cnt, 20 );
+		dividend <= RESIZE( m_cnt, 22 );
+		divisor  <= RESIZE( i_cnt, 22 );
 		
 		rf_input <= wr_addr_d & remainder;
 		
@@ -73,7 +73,7 @@ begin
 		
 		INST_DIVIDER : divider_top
 			generic map (
-				DIV_WIDTH	=> 20
+				DIV_WIDTH	=> 22
 			)
 			port map (
 				clk			=> clk,
@@ -147,7 +147,7 @@ begin
 			);
 		
 	end block BLOCK_INTERPOLATE;
-		
+	
 	GEN_LOCK_EVT   : if RAMP_LOCKED /= RAMP_UNLOCKED generate
 
 		signal d0			: unsigned( rf_output'range ) := ( others => '0' );
@@ -158,7 +158,9 @@ begin
 		signal lock_evt	: std_logic := '0';
 		signal lock_evt_p	: std_logic := '0';
 		signal lock_evt_n	: std_logic := '0';
+		
 	begin
+	
 		ramp_dx <= d1_abs;
 		
 		d0_abs <= GET_ABS( d0 - rf_output, d0_abs'length );
@@ -187,7 +189,7 @@ begin
 				end if;
 			end if;
 		end process lock_evt_process;
-	
+		
 		lock_process : process( clk )
 		begin
 			if rising_edge( clk ) then
@@ -198,7 +200,7 @@ begin
 				end if;
 			end if;
 		end process lock_process;
-			
+		
 	end generate GEN_LOCK_EVT;
 	
 	GEN_LOCK_EVT_N : if RAMP_LOCKED = RAMP_UNLOCKED generate

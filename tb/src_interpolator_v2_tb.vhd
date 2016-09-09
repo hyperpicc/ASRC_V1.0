@@ -19,37 +19,6 @@ ENTITY src_interpolator_v2_tb IS
 END src_interpolator_v2_tb;
 
 ARCHITECTURE behavior OF src_interpolator_v2_tb IS 
-
-	component src_engine is
-		generic (
-			COE_WIDTH		: integer := 24
-		);
-		port (
-			clk				: in  std_logic;
-			rst				: in  std_logic;
-			
-			ctrl_offset		: in  std_logic;
-			ctrl_lock		: in  std_logic;
-			
-			ratio				: in  unsigned( 19 downto 0 );
-			
-			rd_addr_int		: in  unsigned( 8 downto 0 );
-			rd_addr_frc		: in  unsigned( 19 downto 0 );
-			rd_req			: in  std_logic;
-			
-			i_wr_data		: in  signed( 23 downto 0 );
-			i_wr_addr		: in  unsigned( 8 downto 0 );
-			i_wr_en			: in  std_logic;
-			i_wr_lr			: in  std_logic;
-			
-			o_data			: out signed( 23 downto 0 ) := ( others => '0' );
-			o_data_en		: out std_logic := '0';
-			o_data_lr		: out std_logic := '0';
-			
-			o_coe				: out signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
-			o_coe_en			: out std_logic := '0'
-		);
-	end component src_engine;
 	
 	component time_util is
 		generic (
@@ -70,11 +39,11 @@ ARCHITECTURE behavior OF src_interpolator_v2_tb IS
 	signal ctrl_lock		: std_logic := '1';
 	signal ctrl_offset	: std_logic := '0';
 
-	signal ratio			: unsigned( 19 downto 0 );
+	signal ratio			: unsigned( 21 downto 0 );
 
-	signal rd_addr			: unsigned( 29 downto 0 ) := ( others => '0' );
+	signal rd_addr			: unsigned( 31 downto 0 ) := ( others => '0' );
 	signal rd_addr_int	: unsigned( 8 downto 0 ) := ( others => '0' );
-	signal rd_addr_frc	: unsigned( 19 downto 0 );
+	signal rd_addr_frc	: unsigned( 21 downto 0 );
 	signal rd_req			: std_logic := '0';
 
 	signal i_wr_data		: signed( 23 downto 0 ) := ( 23 => '0', others => '1' );
@@ -100,13 +69,13 @@ ARCHITECTURE behavior OF src_interpolator_v2_tb IS
 	constant IFREQ		: real := 20.0;
 
 	constant ratio_real	: real := FRQ_O / FRQ_I;
-	signal   ratio_sfixed: sfixed( 3 downto -19 );
-	signal   ratio_limit	: sfixed( 0 downto -19 );
+	signal   ratio_sfixed: sfixed( 3 downto -21 );
+	signal   ratio_limit	: sfixed( 0 downto -21 );
 	
 	
 	constant iratio_real	: real := FRQ_I / FRQ_O;
-	signal   iratio_sfixed: sfixed( 3 downto -20 );
-	signal	ratio_inc	: unsigned( 23 downto 0 );
+	signal   iratio_sfixed: sfixed( 3 downto -22 );
+	signal	ratio_inc	: unsigned( 25 downto 0 );
 	
 	shared variable sig0	: SIG_TYPE := sig_type_init;
 	impure function gen_sig0 return signed is
@@ -124,8 +93,8 @@ BEGIN
 	iratio_sfixed <= to_sfixed( iratio_real, iratio_sfixed );
 	ratio_inc <= SHIFT_LEFT( unsigned( std_logic_vector( iratio_sfixed ) ), 0 );
 
-	rd_addr_int <= rd_addr( 28 downto 20 );
-	rd_addr_frc <= rd_addr( 19 downto  0 );
+	rd_addr_int <= rd_addr( 30 downto 22 );
+	rd_addr_frc <= rd_addr( 21 downto  0 );
 	
 	INST_SRC : src_engine
 		generic map (

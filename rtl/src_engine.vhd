@@ -17,10 +17,10 @@ entity src_engine is
 		ctrl_offset		: in  std_logic;
 		ctrl_lock		: in  std_logic;
 		
-		ratio				: in  unsigned( 19 downto 0 );
+		ratio				: in  unsigned( 21 downto 0 );
 		
 		rd_addr_int		: in  unsigned( 8 downto 0 );
-		rd_addr_frc		: in  unsigned( 19 downto 0 );
+		rd_addr_frc		: in  unsigned( 21 downto 0 );
 		rd_req			: in  std_logic;
 		
 		i_wr_data		: in  signed( 23 downto 0 );
@@ -44,9 +44,9 @@ architecture rtl of src_engine is
 	signal interp_en	: std_logic := '0';
 	signal interp_fin	: std_logic := '0';
 	
-	signal mul_i0		: unsigned( 19 downto 0 ) := ( others => '0' );
+	signal mul_i0		: unsigned( 21 downto 0 ) := ( others => '0' );
 	signal mul_i1		: unsigned( 16 downto 0 ) := ( others => '0' );
-	signal mul_o		: unsigned( 18 downto 0 ) := ( others => '0' );
+	signal mul_o		: unsigned( 20 downto 0 ) := ( others => '0' );
 
 	signal mac_coe		: signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
 	signal mac_en		: std_logic := '0';
@@ -162,7 +162,7 @@ begin
 		signal m_cry	: unsigned( 16 downto 0 ) := ( others => '0' );
 	begin
 
-		mi_0 <= mul_i0( 16 downto 0 ) when m_en = '1' else RESIZE( mul_i0( 19 downto 17 ), 17 );
+		mi_0 <= mul_i0( 16 downto 0 ) when m_en = '1' else RESIZE( mul_i0( mul_i0'high downto 17 ), 17 );
 		mi_1 <= mul_i1;
 		
 		m_o <= mi_0 * mi_1 + m_cry;
@@ -180,7 +180,7 @@ begin
 				end if;
 				
 				if m_en_d = '1' then
-					mul_o <= m_o( 18 downto 0 );
+					mul_o <= m_o( 22 downto 2 );
 				end if;
 			
 			end if;

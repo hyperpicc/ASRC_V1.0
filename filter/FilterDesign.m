@@ -7,7 +7,7 @@ Hf = FD1;
 Hf_coe = Hf( 1:4097 );
 
 Hf_coe = fi( Hf_coe, 1, CW, CW-1 );
-f_hf_coe = fopen('../rtl/src_rom_pkg.vhd', 'wt');
+f_hf_coe = fopen('../../ASRC_V1.0/rtl/src_rom_pkg.vhd', 'wt');
 
 % print header information
 fprintf( f_hf_coe, 'library ieee;\n' );

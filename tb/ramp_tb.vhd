@@ -37,6 +37,7 @@ ARCHITECTURE behavior OF ramp_tb IS
    signal ratio_lock : std_logic := '0';
    signal ramp_lock : std_logic := '0';
    signal fs_i_en : std_logic := '0';
+   signal fs_i_clk : std_logic := '0';
    signal fs_o_en : std_logic := '0';
    signal fs_o_clk : std_logic := '0';
 
@@ -44,9 +45,9 @@ ARCHITECTURE behavior OF ramp_tb IS
    signal fs_i_addr : unsigned(8 downto 0);
    signal ramp_en : std_logic;
    signal ramp_int : unsigned(8 downto 0);
-   signal ramp_frc : unsigned(19 downto 0);
-   signal ramp_dx : unsigned(12 downto 0);
-   signal ratio : unsigned(19 downto 0);
+   signal ramp_frc : unsigned(21 downto 0);
+   signal ramp_dx : unsigned(16 downto 0);
+   signal ratio : unsigned(21 downto 0);
 
 BEGIN
 	
@@ -56,7 +57,7 @@ BEGIN
 		)
 		port map (
 			clk_m		=> clk,
-			clk		=> open,
+			clk		=> fs_i_clk,
 			clk_en	=> open,
 			clk_lr	=> fs_i_en
 		);
@@ -93,6 +94,7 @@ BEGIN
 			rst				=> rst,
 			ratio_lock		=> ratio_lock,
 			
+			fs_i_clk		   => fs_i_clk,
 			fs_i_en			=> fs_i_en,
 			fs_o_clk			=> fs_o_clk,
 			fs_o_en			=> fs_o_en,

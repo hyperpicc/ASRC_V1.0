@@ -4,15 +4,16 @@ use ieee.numeric_std.all;
 use ieee.std_logic_textio.all;
 
 package src_pkg is
+
+	constant RAMP_LOCKED		: integer range 7 to 11 := 7;
+	constant RAMP_UNLOCKED	: integer range 7 to 11 := 7;
 	
-	constant RAMP_LOCKED		: integer range 7 to 11 :=  9;
-	constant RAMP_UNLOCKED	: integer range 7 to 11 :=  9;
+	constant THRESH_RATIO	: integer :=   32;
+	constant THRESH_PRE		: integer :=   16;
+	constant THRESH_LOCK		: integer :=    8;
+	constant THRESH_UNLOCK	: integer :=   64;
 	
-	constant THRESH_PRE		: integer :=  16;
-	constant THRESH_LOCK		: integer :=   8;
-	constant THRESH_UNLOCK	: integer :=  64;
-	
-	constant RATIO_FSI_CLK	: boolean := false;
+	constant RATIO_FSI_CLK	: boolean := true;
 	
 	constant DX_WIDTH			: integer := 24;
 
@@ -31,10 +32,10 @@ package src_pkg is
 			ctrl_offset		: in  std_logic;
 			ctrl_lock		: in  std_logic;
 			
-			ratio				: in  unsigned( 19 downto 0 );
+			ratio				: in  unsigned( 21 downto 0 );
 			
 			rd_addr_int		: in  unsigned( 8 downto 0 );
-			rd_addr_frc		: in  unsigned( 19 downto 0 );
+			rd_addr_frc		: in  unsigned( 21 downto 0 );
 			rd_req			: in  std_logic;
 			
 			i_wr_data		: in  signed( 23 downto 0 );
@@ -64,8 +65,8 @@ package src_pkg is
 			
 			ramp_en		: out std_logic;
 			ramp_int		: out unsigned(  8 downto 0 );
-			ramp_frc		: out unsigned( 19 downto 0 );
-			ramp_dx		: out unsigned( 13 downto 0 )
+			ramp_frc		: out unsigned( 21 downto 0 );
+			ramp_dx		: out unsigned( 16 downto 0 )
 		);
 	end component ramp_gen;
 	
@@ -80,7 +81,7 @@ package src_pkg is
 			fs_o_clk			: in  std_logic;
 			fs_o_en			: in  std_logic;
 			
-			ratio				: out unsigned( 19 downto 0 )
+			ratio				: out unsigned( 21 downto 0 )
 		);
 	end component ratio_gen;
 	
@@ -93,8 +94,8 @@ package src_pkg is
 			clk				: in  std_logic;
 			rst				: in  std_logic;
 			
-			i_ratio			: in  unsigned( 19 downto 0 );
-			i_ratio_init	: in  unsigned( 18 downto 0 );
+			i_ratio			: in  unsigned( 21 downto 0 );
+			i_ratio_init	: in  unsigned( 20 downto 0 );
 			i_en				: in  std_logic;
 			
 			o_coe				: out signed( COE_WIDTH-1 downto 0 );
@@ -114,7 +115,7 @@ package src_pkg is
 			clk			: in  std_logic;
 			rst			: in  std_logic;
 			
-			i_ratio		: in  unsigned( 19 downto 0 );
+			i_ratio		: in  unsigned( 21 downto 0 );
 			i_coe			: in	signed( COE_WIDTH-1 downto 0 );
 			i_data		: in  signed( 23 downto 0 );
 			

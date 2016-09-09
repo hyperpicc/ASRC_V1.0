@@ -13,7 +13,7 @@ entity src_mac is
 		clk			: in  std_logic;
 		rst			: in  std_logic;
 		
-		i_ratio		: in  unsigned( 19 downto 0 );
+		i_ratio		: in  unsigned( 21 downto 0 );
 		i_coe			: in	signed( COE_WIDTH - 1 downto 0 );
 		i_data		: in  signed( 23 downto 0 );
 		
@@ -48,7 +48,7 @@ begin
 	
 	-- MAC input muxes
 	mac_i0 <= i_data when i_ctrl_norm = '0' else 
-				 SIGNED( "0" & i_ratio & o"0" );
+				 SIGNED( "0" & i_ratio & '0' );
 	mac_i1 <= ( i_coe & x"0" ) when i_ctrl_norm = '0' else 
 				 mac_acc_l( mac_acc_l'high downto mac_acc_l'high - COE_WIDTH - 3 ) when i_ctrl_lr = '0' else
 				 mac_acc_r( mac_acc_r'high downto mac_acc_r'high - COE_WIDTH - 3 );
