@@ -5,7 +5,7 @@ function analysis( h, fs )
 	
 	h = h/2^23;
 	figure; thd( h, fs, 20 ); 
-	figure; sinad( h, fs );
+	figure; sfdr( h, fs, 512 );
 	
 end
 

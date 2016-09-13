@@ -16,7 +16,7 @@ entity ratio_gen is
 		fs_o_clk			: in  std_logic;
 		fs_o_en			: in  std_logic;
 		
-		ratio				: out unsigned( 21 downto 0 ) := ( others => '0' )
+		ratio				: out unsigned( 19 downto 0 ) := ( others => '0' )
 	);
 end ratio_gen;
 
@@ -34,11 +34,11 @@ architecture rtl of ratio_gen is
 	signal fs_o_abs	: std_logic := '0';
 	signal fs_o_latch	: std_logic := '0';
 	
-	signal lpf_in		: unsigned( 24 downto 0 ) := ( others => '0' );
-	signal lpf_out		: unsigned( 24 downto 0 ) := ( others => '0' );
+	signal lpf_in		: signed( 22 downto 0 ) := ( others => '0' );
+	signal lpf_out		: signed( 22 downto 0 ) := ( others => '0' );
 	
 	signal o_lock		: std_logic := '0';
-	signal o_ratio		: unsigned( 21 downto 0 ) := ( others => '0' );
+	signal o_ratio		: unsigned( 19 downto 0 ) := ( others => '0' );
 begin
 	
 	FSI_CLK_GEN : if RATIO_FSI_CLK generate
@@ -58,8 +58,8 @@ begin
 	
 	ratio_lock <= o_lock;
 	ratio <= o_ratio;
-	o_ratio <= ( ratio'high => '1', others => '0' ) when lpf_out( 24 downto 21 ) > 0 else
-				  unsigned( lpf_out( 21 downto 0 ) );
+	o_ratio <= ( ratio'high => '1', others => '0' ) when unsigned( lpf_out( 22 downto 19 ) ) > 0 else
+				  unsigned( lpf_out( 19 downto 0 ) );
 	
 	fs_o_cnt_process : process( clk )
 	begin
@@ -93,11 +93,11 @@ begin
 		end if;
 	end process latch_process;
 	
-	lpf_in <= fs_o_d2 & TO_UNSIGNED( 0, 25 - fs_o_d2'length );
+	lpf_in <= signed( fs_o_d2 ) & TO_SIGNED( 0, 23 - fs_o_d2'length );
 	
 	INST_LPF : lpf_top
 		generic map (
-			LPF_WIDTH	=> 25
+			LPF_WIDTH	=> 23
 		)
 		port map (
 			clk			=> clk,

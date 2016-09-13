@@ -17,10 +17,10 @@ entity src_engine is
 		ctrl_offset		: in  std_logic;
 		ctrl_lock		: in  std_logic;
 		
-		ratio				: in  unsigned( 21 downto 0 );
+		ratio				: in  unsigned( 19 downto 0 );
 		
 		rd_addr_int		: in  unsigned( 8 downto 0 );
-		rd_addr_frc		: in  unsigned( 21 downto 0 );
+		rd_addr_frc		: in  unsigned( 19 downto 0 );
 		rd_req			: in  std_logic;
 		
 		i_wr_data		: in  signed( 23 downto 0 );
@@ -44,9 +44,9 @@ architecture rtl of src_engine is
 	signal interp_en	: std_logic := '0';
 	signal interp_fin	: std_logic := '0';
 	
-	signal mul_i0		: unsigned( 21 downto 0 ) := ( others => '0' );
+	signal mul_i0		: unsigned( 19 downto 0 ) := ( others => '0' );
 	signal mul_i1		: unsigned( 16 downto 0 ) := ( others => '0' );
-	signal mul_o		: unsigned( 20 downto 0 ) := ( others => '0' );
+	signal mul_o		: unsigned( 18 downto 0 ) := ( others => '0' );
 
 	signal mac_coe		: signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
 	signal mac_en		: std_logic := '0';
@@ -74,7 +74,7 @@ begin
 				interp_en <= '0';
 				case state is
 					when S0_WAIT =>
-						if ( ctrl_lock and rd_req ) = '1' and ratio( 19 downto 15 ) /= 0 then
+						if ( ctrl_lock and rd_req ) = '1' and ratio( ratio'high downto ratio'high-4 ) /= 0 then
 							state <= S1_MULTIPLY;
 						end if;
 						
@@ -180,7 +180,7 @@ begin
 				end if;
 				
 				if m_en_d = '1' then
-					mul_o <= m_o( 22 downto 2 );
+					mul_o <= m_o( 18 downto 0 );
 				end if;
 			
 			end if;

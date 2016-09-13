@@ -20,7 +20,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="12" />
+   <WVObjectSize size="13" />
    <wvobject fp_name="/src_top_tb/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -73,8 +73,8 @@
       <obj_property name="label">Ratio</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/ratio" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">ratio[21:0]</obj_property>
-         <obj_property name="ObjectShortName">ratio[21:0]</obj_property>
+         <obj_property name="ElementShortName">ratio[19:0]</obj_property>
+         <obj_property name="ObjectShortName">ratio[19:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_i_trm" type="logic" db_ref_id="1">
@@ -119,13 +119,13 @@
          <obj_property name="ObjectShortName">lim_abs</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lpf_in" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">lpf_in[24:0]</obj_property>
-         <obj_property name="ObjectShortName">lpf_in[24:0]</obj_property>
+         <obj_property name="ElementShortName">lpf_in[22:0]</obj_property>
+         <obj_property name="ObjectShortName">lpf_in[22:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lpf_out" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">lpf_out[24:0]</obj_property>
-         <obj_property name="ObjectShortName">lpf_out[24:0]</obj_property>
+         <obj_property name="ElementShortName">lpf_out[22:0]</obj_property>
+         <obj_property name="ObjectShortName">lpf_out[22:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
    </wvobject>
@@ -142,27 +142,18 @@
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/ramp_frc" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">ramp_frc[21:0]</obj_property>
-         <obj_property name="ObjectShortName">ramp_frc[21:0]</obj_property>
+         <obj_property name="ElementShortName">ramp_frc[19:0]</obj_property>
+         <obj_property name="ObjectShortName">ramp_frc[19:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject fp_name="group79" type="group">
-         <obj_property name="label">Divider</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/block_generate/dividend" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">dividend[21:0]</obj_property>
-            <obj_property name="ObjectShortName">dividend[21:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/block_generate/divisor" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">divisor[21:0]</obj_property>
-            <obj_property name="ObjectShortName">divisor[21:0]</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/block_interpolate/f_strip" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">f_strip[38:0]</obj_property>
+         <obj_property name="ObjectShortName">f_strip[38:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/ramp_dx" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">ramp_dx[16:0]</obj_property>
-         <obj_property name="ObjectShortName">ramp_dx[16:0]</obj_property>
+         <obj_property name="ElementShortName">ramp_dx[17:0]</obj_property>
+         <obj_property name="ObjectShortName">ramp_dx[17:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
    </wvobject>
@@ -170,8 +161,8 @@
       <obj_property name="label">Engine</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/mul_i0" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">mul_i0[21:0]</obj_property>
-         <obj_property name="ObjectShortName">mul_i0[21:0]</obj_property>
+         <obj_property name="ElementShortName">mul_i0[19:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_i0[19:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/mul_i1" type="array" db_ref_id="1">
@@ -180,18 +171,18 @@
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/mul_o" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">mul_o[20:0]</obj_property>
-         <obj_property name="ObjectShortName">mul_o[20:0]</obj_property>
+         <obj_property name="ElementShortName">mul_o[18:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_o[18:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/i_ratio" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">i_ratio[21:0]</obj_property>
-         <obj_property name="ObjectShortName">i_ratio[21:0]</obj_property>
+         <obj_property name="ElementShortName">i_ratio[19:0]</obj_property>
+         <obj_property name="ObjectShortName">i_ratio[19:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_INTERPOLATOR/i_ratio_init" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">i_ratio_init[20:0]</obj_property>
-         <obj_property name="ObjectShortName">i_ratio_init[20:0]</obj_property>
+         <obj_property name="ElementShortName">i_ratio_init[18:0]</obj_property>
+         <obj_property name="ObjectShortName">i_ratio_init[18:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
    </wvobject>
@@ -218,6 +209,20 @@
          <obj_property name="ElementShortName">fs_o_dat[23:0]</obj_property>
          <obj_property name="ObjectShortName">fs_o_dat[23:0]</obj_property>
          <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group79" type="group">
+      <obj_property name="label">Pointers</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/fs_i_addr" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">fs_i_addr[8:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_i_addr[8:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/ramp_int" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">ramp_int[8:0]</obj_property>
+         <obj_property name="ObjectShortName">ramp_int[8:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

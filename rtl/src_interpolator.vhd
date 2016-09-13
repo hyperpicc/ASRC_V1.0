@@ -15,8 +15,8 @@ entity src_interpolator is
 		clk				: in  std_logic;
 		rst				: in  std_logic;
 		
-		i_ratio			: in  unsigned( 21 downto 0 );
-		i_ratio_init	: in  unsigned( 20 downto 0 );
+		i_ratio			: in  unsigned( 19 downto 0 );
+		i_ratio_init	: in  unsigned( 18 downto 0 );
 		i_en				: in  std_logic;
 		
 		o_coe				: out signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
@@ -112,13 +112,13 @@ begin
 	ADDR_GEN_BLOCK : block
 		constant ADDR_FB_REG		: integer := 2;
 		
-		signal addr_gen			: unsigned( 26 downto 0 ) := ( others => '0' );
+		signal addr_gen			: unsigned( 24 downto 0 ) := ( others => '0' );
 		signal addr_offset		: unsigned(  1 downto 0 ) := ( others => '0' );
 		signal addr_adder			: unsigned( 12 downto 0 ) := ( others => '0' );
-		alias  addr_gen_int		: unsigned( 12 downto 0 ) is addr_gen( 26 downto 14 );
-		alias  addr_gen_frc		: unsigned(  9 downto 0 ) is addr_gen( 13 downto  4 );
+		alias  addr_gen_int		: unsigned( 12 downto 0 ) is addr_gen( 24 downto 12 );
+		alias  addr_gen_frc		: unsigned(  9 downto 0 ) is addr_gen( 11 downto  2 );
 		
-		signal addr_next			: unsigned( 27 downto 0 ) := ( others => '0' );
+		signal addr_next			: unsigned( 25 downto 0 ) := ( others => '0' );
 		signal addr_fold			: unsigned( 12 downto 0 ) := ( others => '0' );
 		
 		signal addr_gen_term		: std_logic := '0';

@@ -3,7 +3,7 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="/home/charlie/work/ASRC_V1.0/XST/ramp_tb_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="E:/Development/HDL/ASRC_V1.0/Xilinx/ramp_tb_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="fixed_float_types" />
             <top_module name="fixed_pkg" />
@@ -19,7 +19,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="10" />
+   <WVObjectSize size="14" />
    <wvobject fp_name="/ramp_tb/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -27,6 +27,16 @@
    <wvobject fp_name="/ramp_tb/rst" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">rst</obj_property>
       <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/fs_i_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fs_i_addr[8:0]</obj_property>
+      <obj_property name="ObjectShortName">fs_i_addr[8:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/ramp_int" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ramp_int[8:0]</obj_property>
+      <obj_property name="ObjectShortName">ramp_int[8:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/ramp_tb/fs_i_en" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">fs_i_en</obj_property>
@@ -44,23 +54,34 @@
       <obj_property name="ElementShortName">ramp_lock</obj_property>
       <obj_property name="ObjectShortName">ramp_lock</obj_property>
    </wvobject>
-   <wvobject fp_name="/ramp_tb/uut/block_lock/d0" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">d0[33:0]</obj_property>
-      <obj_property name="ObjectShortName">d0[33:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   <wvobject fp_name="/ramp_tb/ratio" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ratio[19:0]</obj_property>
+      <obj_property name="ObjectShortName">ratio[19:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/ramp_tb/uut/block_lock/d1" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">d1[23:0]</obj_property>
-      <obj_property name="ObjectShortName">d1[23:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   <wvobject fp_name="/ramp_tb/uut/block_interpolate/f_input_sub" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">f_input_sub[39:0]</obj_property>
+      <obj_property name="ObjectShortName">f_input_sub[39:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/ramp_tb/uut/block_lock/d1_abs" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">d1_abs[12:0]</obj_property>
-      <obj_property name="ObjectShortName">d1_abs[12:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   <wvobject fp_name="/ramp_tb/uut/block_interpolate/f_strip" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">f_strip[38:0]</obj_property>
+      <obj_property name="ObjectShortName">f_strip[38:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/uut/block_interpolate/f_lpf_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">f_lpf_out[38:0]</obj_property>
+      <obj_property name="ObjectShortName">f_lpf_out[38:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/ramp_tb/ramp_dx" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">ramp_dx[12:0]</obj_property>
-      <obj_property name="ObjectShortName">ramp_dx[12:0]</obj_property>
+      <obj_property name="ElementShortName">ramp_dx[17:0]</obj_property>
+      <obj_property name="ObjectShortName">ramp_dx[17:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/o_dif" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">o_dif[8:0]</obj_property>
+      <obj_property name="ObjectShortName">o_dif[8:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>

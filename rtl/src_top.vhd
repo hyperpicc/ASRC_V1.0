@@ -33,14 +33,14 @@ end src_top;
 architecture rtl of src_top is
 	signal ramp_lock	: std_logic := '0';
 	signal ratio_lock	: std_logic := '0';
-	signal ratio		: unsigned( 21 downto 0 ) := ( others => '0' );
+	signal ratio		: unsigned( 19 downto 0 ) := ( others => '0' );
 	
 	signal wr_int		: unsigned( 8 downto 0 ) := ( others => '0' );
 	signal rd_en		: std_logic := '0';
 	signal rd_int		: unsigned( 8 downto 0 ) := ( others => '0' );
-	signal rd_frc		: unsigned( 21 downto 0 ) := ( others => '0' );
+	signal rd_frc		: unsigned( 19 downto 0 ) := ( others => '0' );
 begin
-	ctrl_lock <= ramp_lock;
+	ctrl_lock <= ramp_lock and ratio_lock;
 
 	INST_RATIO : ratio_gen
 		port map (

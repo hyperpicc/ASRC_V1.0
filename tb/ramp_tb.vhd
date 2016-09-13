@@ -17,7 +17,7 @@ ARCHITECTURE behavior OF ramp_tb IS
     -- Component Declaration for the Unit Under Test (UUT)
 	component time_util is
 		generic (
-			frq_m		: real :=  24576.0 * 8.0;
+			frq_m		: real :=  24576.0 * 4.0;
 			frq		: real :=  192.0
 		);
 		port (
@@ -28,8 +28,8 @@ ARCHITECTURE behavior OF ramp_tb IS
 		);
 	end component time_util;
 	
-	constant	FRQ_O		: real :=  24.0;
 	constant	FRQ_I		: real := 192.0;
+	constant	FRQ_O		: real :=  44.1;
    
    --Inputs
    signal clk : std_logic := '0';
@@ -45,15 +45,16 @@ ARCHITECTURE behavior OF ramp_tb IS
    signal fs_i_addr : unsigned(8 downto 0);
    signal ramp_en : std_logic;
    signal ramp_int : unsigned(8 downto 0);
-   signal ramp_frc : unsigned(21 downto 0);
-   signal ramp_dx : unsigned(16 downto 0);
-   signal ratio : unsigned(21 downto 0);
+   signal ramp_frc : unsigned(19 downto 0);
+   signal ramp_dx : unsigned(8 downto 0);
+   signal ratio : unsigned(19 downto 0);
 
+	signal o_dif : unsigned( fs_i_addr'range );
 BEGIN
 	
 	INST_TIME_I : time_util
 		generic map (
-			frq		=> FRQ_I * 8.0
+			frq		=> FRQ_I
 		)
 		port map (
 			clk_m		=> clk,
@@ -64,7 +65,7 @@ BEGIN
 	
 	INST_TIME_O : time_util
 		generic map (
-			frq		=> FRQ_O * 8.0
+			frq		=> FRQ_O
 		)
 		port map (
 			clk_m		=> open,
@@ -103,12 +104,15 @@ BEGIN
 		);
 		
 	o_process : process( clk )
-		file		outfile0	: text is out "test/ramp.txt";
+		variable dif : unsigned( fs_i_addr'range );
+		file		outfile0	: text is out "test/ramp_fsi.txt";
 		variable outline0	: line;
 	begin
 		if rising_edge( clk ) then
 			if ramp_en = '1' then
-				write( outline0, to_integer( ramp_dx ) );
+				dif := fs_i_addr - ramp_int;
+				o_dif <= dif;
+				write( outline0, to_integer( dif ) );
 				writeline( outfile0, outline0 );
 			end if;
 		end if;

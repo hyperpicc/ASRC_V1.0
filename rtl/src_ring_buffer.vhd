@@ -43,9 +43,9 @@ begin
 		end if;
 	end process write_process;
 	
-	rd_offset <= OS_ENABLE when i_rd_offset = '1' else OS_NENABLE;
+	rd_offset <= ( 6 => i_rd_offset, 4 => not( i_rd_offset ), others => '0' );
 	
-	rd_latch <= i_rd_addr + TO_INTEGER( rd_offset );
+	rd_latch <= i_rd_addr - TO_INTEGER( rd_offset );
 	
 	rd_lr <= i_rd_step;
 	

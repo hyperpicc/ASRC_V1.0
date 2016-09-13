@@ -18,8 +18,8 @@ entity ramp_gen is
 		
 		ramp_en		: out std_logic := '0';
 		ramp_int		: out unsigned(  8 downto 0 ) := ( others => '0' );
-		ramp_frc		: out unsigned( 21 downto 0 ) := ( others => '0' );
-		ramp_dx		: out unsigned( 16 downto 0 ) := ( others => '0' )
+		ramp_frc		: out unsigned( 19 downto 0 ) := ( others => '0' );
+		ramp_dx		: out unsigned(  8 downto 0 ) := ( others => '0' )
 	);
 end ramp_gen;
 
@@ -28,14 +28,16 @@ architecture rtl of ramp_gen is
 	
 	signal rf_en		: std_logic := '0';
 	signal lock_en		: std_logic := '0';
-	signal rf_input	: unsigned( 36 downto 0 ) := ( others => '0' );
-	signal rf_output	: unsigned( 36 downto 0 ) := ( others => '0' );
+	signal rf_input	: unsigned( 38 downto 0 ) := ( others => '0' );
+	signal rf_output	: unsigned( 28 downto 0 ) := ( others => '0' );
+	
+	signal remainder	: unsigned( 23  downto 0 ) := ( others => '0' );
 begin
 		
 	fs_i_addr <= wr_addr( fs_i_addr'range );
 	
-	ramp_int  <= rf_output( 30 downto 22 );
-	ramp_frc  <= rf_output( 21 downto  0 );
+	ramp_int  <= rf_output( 28 downto 20 );
+	ramp_frc  <= rf_output( 19 downto  0 );
 	
 	ramp_en <= lock_en;
 
@@ -45,13 +47,12 @@ begin
 		
 		signal wr_addr_d	: unsigned( 14 downto 0 ) := ( others => '0' );
 		
-		signal dividend	: unsigned( 21  downto 0 ) := ( others => '0' );
-		signal divisor		: unsigned( 21  downto 0 ) := ( others => '0' );
-		signal remainder	: unsigned( 21  downto 0 ) := ( others => '0' );
+		signal dividend	: unsigned( remainder'range ) := ( others => '0' );
+		signal divisor		: unsigned( remainder'range ) := ( others => '0' );
 	begin
 		
-		dividend <= RESIZE( m_cnt, 22 );
-		divisor  <= RESIZE( i_cnt, 22 );
+		dividend <= RESIZE( m_cnt, dividend'length );
+		divisor  <= RESIZE( i_cnt, dividend'length );
 		
 		rf_input <= wr_addr_d & remainder;
 		
@@ -73,7 +74,7 @@ begin
 		
 		INST_DIVIDER : divider_top
 			generic map (
-				DIV_WIDTH	=> 22
+				DIV_WIDTH	=> dividend'length
 			)
 			port map (
 				clk			=> clk,
@@ -92,19 +93,21 @@ begin
 	BLOCK_INTERPOLATE : block
 		signal rf_en_d			: std_logic := '0';
 		
-		signal f_input_sub	: unsigned( rf_input'length downto 0 ) := ( others => '0' );
+		signal f_input_sub	: signed( rf_input'length downto 0 ) := ( others => '0' );
 		signal f_strip			: unsigned( rf_input'range ) := ( others => '0' );
 		signal f_sreg			: unsigned( rf_input'range ) := ( others => '0' );
-		signal f_sreg_ctrl	: unsigned(  3 downto 0 ) := ( others => '0' );
+		signal f_sreg_ctrl	: unsigned( 3 downto 0 ) := ( others => '0' );
 		signal f_latch_in		: unsigned( rf_input'range ) := ( others => '0' );
 		signal f_latch_out	: unsigned( rf_input'range ) := ( others => '0' );
-		signal f_lpf_out		: unsigned( rf_input'range ) := ( others => '0' );
+		signal f_lpf_out		: signed( rf_input'range ) := ( others => '0' );
+		
+		signal f_output_add	: unsigned( rf_input'range ) := ( others => '0' );
 		signal f_output_sub	: unsigned( rf_input'range ) := ( others => '0' );
 	begin
 	
-		f_input_sub <= RESIZE( rf_input, f_input_sub'length ) - f_latch_out;
+		f_input_sub <= signed( '0' & rf_input ) - signed( '0' & f_latch_out );
 		
-		f_strip <= f_input_sub( f_strip'range );
+		f_strip <= unsigned( f_input_sub( f_strip'range ) );
 		
 		f_sreg_ctrl <= to_unsigned( RAMP_LOCKED, f_sreg_ctrl'length ) when ratio_lock = '1' else
 							to_unsigned( RAMP_UNLOCKED, f_sreg_ctrl'length );
@@ -113,7 +116,8 @@ begin
 		
 		f_latch_in <= f_sreg + f_latch_out;
 		
-		f_output_sub <= f_latch_out - f_lpf_out;
+		f_output_add <= f_latch_out + unsigned( f_lpf_out );
+		f_output_sub <= f_latch_out - unsigned( f_lpf_out );
 	
 		latch_proc : process( clk )
 		begin
@@ -126,7 +130,7 @@ begin
 				end if;
 				
 				if rf_en_d = '1' then
-					rf_output <= f_output_sub( rf_output'range );
+					rf_output <= f_output_add( 32 downto 24 ) & f_output_sub( 23 downto  4 );
 				end if;
 			end if;
 		end process latch_proc;
@@ -140,7 +144,7 @@ begin
 				rst			=> rst,
 				lock			=> ratio_lock,
 				
-				lpf_in		=> f_strip,
+				lpf_in		=> signed( f_strip ),
 				lpf_in_en	=> rf_en,
 				
 				lpf_out		=> f_lpf_out
@@ -148,47 +152,38 @@ begin
 		
 	end block BLOCK_INTERPOLATE;
 	
-	GEN_LOCK_EVT   : if RAMP_LOCKED /= RAMP_UNLOCKED generate
-
-		signal d0			: unsigned( rf_output'range ) := ( others => '0' );
-		signal d0_abs		: unsigned( 23 downto 0 ) := ( others => '0' );
-		signal d1			: unsigned( d0_abs'range ) := ( others => '0' );
-		signal d1_abs		: unsigned( ramp_dx'range ) := ( others => '0' );
+	GEN_LOCK_EVT : block--if RAMP_LOCKED /= RAMP_UNLOCKED generate
+	
+		signal d0_signed	: signed( 8 downto 0 ) := ( others => '0' );
+		signal d0			: signed( 8 downto 0 ) := ( others => '0' );
+		signal d0_abs		: unsigned( 8 downto 0 ) := ( others => '0' );
 		
-		signal lock_evt	: std_logic := '0';
 		signal lock_evt_p	: std_logic := '0';
 		signal lock_evt_n	: std_logic := '0';
+		signal lock_pipe	: std_logic_vector( 3 downto 0 ) := ( others => '0' );
 		
 	begin
 	
-		ramp_dx <= d1_abs;
+		ramp_dx <= d0_abs( 8 downto 0 );
 		
-		d0_abs <= GET_ABS( d0 - rf_output, d0_abs'length );
+		d0_signed <= signed( rf_output( 28 downto 20 ) );
 		
 		latch_process : process( clk )
 		begin
 			if rising_edge( clk ) then
 				if lock_en = '1' then
-					d0 <= rf_output;
-					d1 <= d0_abs;
-					d1_abs <= GET_ABS( d1 - d0_abs, d1_abs'length );
+					d0_abs <= GET_ABS( rf_output( 28 downto 20 ) - wr_addr( 8 downto 0 ), 9 );
+					
+					lock_pipe <= lock_pipe( 2 downto 0 ) & '0';
+					if ratio_lock = '1' and d0_abs < THRESH_LOCK then
+						lock_pipe <= lock_pipe( 2 downto 0 ) & '1';
+					end if;
 				end if;
 			end if;
 		end process latch_process;
 		
-		lock_evt_p <= '1' when ( ratio_lock and lock_evt )= '1' and d1_abs < THRESH_LOCK else '0';
-		lock_evt_n <= '1' when ratio_lock = '0' or  d1_abs > THRESH_UNLOCK else '0';
-		
-		lock_evt_process : process( clk )
-		begin
-			if rising_edge( clk ) then
-				if lock_evt_n = '1' then
-					lock_evt <= '0';
-				elsif ratio_lock = '1' and d1_abs > THRESH_PRE then
-					lock_evt <= '1';
-				end if;
-			end if;
-		end process lock_evt_process;
+		lock_evt_p <= '1' when ratio_lock = '1' and lock_pipe = x"F" else '0';
+		lock_evt_n <= not( ratio_lock );
 		
 		lock_process : process( clk )
 		begin
@@ -201,13 +196,14 @@ begin
 			end if;
 		end process lock_process;
 		
-	end generate GEN_LOCK_EVT;
-	
-	GEN_LOCK_EVT_N : if RAMP_LOCKED = RAMP_UNLOCKED generate
-	begin
-	
-		ramp_lock <= ratio_lock;
-		
-	end generate GEN_LOCK_EVT_N;
+	end block GEN_LOCK_EVT;
+--	end generate GEN_LOCK_EVT;
+--	
+--	GEN_LOCK_EVT_N : if RAMP_LOCKED = RAMP_UNLOCKED generate
+--	begin
+--	
+--		ramp_lock <= ratio_lock;
+--		
+--	end generate GEN_LOCK_EVT_N;
 	
 end rtl;

@@ -39,11 +39,11 @@ ARCHITECTURE behavior OF src_interpolator_v2_tb IS
 	signal ctrl_lock		: std_logic := '1';
 	signal ctrl_offset	: std_logic := '0';
 
-	signal ratio			: unsigned( 21 downto 0 );
+	signal ratio			: unsigned( 19 downto 0 );
 
-	signal rd_addr			: unsigned( 31 downto 0 ) := ( others => '0' );
+	signal rd_addr			: unsigned( 30 downto 0 ) := ( others => '0' );
 	signal rd_addr_int	: unsigned( 8 downto 0 ) := ( others => '0' );
-	signal rd_addr_frc	: unsigned( 21 downto 0 );
+	signal rd_addr_frc	: unsigned( 19 downto 0 );
 	signal rd_req			: std_logic := '0';
 
 	signal i_wr_data		: signed( 23 downto 0 ) := ( 23 => '0', others => '1' );
@@ -69,13 +69,14 @@ ARCHITECTURE behavior OF src_interpolator_v2_tb IS
 	constant IFREQ		: real := 20.0;
 
 	constant ratio_real	: real := FRQ_O / FRQ_I;
-	signal   ratio_sfixed: sfixed( 3 downto -21 );
-	signal   ratio_limit	: sfixed( 0 downto -21 );
-	
+	signal   ratio_sfixed: sfixed( 3 downto -19 );
+	signal   ratio_limit	: sfixed( 0 downto -19 );
 	
 	constant iratio_real	: real := FRQ_I / FRQ_O;
 	signal   iratio_sfixed: sfixed( 3 downto -22 );
 	signal	ratio_inc	: unsigned( 25 downto 0 );
+	signal   ratio_sub	: unsigned( 25 downto 0 );
+	signal   ratio_dif	: unsigned( 25 downto 0 );
 	
 	shared variable sig0	: SIG_TYPE := sig_type_init;
 	impure function gen_sig0 return signed is
@@ -88,13 +89,17 @@ BEGIN
  
 	ratio_sfixed <= to_sfixed( ratio_real, ratio_sfixed );
 	ratio_limit <= ( 0 => '1', others => '0' ) when ratio_sfixed( 3 downto 0 ) > 0 else ratio_sfixed( ratio_limit'range );
-	ratio <= unsigned( std_logic_vector( ratio_limit ) );
+	
+	ratio( 19 downto 5 ) <= unsigned( std_logic_vector( ratio_limit( 0 downto -14 ) ) );
+	ratio(  4 downto 0 ) <= ( others => '0' );
 	
 	iratio_sfixed <= to_sfixed( iratio_real, iratio_sfixed );
-	ratio_inc <= SHIFT_LEFT( unsigned( std_logic_vector( iratio_sfixed ) ), 0 );
+	ratio_inc( 25 downto 2 ) <= unsigned( std_logic_vector( iratio_sfixed(   3 downto -20 ) ) );
+	ratio_inc(  1 downto 0 ) <= ( others => '0' );
+	--ratio_inc(  1 downto 0 ) <= unsigned( std_logic_vector( iratio_sfixed( -21 downto -22 ) ) );
 
 	rd_addr_int <= rd_addr( 30 downto 22 );
-	rd_addr_frc <= rd_addr( 21 downto  0 );
+	rd_addr_frc <= rd_addr( 21 downto  2 );
 	
 	INST_SRC : src_engine
 		generic map (
@@ -166,6 +171,8 @@ BEGIN
 	stim_proc : process( clk )
 	begin
 		if rising_edge( clk ) then
+			ratio_dif <= ratio_inc;
+			ratio_sub <= ratio_inc - ratio_dif;
 			if rd_req = '1' then
 				rd_addr <= rd_addr + ratio_inc;
 			end if;
