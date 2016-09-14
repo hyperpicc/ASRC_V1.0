@@ -3,7 +3,7 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="E:/Development/HDL/ASRC_V1.0/Xilinx/src_top_tb_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="/home/charlie/work/ASRC_V1.0/XST/src_top_tb_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="fixed_float_types" />
             <top_module name="fixed_pkg" />
@@ -82,8 +82,8 @@
          <obj_property name="ObjectShortName">fs_i_trm</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_i_cnt" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">fs_i_cnt[14:0]</obj_property>
-         <obj_property name="ObjectShortName">fs_i_cnt[14:0]</obj_property>
+         <obj_property name="ElementShortName">fs_i_cnt[12:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_i_cnt[12:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_abs" type="logic" db_ref_id="1">
@@ -95,23 +95,23 @@
          <obj_property name="ObjectShortName">fs_o_latch</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_cnt" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">fs_o_cnt[18:0]</obj_property>
-         <obj_property name="ObjectShortName">fs_o_cnt[18:0]</obj_property>
+         <obj_property name="ElementShortName">fs_o_cnt[16:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_o_cnt[16:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_d0" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">fs_o_d0[18:0]</obj_property>
-         <obj_property name="ObjectShortName">fs_o_d0[18:0]</obj_property>
+         <obj_property name="ElementShortName">fs_o_d0[16:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_o_d0[16:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_d1" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">fs_o_d1[18:0]</obj_property>
-         <obj_property name="ObjectShortName">fs_o_d1[18:0]</obj_property>
+         <obj_property name="ElementShortName">fs_o_d1[16:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_o_d1[16:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/fs_o_d2" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">fs_o_d2[18:0]</obj_property>
-         <obj_property name="ObjectShortName">fs_o_d2[18:0]</obj_property>
+         <obj_property name="ElementShortName">fs_o_d2[16:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_o_d2[16:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RATIO/lock_block/lim_abs" type="logic" db_ref_id="1">
@@ -147,14 +147,14 @@
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/block_interpolate/f_strip" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">f_strip[38:0]</obj_property>
-         <obj_property name="ObjectShortName">f_strip[38:0]</obj_property>
+         <obj_property name="ElementShortName">f_strip[34:0]</obj_property>
+         <obj_property name="ObjectShortName">f_strip[34:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/ramp_dx" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">ramp_dx[17:0]</obj_property>
-         <obj_property name="ObjectShortName">ramp_dx[17:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="ElementShortName">ramp_dx[8:0]</obj_property>
+         <obj_property name="ObjectShortName">ramp_dx[8:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group436" type="group">
@@ -214,6 +214,16 @@
    <wvobject fp_name="group79" type="group">
       <obj_property name="label">Pointers</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_RING_BUFFER/rd_latch" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">rd_latch[8:0]</obj_property>
+         <obj_property name="ObjectShortName">rd_latch[8:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_SRC/INST_RING_BUFFER/i_wr_addr" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_wr_addr[8:0]</obj_property>
+         <obj_property name="ObjectShortName">i_wr_addr[8:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/fs_i_addr" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">fs_i_addr[8:0]</obj_property>
          <obj_property name="ObjectShortName">fs_i_addr[8:0]</obj_property>

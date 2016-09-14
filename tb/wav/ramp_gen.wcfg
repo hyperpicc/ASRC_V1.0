@@ -3,7 +3,7 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="E:/Development/HDL/ASRC_V1.0/Xilinx/ramp_tb_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="/home/charlie/work/ASRC_V1.0/XST/ramp_tb_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="fixed_float_types" />
             <top_module name="fixed_pkg" />
@@ -75,9 +75,9 @@
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/ramp_tb/ramp_dx" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">ramp_dx[17:0]</obj_property>
-      <obj_property name="ObjectShortName">ramp_dx[17:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="ElementShortName">ramp_dx[8:0]</obj_property>
+      <obj_property name="ObjectShortName">ramp_dx[8:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/ramp_tb/o_dif" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">o_dif[8:0]</obj_property>

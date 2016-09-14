@@ -40,7 +40,10 @@ architecture rtl of src_top is
 	signal rd_int		: unsigned( 8 downto 0 ) := ( others => '0' );
 	signal rd_frc		: unsigned( 19 downto 0 ) := ( others => '0' );
 begin
-	ctrl_lock <= ramp_lock and ratio_lock;
+	
+	-- expect ramp to settle AND ratio to be constant
+	-- ramp takes into consideration ratio, so just ramp_lock here
+	ctrl_lock <= ramp_lock;
 
 	INST_RATIO : ratio_gen
 		port map (
