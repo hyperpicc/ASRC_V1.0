@@ -21,16 +21,16 @@ entity ratio_gen is
 end ratio_gen;
 
 architecture rtl of ratio_gen is
-	constant FSO_EN_CNT	: integer := 7;
+	constant FSO_EN_CNT	: integer := 9;
 
-	signal fs_i_cnt	: unsigned( 12 downto 0 ) := ( others => '0' );
+	signal fs_i_cnt	: unsigned( 14 downto 0 ) := ( others => '0' );
 	signal fs_i_sel	: std_logic := '0';
 	signal fs_i_trm	: std_logic := '0';
 	
-	signal fs_o_cnt	: unsigned( 16 downto 0 ) := ( others => '0' );
-	signal fs_o_d0		: unsigned( 16 downto 0 ) := ( others => '0' );
-	signal fs_o_d1		: unsigned( 16 downto 0 ) := ( others => '0' );
-	signal fs_o_d2		: unsigned( 16 downto 0 ) := ( others => '0' );
+	signal fs_o_cnt	: unsigned( 18 downto 0 ) := ( others => '0' );
+	signal fs_o_d0		: unsigned( 18 downto 0 ) := ( others => '0' );
+	signal fs_o_d1		: unsigned( 18 downto 0 ) := ( others => '0' );
+	signal fs_o_d2		: unsigned( 18 downto 0 ) := ( others => '0' );
 	signal fs_o_abs	: std_logic := '0';
 	signal fs_o_latch	: std_logic := '0';
 	

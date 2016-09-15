@@ -92,24 +92,22 @@ begin
 	BLOCK_INTERPOLATE : block
 		signal rf_en_d			: std_logic := '0';
 		
-		constant ONE			: signed( 34 downto 0 ) := ( 20 => '1', others => '0' );
-		
-		signal f_input_sub	: signed( 35 downto 0 ) := ( others => '0' );
-		signal f_strip			: signed( 34 downto 0 ) := ( others => '0' );
-		signal f_latch_in		: signed( 34 downto 0 ) := ( others => '0' );
-		signal f_latch_out	: signed( 34 downto 0 ) := ( others => '0' );
-		signal f_lpf_out		: signed( 34 downto 0 ) := ( others => '0' );
-		
-		signal f_output_sub	: signed( 34 downto 0 ) := ( others => '0' );
+		signal f_input_sub	: unsigned( rf_input'length downto 0 ) := ( others => '0' );
+		signal f_strip			: unsigned( rf_input'range ) := ( others => '0' );
+		signal f_sreg			: unsigned( rf_input'range ) := ( others => '0' );
+		signal f_latch_in		: unsigned( rf_input'range ) := ( others => '0' );
+		signal f_latch_out	: unsigned( rf_input'range ) := ( others => '0' );
+		signal f_lpf_out		:   signed( rf_input'range ) := ( others => '0' );
+		signal f_output_sub	: unsigned( rf_input'range ) := ( others => '0' );
 	begin
 	
-		f_input_sub <= signed( '0' & rf_input ) - ( '0' & f_latch_out );
+		f_input_sub <= RESIZE( rf_input, f_input_sub'length ) - f_latch_out;
 		
 		f_strip <= f_input_sub( f_strip'range );
 		
-		f_latch_in <= SHIFT_RIGHT( f_strip, GAIN_RAMP ) + f_latch_out + ONE;
+		f_latch_in <= SHIFT_RIGHT( f_strip, GAIN_RAMP ) + f_latch_out + 1;
 		
-		f_output_sub <= f_latch_out + f_lpf_out;
+		f_output_sub <= f_latch_out - unsigned( f_lpf_out );
 	
 		latch_proc : process( clk )
 		begin
@@ -122,20 +120,20 @@ begin
 				end if;
 				
 				if rf_en_d = '1' then
-					rf_output <= unsigned( f_output_sub( 28 downto 0 ) );
+					rf_output <= f_output_sub( rf_output'range );
 				end if;
 			end if;
 		end process latch_proc;
 		
 		INST_LPF : lpf_top
 			generic map (
-				LPF_WIDTH	=> f_strip'length
+				LPF_WIDTH	=> rf_input'length
 			)
 			port map (
 				clk			=> clk,
 				rst			=> rst,
-				lpf_in		=> f_strip,
 				
+				lpf_in		=> signed( f_strip ),
 				lpf_in_en	=> rf_en,
 				
 				lpf_out		=> f_lpf_out
