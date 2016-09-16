@@ -36,7 +36,7 @@ architecture rtl of src_interpolator is
 	signal addr_gen_fin		: std_logic := '0';
 	
 	signal fold_int			: unsigned( 11 downto 0 ) := ( others => '0' );
-	signal fold_frc			: unsigned(  9 downto 0 ) := ( others => '0' );
+	signal fold_frc			: unsigned( 10 downto 0 ) := ( others => '0' );
 	signal fold_centre		: std_logic := '0';
 	
 	signal rom_coe				: signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
@@ -116,7 +116,7 @@ begin
 		signal addr_offset		: unsigned(  1 downto 0 ) := ( others => '0' );
 		signal addr_adder			: unsigned( 12 downto 0 ) := ( others => '0' );
 		alias  addr_gen_int		: unsigned( 12 downto 0 ) is addr_gen( 24 downto 12 );
-		alias  addr_gen_frc		: unsigned(  9 downto 0 ) is addr_gen( 11 downto  2 );
+		alias  addr_gen_frc		: unsigned( 10 downto 0 ) is addr_gen( 11 downto  1 );
 		
 		signal addr_next			: unsigned( 25 downto 0 ) := ( others => '0' );
 		signal addr_fold			: unsigned( 12 downto 0 ) := ( others => '0' );
@@ -186,16 +186,16 @@ begin
 		alias  mul_mux0	: std_logic is latch_pipeline( DX_MUX0_REG );
 		alias  mul_mux1	: std_logic is latch_pipeline( DX_MUX1_REG );
 		
-		signal DX0			: signed( 13 downto 0 ) := ( others => '0' );
-		signal DX1			: signed( 13 downto 0 ) := ( others => '0' );
-		signal DX2			: signed( 13 downto 0 ) := ( others => '0' );
+		signal DX0			: signed( fold_frc'high + 4 downto 0 ) := ( others => '0' );
+		signal DX1			: signed( DX0'range ) := ( others => '0' );
+		signal DX2			: signed( DX0'range ) := ( others => '0' );
 
-		signal mul_i0		: signed( 13 downto 0 ) := ( others => '0' );
-		signal mul_mux_i0	: signed( 13 downto 0 ) := ( others => '0' );
-		signal mul_i1		: signed( 13 downto 0 ) := ( others => '0' );
-		signal mul_mux_i1	: signed( 13 downto 0 ) := ( others => '0' );
+		signal mul_i0		: signed( DX0'range ) := ( others => '0' );
+		signal mul_mux_i0	: signed( DX0'range ) := ( others => '0' );
+		signal mul_i1		: signed( DX0'range ) := ( others => '0' );
+		signal mul_mux_i1	: signed( DX0'range ) := ( others => '0' );
 		
-		signal mul_o		: signed( 27 downto 0 ) := ( others => '0' );
+		signal mul_o		: signed( DX0'length*2 - 1 downto 0 ) := ( others => '0' );
 	begin
 		DX0 <=              b"000" & SIGNED( fold_frc & '0' );
 		DX1 <= SHIFT_RIGHT( b"111" & SIGNED( fold_frc & '0' ), 1 );
@@ -204,7 +204,7 @@ begin
 		mul_i0 <= DX1 when mul_mux0 = '0' else -DX0;
 		mul_i1 <= DX0 when mul_mux1 = '1' else  DX2;
 		
-		dx <= mul_o( 23 downto 23 - DX_WIDTH + 1 );
+		dx <= mul_o( mul_o'high - 4 downto mul_o'high - DX_WIDTH - 3 );
 		
 		muliplier_process : process( clk )
 		begin

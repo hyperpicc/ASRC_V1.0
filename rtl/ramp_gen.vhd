@@ -120,7 +120,8 @@ begin
 				end if;
 				
 				if rf_en_d = '1' then
-					rf_output <= f_output_sub( rf_output'range );
+					rf_output( 28 downto 20 ) <= f_output_sub( 28 downto 20 ) + unsigned( f_lpf_out( 27 downto 20 ) & '0' );
+					rf_output( 19 downto  0 ) <= f_output_sub( 19 downto  0 );
 				end if;
 			end if;
 		end process latch_proc;
@@ -142,13 +143,11 @@ begin
 	end block BLOCK_INTERPOLATE;
 	
 	BLOCK_LOCK : block
-	
 		signal d0_abs		: unsigned( 8 downto 0 ) := ( others => '0' );
 		
 		signal lock_evt_p	: std_logic := '0';
 		signal lock_evt_n	: std_logic := '0';
 		signal lock_pipe	: std_logic_vector( 3 downto 0 ) := ( others => '0' );
-		
 	begin
 	
 		ramp_dx <= d0_abs;

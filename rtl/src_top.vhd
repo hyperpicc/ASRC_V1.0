@@ -43,7 +43,7 @@ begin
 	
 	-- expect ramp to settle AND ratio to be constant
 	-- ramp takes into consideration ratio, so just ramp_lock here
-	ctrl_lock <= ratio_lock;
+	ctrl_lock <= ramp_lock;
 
 	INST_RATIO : ratio_gen
 		port map (

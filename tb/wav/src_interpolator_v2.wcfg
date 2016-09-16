@@ -3,7 +3,7 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="E:/Development/HDL/ASRC_V1.0/Xilinx/src_interpolator_v2_tb_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="/home/charlie/work/ASRC_V1.0/XST/src_interpolator_v2_tb_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="fixed_float_types" />
             <top_module name="fixed_pkg" />
@@ -38,21 +38,21 @@
       <obj_property name="ObjectShortName">ctrl_offset</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/ratio" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">ratio[21:0]</obj_property>
-      <obj_property name="ObjectShortName">ratio[21:0]</obj_property>
+      <obj_property name="ElementShortName">ratio[19:0]</obj_property>
+      <obj_property name="ObjectShortName">ratio[19:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/rd_addr" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">rd_addr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">rd_addr[31:0]</obj_property>
+      <obj_property name="ElementShortName">rd_addr[30:0]</obj_property>
+      <obj_property name="ObjectShortName">rd_addr[30:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/rd_addr_int" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">rd_addr_int[8:0]</obj_property>
       <obj_property name="ObjectShortName">rd_addr_int[8:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/rd_addr_frc" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">rd_addr_frc[21:0]</obj_property>
-      <obj_property name="ObjectShortName">rd_addr_frc[21:0]</obj_property>
+      <obj_property name="ElementShortName">rd_addr_frc[19:0]</obj_property>
+      <obj_property name="ObjectShortName">rd_addr_frc[19:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/rd_req" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">rd_req</obj_property>
@@ -103,17 +103,18 @@
       <obj_property name="ObjectShortName">rd_run</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/ratio_sfixed" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">ratio_sfixed[3:-21]</obj_property>
-      <obj_property name="ObjectShortName">ratio_sfixed[3:-21]</obj_property>
+      <obj_property name="ElementShortName">ratio_sfixed[3:-19]</obj_property>
+      <obj_property name="ObjectShortName">ratio_sfixed[3:-19]</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/ratio_limit" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">ratio_limit[0:-21]</obj_property>
-      <obj_property name="ObjectShortName">ratio_limit[0:-21]</obj_property>
+      <obj_property name="ElementShortName">ratio_limit[0:-19]</obj_property>
+      <obj_property name="ObjectShortName">ratio_limit[0:-19]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/ratio_inc" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">ratio_inc[25:0]</obj_property>
       <obj_property name="ObjectShortName">ratio_inc[25:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/clk_period" type="other" db_ref_id="1">
       <obj_property name="ElementShortName">clk_period</obj_property>
@@ -160,8 +161,8 @@
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/mul_i0" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">mul_i0[21:0]</obj_property>
-      <obj_property name="ObjectShortName">mul_i0[21:0]</obj_property>
+      <obj_property name="ElementShortName">mul_i0[19:0]</obj_property>
+      <obj_property name="ObjectShortName">mul_i0[19:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/mul_i1" type="array" db_ref_id="1">
@@ -170,8 +171,8 @@
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/src_interpolator_v2_tb/INST_SRC/mul_o" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">mul_o[20:0]</obj_property>
-      <obj_property name="ObjectShortName">mul_o[20:0]</obj_property>
+      <obj_property name="ElementShortName">mul_o[18:0]</obj_property>
+      <obj_property name="ObjectShortName">mul_o[18:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="group1166" type="group">

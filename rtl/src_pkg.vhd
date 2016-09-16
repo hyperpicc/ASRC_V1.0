@@ -5,8 +5,8 @@ use ieee.std_logic_textio.all;
 
 package src_pkg is
 
-	constant GAIN_RATIO		: integer range 5 to 11 := 7;
-	constant GAIN_RAMP		: integer range 5 to 11 := 7;
+	constant GAIN_RATIO		: integer range 5 to 11 := 8;
+	constant GAIN_RAMP		: integer range 5 to 11 := 8;
 	
 	constant THRESH_RATIO	: integer := 2;
 	constant THRESH_LOCK		: integer := 8;
