@@ -1,11 +1,17 @@
-function analysis( h, fs )
+function analysis( h, Fs )
 
-	[r,harmpow,harmfreq] = thd( h, fs, 20 );
+	hw = fdesign.audioweighting( 'WT,Class', 'A', 1, Fs );
+	w = design( hw );
+
+	h = h/2^23;
+	h = filter( w, h );
+
+	[r,harmpow,harmfreq] = thd( h, Fs, 20 );
 	[harmpow,harmfreq]
 	
-	h = h/2^23;
-	figure; thd( h, fs, 20 ); 
-	figure; sfdr( h, fs, 512 );
-	
+	figure; thd( h, Fs, 20 ); 
+	figure; sfdr( h, Fs, 2048 );
+	x = snr( h, Fs )
+
 end
 
