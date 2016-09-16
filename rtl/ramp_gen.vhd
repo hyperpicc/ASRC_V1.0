@@ -9,8 +9,10 @@ entity ramp_gen is
 	port (
 		clk			: in  std_logic;
 		rst			: in  std_logic;
-		ratio_lock	: in  std_logic;
 		ramp_lock	: out std_logic := '0';
+		
+		ratio			: in unsigned( 19 downto 0 );
+		ratio_lock	: in  std_logic;
 		
 		fs_i_en		: in  std_logic;
 		fs_i_addr	: out unsigned(  8 downto 0 ) := ( others => '0' );
@@ -30,6 +32,8 @@ architecture rtl of ramp_gen is
 	signal lock_en		: std_logic := '0';
 	signal rf_input	: unsigned( 34 downto 0 ) := ( others => '0' );
 	signal rf_output	: unsigned( 28 downto 0 ) := ( others => '0' );
+	
+	signal ramp_dx_o	: unsigned( ramp_dx'range ) := ( others => '0' );
 begin
 		
 	fs_i_addr <= wr_addr( fs_i_addr'range );
@@ -38,6 +42,7 @@ begin
 	ramp_frc  <= rf_output( 19 downto  0 );
 	
 	ramp_en <= lock_en;
+	ramp_dx <= ramp_dx_o;
 
 	BLOCK_GENERATE : block
 		signal m_cnt		: unsigned( 14 downto 0 ) := ( others => '0' );
@@ -99,16 +104,30 @@ begin
 		signal f_latch_out	: unsigned( rf_input'range ) := ( others => '0' );
 		signal f_lpf_out		:   signed( rf_input'range ) := ( others => '0' );
 		signal f_output_sub	: unsigned( rf_input'range ) := ( others => '0' );
+		
+		signal f_rat_ext		: unsigned( 3 downto 0 );
+		signal f_rat			: unsigned( 9 downto 0 );
+		signal f_test_1		: unsigned( 7 downto 0 );
+		signal f_test_2		: unsigned( 8 downto 0 );
 	begin
 	
 		f_input_sub <= RESIZE( rf_input, f_input_sub'length ) - f_latch_out;
 		
 		f_strip <= f_input_sub( f_strip'range );
 		
-		f_latch_in <= SHIFT_RIGHT( f_strip, GAIN_RAMP ) + f_latch_out + 1;
+		f_latch_in <= SHIFT_RIGHT( f_strip, GAIN_RAMP ) + f_latch_out;
 		
 		f_output_sub <= f_latch_out - unsigned( f_lpf_out );
-	
+		
+		
+		f_rat_ext <= ratio( 19 downto 16 ) + 1;
+		
+		f_rat <= SHIFT_LEFT( ratio( 14 downto 5 ), TO_INTEGER( f_rat_ext( 1 downto 0 ) ) );
+		
+		f_test_1 <= f_rat( 9 downto 2 );
+		
+		f_test_2 <= GET_ABS( ramp_dx_o - f_test_1, 9 );
+		
 		latch_proc : process( clk )
 		begin
 			if rising_edge( clk ) then
@@ -120,8 +139,8 @@ begin
 				end if;
 				
 				if rf_en_d = '1' then
-					rf_output( 28 downto 20 ) <= f_output_sub( 28 downto 20 ) + unsigned( f_lpf_out( 27 downto 20 ) & '0' );
-					rf_output( 19 downto  0 ) <= f_output_sub( 19 downto  0 );
+					--rf_output( 28 downto 20 ) <= f_output_sub( 28 downto 20 ) + unsigned( f_lpf_out( 27 downto 20 ) & '0' );
+					rf_output <= f_output_sub( 28 downto  0 );
 				end if;
 			end if;
 		end process latch_proc;
@@ -150,7 +169,7 @@ begin
 		signal lock_pipe	: std_logic_vector( 3 downto 0 ) := ( others => '0' );
 	begin
 	
-		ramp_dx <= d0_abs;
+		ramp_dx_o <= d0_abs;
 		
 		latch_process : process( clk )
 		begin

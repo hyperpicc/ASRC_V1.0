@@ -54,8 +54,10 @@ package src_pkg is
 		port (
 			clk			: in  std_logic;
 			rst			: in  std_logic;
-			ratio_lock	: in  std_logic;
 			ramp_lock	: out std_logic;
+			
+			ratio			: in  unsigned( 19 downto 0 );
+			ratio_lock	: in  std_logic;
 			
 			fs_i_en		: in  std_logic;
 			fs_i_addr	: out unsigned(  8 downto 0 );

@@ -36,7 +36,7 @@ architecture rtl of src_interpolator is
 	signal addr_gen_fin		: std_logic := '0';
 	
 	signal fold_int			: unsigned( 11 downto 0 ) := ( others => '0' );
-	signal fold_frc			: unsigned( 10 downto 0 ) := ( others => '0' );
+	signal fold_frc			: unsigned(  9 downto 0 ) := ( others => '0' );
 	signal fold_centre		: std_logic := '0';
 	
 	signal rom_coe				: signed( COE_WIDTH-1 downto 0 ) := ( others => '0' );
@@ -116,7 +116,7 @@ begin
 		signal addr_offset		: unsigned(  1 downto 0 ) := ( others => '0' );
 		signal addr_adder			: unsigned( 12 downto 0 ) := ( others => '0' );
 		alias  addr_gen_int		: unsigned( 12 downto 0 ) is addr_gen( 24 downto 12 );
-		alias  addr_gen_frc		: unsigned( 10 downto 0 ) is addr_gen( 11 downto  1 );
+		alias  addr_gen_frc		: unsigned( fold_frc'range ) is addr_gen( 11 downto 11 - fold_frc'high );
 		
 		signal addr_next			: unsigned( 25 downto 0 ) := ( others => '0' );
 		signal addr_fold			: unsigned( 12 downto 0 ) := ( others => '0' );

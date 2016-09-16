@@ -19,7 +19,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="16" />
+   <WVObjectSize size="21" />
    <wvobject fp_name="/ramp_tb/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -79,10 +79,9 @@
       <obj_property name="ObjectShortName">ratio[19:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/ramp_tb/ramp_dx" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">ramp_dx[8:0]</obj_property>
-      <obj_property name="ObjectShortName">ramp_dx[8:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   <wvobject fp_name="/ramp_tb/ratio[12]" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">[12]</obj_property>
+      <obj_property name="ObjectShortName">ratio[12]</obj_property>
    </wvobject>
    <wvobject fp_name="/ramp_tb/o_dif" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">o_dif[8:0]</obj_property>
@@ -105,103 +104,44 @@
          <obj_property name="ObjectShortName">fs_o_abs</obj_property>
       </wvobject>
       <wvobject fp_name="/ramp_tb/rtu/fs_o_d0" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">fs_o_d0[15:0]</obj_property>
-         <obj_property name="ObjectShortName">fs_o_d0[15:0]</obj_property>
+         <obj_property name="ElementShortName">fs_o_d0[18:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_o_d0[18:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
-      <wvobject fp_name="/ramp_tb/rtu/ave_pipe" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">ave_pipe[15:0]</obj_property>
-         <obj_property name="ObjectShortName">ave_pipe[15:0]</obj_property>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[15]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[15]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[15]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[14]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[14]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[14]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[13]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[13]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[13]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[12]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[12]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[12]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[11]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[11]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[11]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[10]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[10]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[10]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[9]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[9]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[9]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[8]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[8]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[8]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[7]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[7]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[7]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[6]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[6]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[6]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[5]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[5]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[5]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[4]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[4]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[4]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[3]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[3]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[3]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[2]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[2]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[2]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[1]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[1]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[1]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/ramp_tb/rtu/ave_pipe[0]" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">[0]</obj_property>
-            <obj_property name="ObjectShortName">ave_pipe[0]</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-      </wvobject>
       <wvobject fp_name="/ramp_tb/rtu/fs_o_d1" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">fs_o_d1[19:0]</obj_property>
-         <obj_property name="ObjectShortName">fs_o_d1[19:0]</obj_property>
+         <obj_property name="ElementShortName">fs_o_d1[18:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_o_d1[18:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/ramp_tb/rtu/fs_o_d2" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">fs_o_d2[19:0]</obj_property>
-         <obj_property name="ObjectShortName">fs_o_d2[19:0]</obj_property>
+         <obj_property name="ElementShortName">fs_o_d2[18:0]</obj_property>
+         <obj_property name="ObjectShortName">fs_o_d2[18:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/uut/block_interpolate/f_lpf_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">f_lpf_out[34:0]</obj_property>
+      <obj_property name="ObjectShortName">f_lpf_out[34:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/ramp_dx" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ramp_dx[8:0]</obj_property>
+      <obj_property name="ObjectShortName">ramp_dx[8:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/uut/block_interpolate/f_test_1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">f_test_1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">f_test_1[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/uut/block_interpolate/f_test_2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">f_test_2[8:0]</obj_property>
+      <obj_property name="ObjectShortName">f_test_2[8:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ramp_tb/uut/block_interpolate/f_rat_ext" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">f_rat_ext[3:0]</obj_property>
+      <obj_property name="ObjectShortName">f_rat_ext[3:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
 </wave_config>
