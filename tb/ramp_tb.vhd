@@ -29,7 +29,7 @@ ARCHITECTURE behavior OF ramp_tb IS
 	end component time_util;
 	
 	constant	FRQ_I		: real := 192.0;
-	constant	FRQ_O		: real := 44.1;
+	constant	FRQ_O		: real := 192.0;
    
    --Inputs
    signal clk : std_logic := '0';
@@ -78,7 +78,6 @@ BEGIN
    uut: ramp_gen PORT MAP (
           clk => clk,
           rst => rst,
-			 ratio => ratio,
           ratio_lock => ratio_lock,
 			 ramp_lock => ramp_lock,
           fs_i_en => fs_i_en,
