@@ -95,59 +95,60 @@ begin
 	end block BLOCK_GENERATE;
 	
 	BLOCK_INTERPOLATE : block
-		signal rf_en_d			: std_logic := '0';
-		
-		constant ONE			: signed( 5 downto 0 ) := ( 4 => '1', 0 => '1', others => '0' );
-		
-		signal f_input_sub	: signed( rf_input'length downto 0 ) := ( others => '0' );
-		signal f_strip			: signed( rf_input'range ) := ( others => '0' );
-		signal f_sreg			: signed( rf_input'range ) := ( others => '0' );
-		signal f_latch_in		: signed( rf_input'range ) := ( others => '0' );
-		signal f_latch_out	: signed( rf_input'range ) := ( others => '0' );
-		signal f_lpf_out		: signed( rf_input'range ) := ( others => '0' );
-		signal f_output_sub	: signed( rf_input'range ) := ( others => '0' );
-		
-		signal f_out_int		: signed(  8 downto 0 ) := ( others => '0' );
-		signal f_out_frc		: signed( 19 downto 0 ) := ( others => '0' );
-	begin
+		constant ONE			: signed( rf_input'range ) := ( 5 => '1', others => '0' );
 	
-		f_input_sub <= signed( '0' & rf_input ) - ( '0' & f_latch_out );
-		
-		f_strip <= f_input_sub( f_strip'range );
-		
-		f_latch_in <= SHIFT_RIGHT( f_strip, GAIN_RAMP ) + f_latch_out + ONE;
-		
-		f_output_sub <= f_latch_out - f_lpf_out;
+		signal rf_en_d			: std_logic := '0';
+		signal f_fb				: signed( rf_input'range ) := ( others => '0' );
+		signal f_latch_out0	: signed( rf_input'range ) := ( others => '0' );
+		signal f_latch_out1	: signed( rf_input'range ) := ( others => '0' );
+	begin
 		
 		latch_proc : process( clk )
 		begin
 			if rising_edge( clk ) then
-				rf_en_d <= rf_en;
 				lock_en <= rf_en_d;
 				
-				if rf_en = '1' then
-					f_latch_out <= f_latch_in;
-				end if;
-				
 				if rf_en_d = '1' then
-					rf_out_int <= unsigned( f_output_sub( 28 downto 20 ) - not( f_lpf_out( 27 downto 19 ) ) );
-					rf_out_frc <= unsigned( f_output_sub( 19 downto  0 ) );
+					rf_out_int <= unsigned( f_latch_out1( 28 downto 20 ) );
+					rf_out_frc <= unsigned( f_latch_out1( 19 downto  0 ) );
 				end if;
 			end if;
 		end process latch_proc;
 		
-		INST_LPF : lpf_top
+		INST_INTEGRATOR_0 : integrator
 			generic map (
-				LPF_WIDTH	=> rf_input'length
+				INT_WIDTH	=> rf_input'length,
+				INT_GAIN		=> GAIN_RAMP
 			)
 			port map (
 				clk			=> clk,
-				rst			=> rst,
+		
+				i				=> signed( rf_input ),
+				i_os			=> ONE,
+				i_fb			=> SHIFT_RIGHT( f_fb, GAIN_RAMP ),
+				i_en			=> rf_en,
 				
-				lpf_in		=> f_strip,
-				lpf_in_en	=> rf_en,
+				o				=> f_latch_out0,
+				o_fb			=> open,
+				o_en			=> open
+			);
+		
+		INST_INTEGRATOR_1 : integrator
+			generic map (
+				INT_WIDTH	=> rf_input'length,
+				INT_GAIN		=> GAIN_RAMP
+			)
+			port map (
+				clk			=> clk,
+		
+				i				=> f_latch_out0,
+				i_os			=> ONE,
+				i_fb			=> TO_SIGNED( 0, rf_input'length ),
+				i_en			=> rf_en,
 				
-				lpf_out		=> f_lpf_out
+				o				=> f_latch_out1,
+				o_fb			=> f_fb,
+				o_en			=> rf_en_d
 			);
 		
 	end block BLOCK_INTERPOLATE;

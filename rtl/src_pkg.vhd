@@ -163,6 +163,26 @@ package src_pkg is
 		);
 	end component divider_top;
 	
+	component integrator is
+		generic (
+			INT_WIDTH	: natural range 8 to 64 := 16;
+			INT_GAIN		: natural range 5 to 11 :=  8
+		);
+		port (
+			clk			: in  std_logic;
+			
+			i				: in  signed( INT_WIDTH-1 downto 0 );
+			i_os			: in  signed( INT_WIDTH-1 downto 0 );
+			i_fb			: in  signed( INT_WIDTH-1 downto 0 );
+			i_en			: in  std_logic;
+			
+			o				: out signed( INT_WIDTH-1 downto 0 );
+			o_fb			: out signed( INT_WIDTH-1 downto 0 );
+			o_en			: out std_logic
+			
+		);
+	end component integrator;
+	
 	component lpf_top is
 		generic (
 			LPF_WIDTH	: natural range 8 to 64 := 16;
