@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity integrator is
 	generic (
 		INT_WIDTH	: natural range 8 to 64 := 16;
-		INT_GAIN		: natural range 5 to 11 :=  8
+		INT_GAIN		: natural range 5 to 13 :=  8
 	);
 	port (
 		clk			: in  std_logic;

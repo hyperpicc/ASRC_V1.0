@@ -1,6 +1,6 @@
 clear;
 
-CW = 26;
+CW = 24;
 
 Hf = FD1;
 %Hf = downsample( Hf, 4 );

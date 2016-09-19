@@ -69,7 +69,7 @@ begin
 			end if;
 			
 			if fs_i_trm = '1' then
-				fs_o_cnt <= ( others => '0' );
+				fs_o_cnt <= ( 0 => '1', others => '0' );
 			elsif fs_o_clk = '1' then
 				fs_o_cnt <= fs_o_cnt + 1;
 			end if;
