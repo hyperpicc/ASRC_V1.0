@@ -30,11 +30,11 @@ architecture rtl of integrator is
 	signal latch_o		: signed( INT_WIDTH-1 downto 0 ) := ( others => '0' );
 begin
 
-	i_sub <= ( '0' & i ) + ( '0' & latch_o ) + ( '0' & i_fb );
+	i_sub <= ( '0' & i ) - ( '0' & latch_o ) + ( '0' & i_fb );
 	
 	strip <= i_sub( INT_WIDTH-1 downto 0 );
 	
-	latch_i <= -SHIFT_RIGHT( strip, INT_GAIN ) + latch_o + i_os;
+	latch_i <= SHIFT_RIGHT( strip, INT_GAIN ) + latch_o + i_os;
 	
 	o <= latch_o;
 	
