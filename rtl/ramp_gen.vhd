@@ -95,7 +95,7 @@ begin
 	end block BLOCK_GENERATE;
 	
 	BLOCK_INTERPOLATE : block
-		constant ONE			: signed( rf_input'range ) := ( 6 => '1', others => '0' );
+		constant ONE			: signed( rf_input'range ) := ( 3 => '1', others => '0' );
 	
 		signal rf_en_d			: std_logic := '0';
 		signal f_fb				: signed( rf_input'range ) := ( others => '0' );
