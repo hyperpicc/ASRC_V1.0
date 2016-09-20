@@ -172,7 +172,6 @@ package src_pkg is
 			clk			: in  std_logic;
 			
 			i				: in  signed( INT_WIDTH-1 downto 0 );
-			i_os			: in  signed( INT_WIDTH-1 downto 0 );
 			i_fb			: in  signed( INT_WIDTH-1 downto 0 );
 			i_en			: in  std_logic;
 			

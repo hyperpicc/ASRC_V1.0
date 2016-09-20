@@ -95,8 +95,6 @@ begin
 	end block BLOCK_GENERATE;
 	
 	BLOCK_INTERPOLATE : block
-		constant ONE			: signed( rf_input'range ) := ( 0 => '1', others => '0' );
-	
 		signal rf_en_d			: std_logic := '0';
 		signal f_fb				: signed( rf_input'range ) := ( others => '0' );
 		signal f_latch_out0	: signed( rf_input'range ) := ( others => '0' );
@@ -127,7 +125,6 @@ begin
 				clk			=> clk,
 		
 				i				=> signed( rf_input ),
-				i_os			=> ONE,
 				i_fb			=> TO_SIGNED( 0, rf_input'length ),
 				i_en			=> rf_en,
 				

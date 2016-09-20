@@ -112,8 +112,8 @@ BEGIN
 			if ramp_en = '1' then
 				dif := fs_i_addr - ramp_int;
 				o_dif <= dif;
-				write( outline0, to_integer( dif ) );
-				writeline( outfile0, outline0 );
+				--write( outline0, to_integer( dif ) );
+				--writeline( outfile0, outline0 );
 			end if;
 		end if;
 	end process;

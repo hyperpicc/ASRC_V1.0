@@ -11,7 +11,6 @@ entity integrator is
 		clk			: in  std_logic;
 		
 		i				: in  signed( INT_WIDTH-1 downto 0 );
-		i_os			: in  signed( INT_WIDTH-1 downto 0 );
 		i_fb			: in  signed( INT_WIDTH-1 downto 0 );
 		i_en			: in  std_logic;
 		
@@ -29,6 +28,7 @@ architecture rtl of integrator is
 	signal i_adder		: signed( WIDTH   downto 0 ) := ( others => '0' );
 	
 	-- latch i/o and quantiser
+	signal latch_i0	: signed( WIDTH-1 downto 0 ) := ( others => '0' );
 	signal latch_i		: signed( WIDTH-1 downto 0 ) := ( others => '0' );
 	signal latch_o		: signed( WIDTH-1 downto 0 ) := ( others => '0' );
 begin
@@ -45,11 +45,9 @@ begin
 	o <= latch_o( WIDTH-1 downto INT_GAIN );
 	
 	-- add gain output to integrator output
-	-- add constant "1" - this needs to change with lower gains than 12 or 13
-	-- else limit cycling occurs
-	latch_i <= SHIFT_RIGHT( i_adder( WIDTH-1 downto 0 ), INT_GAIN ) + 
-				  latch_o + 
-				  ( i_os & to_signed( 0, INT_GAIN ) );
+	latch_i0 <= SHIFT_RIGHT( i_adder( WIDTH-1 downto 0 ), INT_GAIN ) + latch_o;
+	latch_i( WIDTH-1 downto INT_GAIN ) <= latch_i0( WIDTH-1 downto INT_GAIN ) + 1;
+	latch_i( INT_GAIN-1 downto 0 ) <= latch_i0( INT_GAIN-1 downto 0 );
 	
 	latch_proc : process( clk )
 	begin
