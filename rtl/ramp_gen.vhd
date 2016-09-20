@@ -95,7 +95,7 @@ begin
 	end block BLOCK_GENERATE;
 	
 	BLOCK_INTERPOLATE : block
-		constant ONE			: signed( rf_input'range ) := ( 3 => '1', others => '0' );
+		constant ONE			: signed( rf_input'range ) := ( 0 => '1', others => '0' );
 	
 		signal rf_en_d			: std_logic := '0';
 		signal f_fb				: signed( rf_input'range ) := ( others => '0' );
@@ -112,7 +112,7 @@ begin
 				lock_en <= rf_en_d;
 				
 				if rf_en_d = '1' then
-					rf_out_int <= unsigned( f_out( 28 downto 20 ) - not( f_latch_out1( 27 downto 19 ) ) );
+					rf_out_int <= unsigned( f_out( 28 downto 20 ) - not( f_latch_out1( 27 downto 20 ) & '0' ) );
 					rf_out_frc <= unsigned( f_out( 19 downto  0 ) );
 				end if;
 			end if;

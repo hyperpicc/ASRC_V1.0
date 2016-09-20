@@ -5,8 +5,8 @@ use ieee.std_logic_textio.all;
 
 package src_pkg is
 
-	constant GAIN_RATIO		: integer range 5 to 13 := 9;
-	constant GAIN_RAMP		: integer range 5 to 13 := 9;
+	constant GAIN_RATIO		: integer range 7 to 16 := 12;
+	constant GAIN_RAMP		: integer range 7 to 16 := 12;
 	
 	constant THRESH_RATIO	: integer := 2;
 	constant THRESH_LOCK		: integer := 8;
@@ -166,7 +166,7 @@ package src_pkg is
 	component integrator is
 		generic (
 			INT_WIDTH	: natural range 8 to 64 := 16;
-			INT_GAIN		: natural range 5 to 13 :=  8
+			INT_GAIN		: natural range 7 to 16 :=  8
 		);
 		port (
 			clk			: in  std_logic;
@@ -186,7 +186,7 @@ package src_pkg is
 	component lpf_top is
 		generic (
 			LPF_WIDTH	: natural range 8 to 64 := 16;
-			LPF_GAIN		: natural range 5 to 13 :=  8
+			LPF_GAIN		: natural range 7 to 16 :=  8
 		);
 		port (
 			clk			: in  std_logic;

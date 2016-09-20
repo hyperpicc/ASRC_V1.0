@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity lpf_top is
 	generic (
 		LPF_WIDTH	: natural range 8 to 64 := 16;
-		LPF_GAIN		: natural range 5 to 13 :=  8
+		LPF_GAIN		: natural range 7 to 16 :=  8
 	);
 	port (
 		clk			: in  std_logic;
