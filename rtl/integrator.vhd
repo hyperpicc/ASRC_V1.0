@@ -46,7 +46,7 @@ begin
 	
 	-- add gain output to integrator output
 	latch_i0 <= SHIFT_RIGHT( i_adder( WIDTH-1 downto 0 ), INT_GAIN ) + latch_o;
-	latch_i( WIDTH-1 downto INT_GAIN ) <= latch_i0( WIDTH-1 downto INT_GAIN ) + 1;
+	latch_i( WIDTH-1 downto INT_GAIN ) <= latch_i0( WIDTH-1 downto INT_GAIN );-- + 1;
 	latch_i( INT_GAIN-1 downto 0 ) <= latch_i0( INT_GAIN-1 downto 0 );
 	
 	latch_proc : process( clk )

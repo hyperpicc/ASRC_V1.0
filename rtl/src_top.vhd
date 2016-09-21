@@ -99,10 +99,7 @@ begin
 			
 			o_data			=> fs_o_dat,
 			o_data_en		=> fs_o_en,
-			o_data_lr		=> fs_o_lr,
-			
-			o_coe				=> open,
-			o_coe_en			=> open
+			o_data_lr		=> fs_o_lr
 		);
 
 end rtl;
