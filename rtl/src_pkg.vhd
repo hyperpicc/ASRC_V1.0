@@ -8,7 +8,7 @@ package src_pkg is
 	constant GAIN_RATIO		: integer range 7 to 16 := 12;
 	constant GAIN_RAMP		: integer range 7 to 16 := 12;
 	
-	constant THRESH_RATIO	: integer := 2;
+	constant THRESH_RATIO	: integer := 0;
 	constant THRESH_LOCK		: integer := 8;
 	
 	constant RATIO_FSI_CLK	: boolean := true;
