@@ -24,11 +24,11 @@ entity ramp_gen is
 end ramp_gen;
 
 architecture rtl of ramp_gen is
-	signal wr_addr		: unsigned( GAIN_RAMP + 3 downto 0 ) := ( others => '0' );
+	signal wr_addr		: unsigned( GAIN_RAMP + 6 downto 0 ) := ( others => '0' );
 	
 	signal rf_en		: std_logic := '0';
 	signal lock_en		: std_logic := '0';
-	signal rf_input	: unsigned( GAIN_RAMP + 23 downto 0 ) := ( others => '0' );
+	signal rf_input	: unsigned( GAIN_RAMP + 26 downto 0 ) := ( others => '0' );
 	signal rf_out_int	: unsigned(  8 downto 0 ) := ( others => '0' );
 	signal rf_out_frc	: unsigned( 19 downto 0 ) := ( others => '0' );
 	
@@ -48,7 +48,7 @@ begin
 		signal i_cnt		: unsigned( 14 downto 0 ) := ( others => '0' );
 		signal i_cnt_buf	: unsigned(  3 downto 0 ) := ( others => '0' );
 		
-		signal wr_addr_d	: unsigned( GAIN_RAMP + 3 downto 0 ) := ( others => '0' );
+		signal wr_addr_d	: unsigned( GAIN_RAMP + 6 downto 0 ) := ( others => '0' );
 		
 		signal remainder	: unsigned( 19 downto 0 ) := ( others => '0' );
 		signal dividend	: unsigned( remainder'range ) := ( others => '0' );
@@ -95,14 +95,35 @@ begin
 	end block BLOCK_GENERATE;
 	
 	BLOCK_INTERPOLATE : block
-		signal rf_en_d			: std_logic := '0';
-		signal f_fb				: signed( rf_input'range ) := ( others => '0' );
-		signal f_latch_out0	: signed( rf_input'range ) := ( others => '0' );
-		signal f_latch_out1	: signed( rf_input'range ) := ( others => '0' );
-		signal f_out			: signed( rf_input'range ) := ( others => '0' );
+		signal rf_en_d				: std_logic := '0';
+		signal f_fb					: signed( rf_input'range ) := ( others => '0' );
+		signal f_latch_out0		: signed( rf_input'range ) := ( others => '0' );
+		signal f_latch_out1		: signed( rf_input'range ) := ( others => '0' );
+		signal f_out				: signed( rf_input'range ) := ( others => '0' );
+		
+		signal ratio_edge			: std_logic := '0';
+		signal ratio_edge_buf	: std_logic := '0';
+		signal ratio_edge_evt	: std_logic := '0';
+		signal ratio_lock_evt	: std_logic := '0';
 	begin
 		
 		f_out <= f_latch_out0 - f_latch_out1;
+		
+		ratio_edge <= ( ratio_edge_buf xor ratio_lock ) and ratio_lock;
+		
+		ratio_lock_evt <= ratio_edge_evt and rf_en;
+		
+		edge_process : process( clk )
+		begin
+			if rising_edge( clk ) then
+				ratio_edge_buf <= ratio_lock;
+				if ratio_edge = '1' then
+					ratio_edge_evt <= '1';
+				elsif ( not( ratio_lock ) or rf_en ) = '1' then
+					ratio_edge_evt <= '0';
+				end if;
+			end if;
+		end process edge_process;
 		
 		latch_proc : process( clk )
 		begin
@@ -123,9 +144,11 @@ begin
 			)
 			port map (
 				clk			=> clk,
+				
+				lock			=> ratio_lock,
+				lock_evt		=> ratio_lock_evt,
 		
 				i				=> signed( rf_input ),
-				i_fb			=> TO_SIGNED( 0, rf_input'length ),
 				i_en			=> rf_en,
 				
 				o				=> f_latch_out0,
@@ -140,7 +163,9 @@ begin
 			)
 			port map (
 				clk			=> clk,
-				rst			=> rst,
+				
+				lock			=> ratio_lock,
+				lock_evt		=> ratio_lock_evt,
 		
 				lpf_in		=> f_fb,
 				lpf_in_en	=> rf_en,
@@ -155,7 +180,7 @@ begin
 		
 		signal lock_evt_p	: std_logic := '0';
 		signal lock_evt_n	: std_logic := '0';
-		signal lock_pipe	: std_logic_vector( 3 downto 0 ) := ( others => '0' );
+		signal lock_pipe	: unsigned( 4 downto 0 ) := ( others => '0' );
 	begin
 	
 		ramp_dx_o <= d0_abs;
@@ -166,15 +191,15 @@ begin
 				if lock_en = '1' then
 					d0_abs <= GET_ABS( wr_addr( 8 downto 0 ) - rf_out_int, 9 );
 					
-					lock_pipe <= lock_pipe( 2 downto 0 ) & '0';
+					lock_pipe <= ( others => '0' );
 					if ratio_lock = '1' and d0_abs < THRESH_LOCK then
-						lock_pipe <= lock_pipe( 2 downto 0 ) & '1';
+						lock_pipe <= lock_pipe + 1;
 					end if;
 				end if;
 			end if;
 		end process latch_process;
 		
-		lock_evt_p <= '1' when ratio_lock = '1' and lock_pipe = x"F" else '0';
+		lock_evt_p <= '1' when ratio_lock = '1' and lock_pipe = 31 else '0';
 		lock_evt_n <= not( ratio_lock );
 		
 		lock_process : process( clk )

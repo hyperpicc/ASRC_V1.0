@@ -5,8 +5,8 @@ use ieee.std_logic_textio.all;
 
 package src_pkg is
 
-	constant GAIN_RATIO		: integer range 7 to 16 := 12;
-	constant GAIN_RAMP		: integer range 7 to 16 := 12;
+	constant GAIN_RATIO		: integer range 7 to 12 := 7;
+	constant GAIN_RAMP		: integer range 7 to 12 := 7;
 	
 	constant THRESH_RATIO	: integer := 0;
 	constant THRESH_LOCK		: integer := 8;
@@ -71,15 +71,14 @@ package src_pkg is
 	component ratio_gen is
 		port (
 			clk				: in  std_logic;
-			rst				: in  std_logic;
-			ratio_lock		: out std_logic;
 			
 			fs_i_clk			: in  std_logic;
 			fs_i_en			: in  std_logic;
 			fs_o_clk			: in  std_logic;
 			fs_o_en			: in  std_logic;
 			
-			ratio				: out unsigned( 19 downto 0 )
+			ratio				: out unsigned( 19 downto 0 );
+			ratio_lock		: out std_logic
 		);
 	end component ratio_gen;
 	
@@ -166,13 +165,15 @@ package src_pkg is
 	component integrator is
 		generic (
 			INT_WIDTH	: natural range 8 to 64 := 16;
-			INT_GAIN		: natural range 7 to 16 :=  8
+			INT_GAIN		: natural range 7 to 12 :=  8
 		);
 		port (
 			clk			: in  std_logic;
+		
+			lock			: in  std_logic;
+			lock_evt		: in  std_logic;
 			
 			i				: in  signed( INT_WIDTH-1 downto 0 );
-			i_fb			: in  signed( INT_WIDTH-1 downto 0 );
 			i_en			: in  std_logic;
 			
 			o				: out signed( INT_WIDTH-1 downto 0 );
@@ -185,11 +186,13 @@ package src_pkg is
 	component lpf_top is
 		generic (
 			LPF_WIDTH	: natural range 8 to 64 := 16;
-			LPF_GAIN		: natural range 7 to 16 :=  8
+			LPF_GAIN		: natural range 7 to 12 :=  8
 		);
 		port (
 			clk			: in  std_logic;
-			rst			: in  std_logic;
+		
+			lock			: in  std_logic;
+			lock_evt		: in  std_logic;
 			
 			lpf_in		: in  signed( LPF_WIDTH - 1 downto 0 );
 			lpf_in_en	: in  std_logic;

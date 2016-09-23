@@ -48,15 +48,14 @@ begin
 	INST_RATIO : ratio_gen
 		port map (
 			clk				=> clk,
-			rst				=> rst,
-			ratio_lock		=> ratio_lock,
 			
 			fs_i_clk			=> fs_i_clk,
 			fs_i_en			=> fs_i_lr,
 			fs_o_clk			=> fs_o_clk,
 			fs_o_en			=> fs_o_req,
 			
-			ratio				=> ratio
+			ratio				=> ratio,
+			ratio_lock		=> ratio_lock
 		);
 	
 	INST_RAMP : ramp_gen

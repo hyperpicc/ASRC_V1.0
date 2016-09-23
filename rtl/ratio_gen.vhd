@@ -8,15 +8,14 @@ use work.src_pkg.all;
 entity ratio_gen is
 	port (
 		clk				: in  std_logic;
-		rst				: in  std_logic;
-		ratio_lock		: out std_logic := '0';
 		
 		fs_i_clk			: in  std_logic;
 		fs_i_en			: in  std_logic;
 		fs_o_clk			: in  std_logic;
 		fs_o_en			: in  std_logic;
 		
-		ratio				: out unsigned( 19 downto 0 ) := ( others => '0' )
+		ratio				: out unsigned( 19 downto 0 ) := ( others => '0' );
+		ratio_lock		: out std_logic := '0'
 	);
 end ratio_gen;
 
@@ -102,7 +101,9 @@ begin
 		)
 		port map (
 			clk			=> clk,
-			rst			=> rst,
+			
+			lock			=> '0',
+			lock_evt		=> '0',
 			
 			lpf_in		=> lpf_in,
 			lpf_in_en	=> fs_o_en,
