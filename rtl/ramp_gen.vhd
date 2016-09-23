@@ -180,7 +180,7 @@ begin
 		
 		signal lock_evt_p	: std_logic := '0';
 		signal lock_evt_n	: std_logic := '0';
-		signal lock_pipe	: unsigned( 4 downto 0 ) := ( others => '0' );
+		signal lock_pipe	: unsigned( 8 downto 0 ) := ( others => '0' );
 	begin
 	
 		ramp_dx_o <= d0_abs;
@@ -199,7 +199,7 @@ begin
 			end if;
 		end process latch_process;
 		
-		lock_evt_p <= '1' when ratio_lock = '1' and lock_pipe = 31 else '0';
+		lock_evt_p <= '1' when ratio_lock = '1' and lock_pipe = 2**lock_pipe'length - 1 else '0';
 		lock_evt_n <= not( ratio_lock );
 		
 		lock_process : process( clk )

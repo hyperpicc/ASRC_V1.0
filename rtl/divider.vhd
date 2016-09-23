@@ -66,9 +66,7 @@ begin
 	process( clk )
 	begin
 		if rising_edge( clk ) then
-			if rst = '1' then
-				add_op <= '0';
-			elsif i_en = '1' then
+			if ( rst or i_en ) = '1' then
 				add_op <= '0';
 			else
 				add_op <= sum( sum'left );

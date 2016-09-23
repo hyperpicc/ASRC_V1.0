@@ -61,7 +61,7 @@ begin
 			o_en <= i_en;
 			
 			if lock_evt = '1' then
-				latch_o <= SHIFT_RIGHT( latch_i, 2 );
+				latch_o <= SHIFT_RIGHT( latch_i, 1 );
 			elsif i_en = '1' then
 				latch_o <= latch_i;
 			end if;

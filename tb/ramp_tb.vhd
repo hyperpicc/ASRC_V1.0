@@ -28,8 +28,8 @@ ARCHITECTURE behavior OF ramp_tb IS
 		);
 	end component time_util;
 	
-	constant	FRQ_O		: real := 44.1;
-	constant	FRQ_I		: real := 192.0;
+	constant	FRQ_O		: real := 96.0;
+	constant	FRQ_I		: real := 176.4;
    
    --Inputs
    signal clk : std_logic := '0';
