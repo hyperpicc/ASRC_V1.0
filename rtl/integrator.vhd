@@ -9,9 +9,7 @@ entity integrator is
 	);
 	port (
 		clk			: in  std_logic;
-		
 		lock			: in  std_logic;
-		lock_evt		: in  std_logic;
 		
 		i				: in  signed( INT_WIDTH-1 downto 0 );
 		i_en			: in  std_logic;
@@ -60,9 +58,7 @@ begin
 		if rising_edge( clk ) then
 			o_en <= i_en;
 			
-			if lock_evt = '1' then
-				latch_o <= SHIFT_RIGHT( latch_i, 1 );
-			elsif i_en = '1' then
+			if i_en = '1' then
 				latch_o <= latch_i;
 			end if;
 		end if;

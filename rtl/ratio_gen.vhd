@@ -101,9 +101,7 @@ begin
 		)
 		port map (
 			clk			=> clk,
-			
 			lock			=> '0',
-			lock_evt		=> '0',
 			
 			lpf_in		=> lpf_in,
 			lpf_in_en	=> fs_o_en,

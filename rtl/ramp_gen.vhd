@@ -100,30 +100,9 @@ begin
 		signal f_latch_out0		: signed( rf_input'range ) := ( others => '0' );
 		signal f_latch_out1		: signed( rf_input'range ) := ( others => '0' );
 		signal f_out				: signed( rf_input'range ) := ( others => '0' );
-		
-		signal ratio_edge			: std_logic := '0';
-		signal ratio_edge_buf	: std_logic := '0';
-		signal ratio_edge_evt	: std_logic := '0';
-		signal ratio_lock_evt	: std_logic := '0';
 	begin
 		
 		f_out <= f_latch_out0 - f_latch_out1;
-		
-		ratio_edge <= ( ratio_edge_buf xor ratio_lock ) and ratio_lock;
-		
-		ratio_lock_evt <= ratio_edge_evt and rf_en;
-		
-		edge_process : process( clk )
-		begin
-			if rising_edge( clk ) then
-				ratio_edge_buf <= ratio_lock;
-				if ratio_edge = '1' then
-					ratio_edge_evt <= '1';
-				elsif ( not( ratio_lock ) or rf_en ) = '1' then
-					ratio_edge_evt <= '0';
-				end if;
-			end if;
-		end process edge_process;
 		
 		latch_proc : process( clk )
 		begin
@@ -144,9 +123,7 @@ begin
 			)
 			port map (
 				clk			=> clk,
-				
 				lock			=> ratio_lock,
-				lock_evt		=> ratio_lock_evt,
 		
 				i				=> signed( rf_input ),
 				i_en			=> rf_en,
@@ -163,9 +140,7 @@ begin
 			)
 			port map (
 				clk			=> clk,
-				
 				lock			=> ratio_lock,
-				lock_evt		=> ratio_lock_evt,
 		
 				lpf_in		=> f_fb,
 				lpf_in_en	=> rf_en,
@@ -177,6 +152,7 @@ begin
 	
 	BLOCK_LOCK : block
 		signal d0_abs		: unsigned( 8 downto 0 ) := ( others => '0' );
+		signal d0_lock		: std_logic := '0';
 		
 		signal lock_evt_p	: std_logic := '0';
 		signal lock_evt_n	: std_logic := '0';
@@ -185,6 +161,11 @@ begin
 	
 		ramp_dx_o <= d0_abs;
 		
+		d0_lock <= '1' when ratio_lock = '1' and d0_abs < THRESH_LOCK else '0';
+		
+		lock_evt_p <= '1' when lock_pipe = 2**lock_pipe'length - 1 else '0';
+		lock_evt_n <= not( d0_lock );
+		
 		latch_process : process( clk )
 		begin
 			if rising_edge( clk ) then
@@ -192,15 +173,12 @@ begin
 					d0_abs <= GET_ABS( wr_addr( 8 downto 0 ) - rf_out_int, 9 );
 					
 					lock_pipe <= ( others => '0' );
-					if ratio_lock = '1' and d0_abs < THRESH_LOCK then
+					if d0_lock = '1' then
 						lock_pipe <= lock_pipe + 1;
 					end if;
 				end if;
 			end if;
 		end process latch_process;
-		
-		lock_evt_p <= '1' when ratio_lock = '1' and lock_pipe = 2**lock_pipe'length - 1 else '0';
-		lock_evt_n <= not( ratio_lock );
 		
 		lock_process : process( clk )
 		begin

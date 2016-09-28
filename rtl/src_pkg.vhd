@@ -169,9 +169,7 @@ package src_pkg is
 		);
 		port (
 			clk			: in  std_logic;
-		
 			lock			: in  std_logic;
-			lock_evt		: in  std_logic;
 			
 			i				: in  signed( INT_WIDTH-1 downto 0 );
 			i_en			: in  std_logic;
@@ -190,9 +188,7 @@ package src_pkg is
 		);
 		port (
 			clk			: in  std_logic;
-		
 			lock			: in  std_logic;
-			lock_evt		: in  std_logic;
 			
 			lpf_in		: in  signed( LPF_WIDTH - 1 downto 0 );
 			lpf_in_en	: in  std_logic;
