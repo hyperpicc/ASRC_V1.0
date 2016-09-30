@@ -26,7 +26,7 @@ entity src_top is
 		fs_o_en		: out std_logic := '0';
 		fs_o_clk		: in  std_logic;
 		fs_o_lr		: out std_logic := '0';
-		fs_o_dat		: out signed( 23 downto 0 ) := ( others => '0' )
+		fs_o_dat		: out signed( 31 downto 0 ) := ( others => '0' )
 	);
 end src_top;
 

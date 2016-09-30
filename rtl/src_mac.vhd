@@ -22,7 +22,7 @@ entity src_mac is
 		i_ctrl_acc	: in  std_logic;
 		i_ctrl_lr	: in  std_logic;
 		
-		o_data		: out signed( 23 downto 0 ) := ( others => '0' );
+		o_data		: out signed( 31 downto 0 ) := ( others => '0' );
 		o_data_en	: out std_logic := '0';
 		o_data_lr	: out std_logic := '0'
 	);
@@ -116,7 +116,7 @@ begin
 				o_data_en <= '0';
 				o_data_lr <= '0';
 			elsif pipe_norm( pipe_norm'high ) = '1' then
-				o_data <= pipe_mac( pipe_mac'high )( COE_WIDTH + 27 - COE_OFFSET downto COE_WIDTH + 4 - COE_OFFSET );
+				o_data <= pipe_mac( pipe_mac'high )( COE_WIDTH + 27 - COE_OFFSET downto COE_WIDTH - COE_OFFSET - 4 );
 			end if;
 		end if;
 	end process output_process;

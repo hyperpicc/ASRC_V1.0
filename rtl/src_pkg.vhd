@@ -41,7 +41,7 @@ package src_pkg is
 			i_wr_en			: in  std_logic;
 			i_wr_lr			: in  std_logic;
 			
-			o_data			: out signed( 23 downto 0 );
+			o_data			: out signed( 31 downto 0 );
 			o_data_en		: out std_logic;
 			o_data_lr		: out std_logic;
 			
@@ -121,7 +121,7 @@ package src_pkg is
 			i_ctrl_acc	: in  std_logic;
 			i_ctrl_lr	: in  std_logic;
 			
-			o_data		: out signed( 23 downto 0 );
+			o_data		: out signed( 31 downto 0 );
 			o_data_en	: out std_logic;
 			o_data_lr	: out std_logic
 		);
