@@ -132,6 +132,11 @@
    <wvobject fp_name="group388" type="group">
       <obj_property name="label">Ramp</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/block_interpolate/INST_INTEGRATOR_0/reg_gain" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">reg_gain[3:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_gain[3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/ramp_en" type="logic" db_ref_id="1">
          <obj_property name="ElementShortName">ramp_en</obj_property>
          <obj_property name="ObjectShortName">ramp_en</obj_property>
@@ -145,11 +150,6 @@
          <obj_property name="ElementShortName">ramp_frc[19:0]</obj_property>
          <obj_property name="ObjectShortName">ramp_frc[19:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/block_interpolate/f_strip" type="array" db_ref_id="1">
-         <obj_property name="ElementShortName">f_strip[34:0]</obj_property>
-         <obj_property name="ObjectShortName">f_strip[34:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/src_top_tb/INST_ASRC/INST_RAMP/ramp_dx" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">ramp_dx[8:0]</obj_property>
