@@ -13,8 +13,8 @@ END src_top_tb;
 
 ARCHITECTURE behavior OF src_top_tb IS
 	constant MCLK		: real := 24576.0;
-	constant	FRQ_I		: real := 44.1;
-	constant	FRQ_O		: real := 48.0;
+	constant	FRQ_I		: real := 176.4;
+	constant	FRQ_O		: real := 192.0;
 	constant IFREQ		: real := 1.0;
 
 	component src_top is
@@ -34,7 +34,7 @@ ARCHITECTURE behavior OF src_top_tb IS
 			fs_o_en		: out std_logic := '0';
 			fs_o_clk		: in  std_logic;
 			fs_o_lr		: out std_logic := '0';
-			fs_o_dat		: out signed( 23 downto 0 ) := ( others => '0' )
+			fs_o_dat		: out signed( 31 downto 0 ) := ( others => '0' )
 		);
 	end component src_top;
 	
@@ -74,7 +74,7 @@ ARCHITECTURE behavior OF src_top_tb IS
 	signal fs_o_en			: std_logic := '0';
 	signal fs_o_clk		: std_logic := '0';
 	signal fs_o_lr			: std_logic := '0';
-	signal fs_o_dat		: signed( 23 downto 0 ) := ( others => '0' );
+	signal fs_o_dat		: signed( 31 downto 0 ) := ( others => '0' );
 BEGIN
 	INST_ASRC : src_top
 		port map (
